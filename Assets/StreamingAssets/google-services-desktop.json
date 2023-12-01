@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "347714347673",
+    "firebase_url": "https://supermonkeybrawl-2bf8b-default-rtdb.firebaseio.com",
+    "project_id": "supermonkeybrawl-2bf8b",
+    "storage_bucket": "supermonkeybrawl-2bf8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347714347673:android:713dcb8f6e10f62cfa0e08",
+        "android_client_info": {
+          "package_name": "com.MonkeyBuisness.SMBFireBase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3WsH3Jxoq5aTSq_vkCoYGHI18wxq61dM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
