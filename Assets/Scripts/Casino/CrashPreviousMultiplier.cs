@@ -7,11 +7,24 @@ using TMPro;
 public class CrashPreviousMultiplier : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI multiplier;
-    [SerializeField] private Image background;
+    private Image background;
+    private Color color;
+
+    private void Awake()
+    {
+        background = GetComponent<Image>();
+    }
 
     public void SetMultiplier(float mult)
     {
-        multiplier.text = "x" + mult.ToString().Replace(',', '.');
+        //Determine wich color set depending of the multiplier
+        color = GameManager.Instance.greyAccent;
+        if(mult >= 2 && mult < 3) color = GameManager.Instance.yellowAccent; 
+        else if(mult >= 3) color = GameManager.Instance.greenAccent; 
+        
+        multiplier.text = mult.ToString("0.00").Replace(',', '.');
+        multiplier.color = color;
+        background.color = color * new Color(1, 1, 1, 0.2f); //Set color with alpha to 20%
     }
 
 }
