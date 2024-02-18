@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum Page { Signup, Home, Bets, Roulette, Crash, Mines, Cases };
+
 public class GameManager : MonoBehaviour
 {
     [Header("Accent Colors")]
