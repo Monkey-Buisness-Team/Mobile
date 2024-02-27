@@ -6,10 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
-using UnityEngine.XR;
-using Unity.VisualScripting;
-using UnityEditor;
 
 
 public class Crash : MonoBehaviour
