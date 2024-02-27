@@ -31,29 +31,25 @@ public class UserManager : MonoBehaviour
 
     public Action UserLogin;
 
-    private async void Start()
+    private void Start()
     {
-        await Task.Run(async () =>
-        {
-            while (FireBaseManager.i.DataBase == null)
-                await Task.Delay(50);
-        });
-        
-        OnUserUpdated += HandleUserSaveUpdated;
-        UserLogin += GoToUserPage;
+        FireBaseManager.i.OnFireBaseInit += Init;
+    }
 
-        if (PlayerPrefs.HasKey(SAVE_KEY))
+    private async void Init()
+    {
+        OnUserUpdated += HandleUserSaveUpdated;
+
+        if(PlayerPrefs.HasKey(SAVE_KEY))
         {
             bool exist = await SaveExist(PlayerPrefs.GetString(SAVE_KEY));
-            if (exist)
+            if(exist)
             {
                 Task task = LogInUser(PlayerPrefs.GetString(SAVE_KEY));
                 await task;
                 return;
             }
         }
-
-        _logInPage.SetActive(true);
     }
 
     public void ErasePlayerPref()
@@ -135,7 +131,7 @@ public class UserManager : MonoBehaviour
 
         if (remember)
         {
-            string key = username.Replace("USER_", string.Empty);
+            string key = username;
             PlayerPrefs.SetString(SAVE_KEY, key);
             PlayerPrefs.Save();
         }
@@ -144,6 +140,7 @@ public class UserManager : MonoBehaviour
         _userBehaviour.OnUserUpdated += HandleUserUpdated;
         _userBehaviour.UpdateUser(data);
         UserLogin?.Invoke();
+        Debug.Log($"User {data.UserName} is LogIn");
     }
 
     public async Task RegisterUser(string username, bool remember = false, int avatarID = 0)
@@ -170,10 +167,6 @@ public class UserManager : MonoBehaviour
         await LogInUser(username, remember);
     }
 
-    [SerializeField]
-    TextMeshProUGUI _debugText;
-    public void DebugText(string text) => _debugText.text = text;
-
     [Header("Register")]
     [SerializeField]
     GameObject _registerPage;
@@ -184,88 +177,24 @@ public class UserManager : MonoBehaviour
     [SerializeField]
     Button _registerButton;
 
-    [SerializeField]
-    Toggle _registerToggle;
-
-    [Header("Log In")]
-    [SerializeField]
-    GameObject _logInPage;
-
-    [SerializeField]
-    TMP_InputField _logInInputField;
-
-    [SerializeField]
-    Button _logInButton;
-
-    [SerializeField]
-    Toggle _logInToggle;
-
-    [Header("User Page")]
-    [SerializeField]
-    GameObject _userPage;
-
-    [SerializeField]
-    TextMeshProUGUI _nbBananaText;
-
-    [SerializeField]
-    TextMeshProUGUI _userNameText;
-
     public async void TryRegister()
     {
         _registerInputField.interactable = false;
-        _registerToggle.interactable = false;
         _registerButton.interactable = false;
-        bool remember = _registerToggle.isOn;
+        bool remember = true;
         string username = _registerInputField.text;
 
         bool exist = await SaveExist(username);
         if (exist)
         {
             _registerInputField.interactable = true;
-            _registerToggle.interactable = true;
             _registerButton.interactable = true;
+            Debug.LogError("User already Exist");
             return;
         }
 
         await RegisterUser(username, remember);
         _registerInputField.interactable = true;
-        _registerToggle.interactable = true;
         _registerButton.interactable = true;
-    }
-
-    public async void TryLogIn()
-    {
-        _logInInputField.interactable = false;
-        _logInToggle.interactable = false;
-        _logInButton.interactable = false;
-        bool remember = _logInToggle.isOn;
-        string username = _logInInputField.text;
-
-        bool exist = await SaveExist(username);
-        if (!exist)
-        {
-            _logInInputField.interactable = true;
-            _logInToggle.interactable = true;
-            _logInButton.interactable = true;
-            return;
-        }
-
-        await LogInUser(username, remember);
-        _logInInputField.interactable = true;
-        _logInToggle.interactable = true;
-        _logInButton.interactable = true;
-    }
-
-    public void GoToUserPage()
-    {
-        _logInPage.SetActive(false);
-        _registerPage.SetActive(false);
-        _userPage.SetActive(true);
-
-        _userNameText.text = _userBehaviour.UserName;
-        _nbBananaText.text = _userBehaviour.CurrentUserData.Bananas.ToString() + " Banana(s)";
-
-        _userBehaviour.OnUserUpdated += () => _userNameText.text = _userBehaviour.UserName;
-        _userBehaviour.OnUserUpdated += () => _nbBananaText.text = _userBehaviour.CurrentUserData.Bananas.ToString() + " Banana(s)";
     }
 }

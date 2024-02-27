@@ -63,7 +63,6 @@ public class UserBehaviour : MonoBehaviour
             case "Fighter":
                 return UserType.Fighter;
             default:
-                Debug.LogError("String is Invalid");
                 return UserType.None;
         }
     }

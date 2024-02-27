@@ -1,4 +1,4 @@
-using Firebase.Database;
+ï»¿using Firebase.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,12 +45,11 @@ public class BetManager : MonoBehaviour
 
     private async void Start()
     {
-        await Task.Run(async () =>
-        {
-            while (FireBaseManager.i.DataBase == null)
-                await Task.Delay(50);
-        });
+        FireBaseManager.i.OnFireBaseInit += Init;
+    }
 
+    private void Init()
+    {
         BetDataBase = FireBaseManager.i.DataBase.GetReference(BET_KEY);
         FighterDataBase = BetDataBase.Child(FIGHTER_KEY);
         UserBetDataBase = BetDataBase.Child(USERBET_KEY);
@@ -64,9 +63,8 @@ public class BetManager : MonoBehaviour
         ActiveDataBase.ValueChanged += ActiveChange;
         OnActiveBet += RegisterEvent;
         OnDeActiveBet += UnRegisterEvent;
-
-
     }
+
     private void OnDestroy()
     {
         if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Fighter))
@@ -357,7 +355,7 @@ public class BetManager : MonoBehaviour
         Debug.Log("Remove Data Fighter 2");
     }
 
-    [Header("Général")]
+    [Header("GÃ©nÃ©ral")]
     [SerializeField]
     TextMeshProUGUI _userTypeText;
 

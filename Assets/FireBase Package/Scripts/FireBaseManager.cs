@@ -26,7 +26,6 @@ public class FireBaseManager : MonoBehaviour
 
     public void Start()
     {
-        OnFireBaseInit += SetDataBase;
         InitFirebase();
     }
 
@@ -40,6 +39,7 @@ public class FireBaseManager : MonoBehaviour
                 return;
             }
 
+            SetDataBase();
             OnFireBaseInit?.Invoke();
         });
     }
