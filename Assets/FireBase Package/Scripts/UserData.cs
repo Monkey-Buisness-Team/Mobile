@@ -6,8 +6,11 @@ using UnityEngine;
 public struct UserData
 {
     public string UserName;
+    public string UserId;
     public int AvatarID;
     public int Bananas;
+    public int MatchWin;
+    public int MatchPlay;
     public int NbBetWin;
 
     public string UserType;
