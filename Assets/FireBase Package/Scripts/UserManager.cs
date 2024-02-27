@@ -29,11 +29,12 @@ public class UserManager : MonoBehaviour
     public DatabaseReference UserDataBaseRef => _userDataBaseRef;
     private DatabaseReference _userDataBaseRef;
 
-    public Action UserLogin;
+    public Action OnUserLogin;
 
     private void Start()
     {
         FireBaseManager.i.OnFireBaseInit += Init;
+        OnUserLogin += () => _registerPage.SetActive(false);
     }
 
     private async void Init()
@@ -45,8 +46,12 @@ public class UserManager : MonoBehaviour
             bool exist = await SaveExist(PlayerPrefs.GetString(SAVE_KEY));
             if(exist)
             {
+                _registerInputField.interactable = false;
+                _registerButton.interactable = false;
                 Task task = LogInUser(PlayerPrefs.GetString(SAVE_KEY));
                 await task;
+                _registerInputField.interactable = true;
+                _registerButton.interactable = true;
                 return;
             }
         }
@@ -139,7 +144,7 @@ public class UserManager : MonoBehaviour
         UserData data = d.GetValueOrDefault();
         _userBehaviour.OnUserUpdated += HandleUserUpdated;
         _userBehaviour.UpdateUser(data);
-        UserLogin?.Invoke();
+        OnUserLogin?.Invoke();
         Debug.Log($"User {data.UserName} is LogIn");
     }
 

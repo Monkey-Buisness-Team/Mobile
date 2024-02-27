@@ -45,7 +45,7 @@ public class BetManager : MonoBehaviour
 
     private async void Start()
     {
-        FireBaseManager.i.OnFireBaseInit += Init;
+        //FireBaseManager.i.OnFireBaseInit += Init;
     }
 
     private void Init()
