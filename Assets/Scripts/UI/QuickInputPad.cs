@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System;
+using Sirenix.Utilities;
 
 public class QuickInputPad : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class QuickInputPad : MonoBehaviour
 
     public void UpdateBetButtonValue()
     {
-        if(!Crash.Instance.isWagering) betBtnValue.text = inputField.text;
+        // if(!Crash.Instance.isWagering) betBtnValue.text = inputField.text;
+        betBtnValue.text = inputField.text;
     }
 
     public float GetCurrentInputValue()
@@ -32,6 +34,11 @@ public class QuickInputPad : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetButtonsActive(bool param)
+    {
+        GetComponentsInChildren<Button>().ForEach(x => x.interactable = param);
     }
 
     #region Inputs

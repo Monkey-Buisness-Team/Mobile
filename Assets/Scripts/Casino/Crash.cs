@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-
 public class Crash : MonoBehaviour
 {
     [SerializeField] QuickInputPad inputPad;
@@ -161,6 +160,7 @@ public class Crash : MonoBehaviour
         if(isWagering)
         {
             betButton.gameObject.SetActive(false);
+            inputPad.SetButtonsActive(true);
         }
         
         currentMultiplierText.text = "BOOM";
@@ -254,6 +254,7 @@ public class Crash : MonoBehaviour
         if(wageredBet < 100) return;
 
         isWagering = true;
+        inputPad.SetButtonsActive(false);
         betButton.interactable = false;
         betButtonImage.color = betDisabledColor;
         betButtonLabel.text = "Montant misé";
@@ -264,6 +265,7 @@ public class Crash : MonoBehaviour
     private void Cashout()
     {
         isWagering = false;
+        inputPad.SetButtonsActive(true);
         betButton.interactable = false;
         betButton.gameObject.SetActive(false);
         GameManager.Instance.bananas += Mathf.RoundToInt(wageredBet * current);
@@ -293,7 +295,7 @@ public class Crash : MonoBehaviour
         bet.InitializeBet(Mathf.RoundToInt(bananas));
         totalBananasBet.text = bananas.ToString();
         currentBets.SetActive(true);
-        UpdateLayouts();
+        GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
     }
 
     /// <summary>
@@ -306,7 +308,7 @@ public class Crash : MonoBehaviour
         bet.InitializeCashedBet(Mathf.RoundToInt(wageredBet * current), $"x{current.ToString("0.00").Replace(',', '.')}");
         currentBets.SetActive(false);
         cashedBets.SetActive(true);
-        UpdateLayouts();
+        GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
     }
 
     /// <summary>
@@ -357,12 +359,4 @@ public class Crash : MonoBehaviour
     }
 
     #endregion CRASH MATHS
-
-    private void UpdateLayouts()
-    {
-        foreach (var layoutGroup in GetComponentsInChildren<LayoutGroup>())
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
-        }
-    }
 }
