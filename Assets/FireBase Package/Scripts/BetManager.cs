@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class BetManager : MonoBehaviour
@@ -25,8 +26,6 @@ public class BetManager : MonoBehaviour
 
     private const string ACTIVE_KEY = "ACTIVE_KEY";
     private DatabaseReference ActiveDataBase;
-    private Action OnActiveBet;
-    private Action OnDeActiveBet;
 
     private const string ODDS_KEY = "ODDS_KEY";
     private DatabaseReference OddsDataBase;
@@ -37,15 +36,15 @@ public class BetManager : MonoBehaviour
     private const string ROUND_KEY = "ROUND_KEY";
     private DatabaseReference RoundDataBase;
 
-    private Action OnDestroyAction;
-    private Action OnApplicationQuitAction;
-
     public float MatchOdds { get; private set; }
     public float RoundOdds { get; private set; }
 
+    public UnityEvent OnEnterChoice;
+    public UnityEvent OnJoinAction;
+
     private async void Start()
     {
-        //FireBaseManager.i.OnFireBaseInit += Init;
+        FireBaseManager.i.OnFireBaseInit += Init;
     }
 
     private void Init()
@@ -58,39 +57,17 @@ public class BetManager : MonoBehaviour
         MatchDataBase = OddsDataBase.Child(MATCH_KEY);
         RoundDataBase = OddsDataBase.Child(ROUND_KEY);
 
-        UserManager.i.OnUserUpdated += (userdata) => _userTypeText.text = userdata.UserType;
-
-        ActiveDataBase.ValueChanged += ActiveChange;
-        OnActiveBet += RegisterEvent;
-        OnDeActiveBet += UnRegisterEvent;
+        RegisterEvent();
     }
 
     private void OnDestroy()
     {
-        if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Fighter))
-            UserBehaviour.i.ChangeUserType(UserType.None);
-
-        OnDestroyAction?.Invoke();
-
-        OnDestroyAction -= RemoveFighterOneData;
-        OnDestroyAction -= RemoveFighterTwoData;
-
-        ActiveDataBase.ValueChanged -= ActiveChange;
-
-        MatchDataBase.ValueChanged -= OddsMatchChange;
-        RoundDataBase.ValueChanged -= OddsRoundChange;
+        UnRegisterEvent();
     }
 
     private void OnApplicationQuit()
     {
-        if (!UserBehaviour.i.CurrentUserType.Equals(UserType.Fighter))
-            UserBehaviour.i.ChangeUserType(UserType.None);
-
-        OnApplicationQuitAction?.Invoke();
-
-        OnApplicationQuitAction -= RemoveFighterOneData;
-        OnApplicationQuitAction -= RemoveFighterTwoData;
-
+        UnRegisterEvent();
     }
 
     void RegisterEvent()
@@ -101,46 +78,98 @@ public class BetManager : MonoBehaviour
 
     void UnRegisterEvent()
     {
-        UserBehaviour.i.ChangeUserType(UserType.None);
-
-        OnDeActiveBet -= RemoveFighterOneData;
-        OnDeActiveBet -= RemoveFighterTwoData;
-
         MatchDataBase.ValueChanged -= OddsMatchChange;
         RoundDataBase.ValueChanged -= OddsRoundChange;
     }
 
-    private void ActiveChange(object sender, ValueChangedEventArgs value)
+    private async Task<bool> EnterBetRoom(UserType userType)
     {
-        if (value.Snapshot.Value.Equals(true))
+        bool isActive = await CheckActiveBet();
+        if(!isActive)
         {
-            OnActiveBet?.Invoke();
+            Debug.LogError("Bet is not Active");
+            return false;
         }
-        else if(value.Snapshot.Value.Equals(false))
+
+        switch(userType)
         {
-            OnDeActiveBet?.Invoke();
+            case UserType.Fighter:
+
+                if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
+                {
+                    bool canAccess = await CheckJoinFighter();
+                    if(canAccess)
+                    {
+                        await JoinAsFighter();
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.LogError("Fighter Already Full");
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Already a Bettor");
+                    return false;
+                }
+
+            case UserType.Bettor:
+
+                if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Fighter))
+                {
+                    JoinAsBettor();
+                    return true;
+                }
+                else
+                {
+                    Debug.LogError("Already a Fighter");
+                    return false;
+                }
         }
+
+        Debug.LogError("User Type is not Correct");
+        return false;
     }
 
-    public async Task<bool> CheckActiveBet()
+    public async void OnTryJoin()
     {
-        DataSnapshot data = await ActiveDataBase.GetValueAsync();
-        return data.Value.Equals(true);
+        if(await EnterBetRoom(UserBehaviour.i.CurrentUserType)) return;
+
+        OnEnterChoice?.Invoke();
     }
 
-    private async Task<bool> CheckAlreadyBet(string key)
+    public async void TryToJoinAsFighter()
     {
-        DataSnapshot data = await UserBetDataBase.Child(key).Child(UserBehaviour.i.UserName).GetValueAsync();
-        return data.Exists;
+        await JoinAsFighter();
     }
 
-    private async Task<bool> CheckJoinFighter()
+    public void TryToJoinAsBettor()
     {
-        Task<DataSnapshot>[] tasksFighters = new Task<DataSnapshot>[2];
-        tasksFighters[0] = FighterDataBase.Child(FIGHTER_ONE).GetValueAsync();
-        tasksFighters[1] = FighterDataBase.Child(FIGHTER_TWO).GetValueAsync();
-        await Task.WhenAll(tasksFighters);
-        return !tasksFighters.ToList().TrueForAll(x => !JsonUtility.FromJson<UserFighter>(x.Result.GetRawJsonValue()).UserName.Equals(string.Empty));
+        JoinAsBettor();
+    }
+
+    async Task JoinAsFighter()
+    {
+        if(await CheckIfFighterNull(FIGHTER_ONE) || await CheckIfFighterNull(FIGHTER_TWO))
+        {
+            Debug.LogError("No Place for Fighter");
+            JoinAsBettor();
+            return;
+        }
+
+        string key = await CheckIfFighterNull(FIGHTER_ONE) ? FIGHTER_TWO : FIGHTER_ONE;
+        await FighterDataBase.Child(key).SetValueAsync(UserBehaviour.i.UserName);
+
+        UserBehaviour.i.ChangeUserType(UserType.Fighter);
+        OnJoinAction?.Invoke();
+    }
+
+    void JoinAsBettor()
+    {
+        UserBehaviour.i.ChangeUserType(UserType.Bettor);
+        OnJoinAction?.Invoke();
     }
 
     private void OddsMatchChange(object sender, ValueChangedEventArgs value)
@@ -160,12 +189,12 @@ public class BetManager : MonoBehaviour
 
     private void OddsRoundChange(object sender, ValueChangedEventArgs value)
     {
-        if (value.Snapshot.Value is double)
+        if(value.Snapshot.Value is double)
         {
             double d = (double)value.Snapshot.Value;
             RoundOdds = (float)d;
         }
-        else if (value.Snapshot.Value is Int64)
+        else if(value.Snapshot.Value is Int64)
         {
             Int64 i = (Int64)value.Snapshot.Value;
             RoundOdds = (float)i;
@@ -175,14 +204,14 @@ public class BetManager : MonoBehaviour
 
     public async Task<bool> BetOnMatch(int banana, string fighterName)
     {
-        if (!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
+        if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
         {
             Debug.LogError("UserType is not Bettor");
             return false;
         }
 
         bool isActive = await CheckActiveBet();
-        if (!isActive)
+        if(!isActive)
         {
             Debug.LogError("Bet is not Active");
             return false;
@@ -195,6 +224,12 @@ public class BetManager : MonoBehaviour
             return false;
         }
 
+        if(UserBehaviour.i.Bananas < banana)
+        {
+            Debug.LogError("Not Enough Banana");
+            return false;
+        }
+
         UserBet userBet = new();
         userBet.BananaBet = banana;
         userBet.UserName = UserBehaviour.i.UserName;
@@ -204,29 +239,35 @@ public class BetManager : MonoBehaviour
         UserBehaviour.i.AddBanana(-banana);
 
         await UserBetDataBase.Child(MATCH_BET).Child(UserBehaviour.i.UserName).SetRawJsonValueAsync(JsonUtility.ToJson(userBet));
-
-        Debug.Log("Bet : " + userBet.BananaBet + " at Odd : " + userBet.Odd + " on " + userBet.FighterName);
+        //Debug.Log("Bet : " + userBet.BananaBet + " at Odd : " + userBet.Odd + " on " + userBet.FighterName);
         return true;
     }
+
     public async Task<bool> BetOnRound(int banana, string fighterName)
     {
-        if (!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
+        if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
         {
             Debug.LogError("UserType is not Bettor");
             return false;
         }
 
         bool isActive = await CheckActiveBet();
-        if (!isActive)
+        if(!isActive)
         {
             Debug.LogError("Bet is not Active");
             return false;
         }
 
         bool exist = await CheckAlreadyBet(ROUND_BET);
-        if (exist)
+        if(exist)
         {
             Debug.LogError("Already Bet");
+            return false;
+        }
+
+        if(UserBehaviour.i.Bananas < banana)
+        {
+            Debug.LogError("Not Enough Banana");
             return false;
         }
 
@@ -239,215 +280,38 @@ public class BetManager : MonoBehaviour
         UserBehaviour.i.AddBanana(-banana);
 
         await UserBetDataBase.Child(ROUND_BET).Child(UserBehaviour.i.UserName).SetRawJsonValueAsync(JsonUtility.ToJson(userBet));
-
+        //Debug.Log("Bet : " + userBet.BananaBet + " at Odd : " + userBet.Odd + " on " + userBet.FighterName);
         return true;
     }
 
-    private async Task<bool> EnterBetRoom(UserType userType)
+    #region Utils
+
+    async Task<bool> CheckIfFighterNull(string key)
     {
-        bool isActive = await CheckActiveBet();
-        if (!isActive)
-        {
-            Debug.LogError("Bet is not Active");
-            return false;
-        }
-
-        switch (userType)
-        {
-            case UserType.Fighter:
-                if (!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
-                {
-                    bool canAccess = await CheckJoinFighter();
-                    if (canAccess)
-                    {
-                        await JoinBetAsFighter();
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.LogError("Fighter Already Full");
-                        return false;
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Already a Bettor");
-                    return false;
-                }
-                
-
-            case UserType.Bettor:
-                if (!UserBehaviour.i.CurrentUserType.Equals(UserType.Fighter))
-                {
-                    await JoinBetAsBettor();
-                    return true;
-                }
-                else
-                {
-                    Debug.LogError("Already a Fighter");
-                    return false;
-                }
-        }
-        Debug.LogError("User Type is not Correct");
-        return false;
+        DataSnapshot dataSnapshot = await FighterDataBase.Child(key).GetValueAsync();
+        return (dataSnapshot.Value as string) != string.Empty;
     }
 
-    private async Task JoinBetAsBettor()
+    async Task<bool> CheckActiveBet()
     {
-        UserBehaviour.i.ChangeUserType(UserType.Bettor);
+        DataSnapshot data = await ActiveDataBase.GetValueAsync();
+        return data.Value.Equals(true);
     }
 
-    private async Task JoinBetAsFighter()
+    async Task<bool> CheckAlreadyBet(string key)
     {
+        DataSnapshot data = await UserBetDataBase.Child(key).Child(UserBehaviour.i.UserName).GetValueAsync();
+        return data.Exists;
+    }
 
+    async Task<bool> CheckJoinFighter()
+    {
         Task<DataSnapshot>[] tasksFighters = new Task<DataSnapshot>[2];
         tasksFighters[0] = FighterDataBase.Child(FIGHTER_ONE).GetValueAsync();
         tasksFighters[1] = FighterDataBase.Child(FIGHTER_TWO).GetValueAsync();
         await Task.WhenAll(tasksFighters);
-
-        if(tasksFighters.ToList().Exists(x => JsonUtility.FromJson<UserFighter>(x.Result.GetRawJsonValue()).UserName.Equals(UserBehaviour.i.UserName)))
-        {
-            Debug.LogError("Already Register as Fighter");
-            return;
-        }
-
-        UserFighter fighter = new UserFighter();
-        fighter.UserName = UserBehaviour.i.UserName;
-
-        if (JsonUtility.FromJson<UserFighter>(tasksFighters[0].Result.GetRawJsonValue()).UserName.Equals(string.Empty))
-        {
-            UserBehaviour.i.ChangeUserType(UserType.Fighter);
-            //OnDestroyAction += RemoveFighterOneData;
-            //OnApplicationQuitAction += RemoveFighterOneData;
-            OnDeActiveBet += RemoveFighterOneData;
-
-            await FighterDataBase.Child(FIGHTER_ONE).SetRawJsonValueAsync(JsonUtility.ToJson(fighter));
-        }
-        else if (JsonUtility.FromJson<UserFighter>(tasksFighters[1].Result.GetRawJsonValue()).UserName.Equals(string.Empty))
-        {
-            UserBehaviour.i.ChangeUserType(UserType.Fighter);
-            //OnDestroyAction += RemoveFighterTwoData;
-            //OnApplicationQuitAction += RemoveFighterTwoData;
-            OnDeActiveBet += RemoveFighterTwoData;
-
-            await FighterDataBase.Child(FIGHTER_TWO).SetRawJsonValueAsync(JsonUtility.ToJson(fighter));
-        }
-        else
-        {
-            Debug.LogError("All Fighter's Place are Take");
-            return;
-        }
+        return !tasksFighters.ToList().TrueForAll(x => !JsonUtility.FromJson<UserFighter>(x.Result.GetRawJsonValue()).UserName.Equals(string.Empty));
     }
 
-    private void RemoveFighterOneData()
-    {
-        UserFighter json = new();
-        json.UserName = string.Empty;
-        FighterDataBase.Child(FIGHTER_ONE).SetRawJsonValueAsync(JsonUtility.ToJson(json));
-        Debug.Log("Remove Data Fighter 1");
-    }
-
-    private void RemoveFighterTwoData()
-    {
-        UserFighter json = new();
-        json.UserName = string.Empty;
-        FighterDataBase.Child(FIGHTER_TWO).SetRawJsonValueAsync(JsonUtility.ToJson(json));
-        Debug.Log("Remove Data Fighter 2");
-    }
-
-    [Header("Général")]
-    [SerializeField]
-    TextMeshProUGUI _userTypeText;
-
-    [Header("Fighter")]
-
-    [SerializeField]
-    Button _fighterJoinButton;
-
-    [SerializeField]
-    Button _fighterOneBetButton;
-
-    [SerializeField]
-    Button _fighterTwoBetButton;
-
-    [Header("Bettor")]
-
-    [SerializeField]
-    Button _bettorJoinButton;
-
-
-
-    public async void TryEnterAsFighter()
-    {
-        _fighterJoinButton.interactable = false;
-
-        bool isEnter = await EnterBetRoom(UserType.Fighter);
-        if (!isEnter)
-        {
-            Debug.LogError("Cant enter as Fighter");
-        }
-
-        _fighterJoinButton.interactable = true;
-    }
-
-    public async void TryEnterAsBettor()
-    {
-        _bettorJoinButton.interactable = false;
-
-        bool isEnter = await EnterBetRoom(UserType.Bettor);
-        if (!isEnter)
-        {
-            Debug.LogError("Cant enter as Bettor");
-        }
-
-        _bettorJoinButton.interactable = true;
-    }
-
-    public async void TryBetOnFighterOne(int bananas)
-    {
-        _fighterOneBetButton.interactable = false;
-
-        DataSnapshot json = await FighterDataBase.Child(FIGHTER_ONE).GetValueAsync();
-        var data = JsonUtility.FromJson<UserFighter>(json.GetRawJsonValue());
-        if (data.UserName.Equals(string.Empty))
-        {
-            Debug.LogError("Fighter dont Exist");
-            _fighterOneBetButton.interactable = true;
-            return;
-        }
-
-        bool hasBet = await BetOnMatch(bananas, data.UserName);
-        if (!hasBet)
-        {
-            Debug.LogError("You dont Bet");
-            _fighterOneBetButton.interactable = true;
-            return;
-        }
-
-        _fighterOneBetButton.interactable = true;
-    }
-
-    public async void TryBetOnFighterTwo(int bananas)
-    {
-        _fighterTwoBetButton.interactable = false;
-
-        DataSnapshot json = await FighterDataBase.Child(FIGHTER_TWO).GetValueAsync();
-        var data = JsonUtility.FromJson<UserFighter>(json.GetRawJsonValue());
-        if (data.UserName.Equals(string.Empty))
-        {
-            Debug.LogError("Fighter dont Exist");
-            _fighterTwoBetButton.interactable = true;
-            return;
-        }
-
-        bool hasBet = await BetOnMatch(bananas, data.UserName);
-        if (!hasBet)
-        {
-            Debug.LogError("You dont Bet");
-            _fighterTwoBetButton.interactable = true;
-            return;
-        }
-
-        _fighterTwoBetButton.interactable = true;
-    }
+    #endregion
 }
