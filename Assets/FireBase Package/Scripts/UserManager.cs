@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UserManager : MonoBehaviour
@@ -30,6 +31,7 @@ public class UserManager : MonoBehaviour
     private DatabaseReference _userDataBaseRef;
 
     public Action OnUserLogin;
+    public UnityEvent OnUserLoginUE;
 
     private void Start()
     {
@@ -85,9 +87,9 @@ public class UserManager : MonoBehaviour
         return dataSnapshot.Exists;
     }
 
-    void HandleUserUpdated()
+    async void HandleUserUpdated()
     {
-        SaveUserData(_userBehaviour.CurrentUserData);
+        await SaveUserData(_userBehaviour.CurrentUserData);
     }
 
     void HandleUserSaveUpdated(UserData userData)
@@ -111,6 +113,14 @@ public class UserManager : MonoBehaviour
         if(_userDataBaseRef != null)
             _userDataBaseRef.ValueChanged -= HandleValueChange;
         _userDataBaseRef = null;
+        if (UserBehaviour.i.CurrentUserType == UserType.Bettor)
+            UserBehaviour.i.ChangeUserType(UserType.None);
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (UserBehaviour.i.CurrentUserType == UserType.Bettor)
+            UserBehaviour.i.ChangeUserType(UserType.None);
     }
 
     public async Task LogInUser(string username, bool remember = false)
@@ -145,6 +155,7 @@ public class UserManager : MonoBehaviour
         _userBehaviour.OnUserUpdated += HandleUserUpdated;
         _userBehaviour.UpdateUser(data);
         OnUserLogin?.Invoke();
+        OnUserLoginUE?.Invoke();
         Debug.Log($"User {data.UserName} is LogIn");
     }
 

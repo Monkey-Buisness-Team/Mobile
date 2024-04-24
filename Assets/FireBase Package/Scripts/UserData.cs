@@ -6,7 +6,7 @@ using UnityEngine;
 public struct UserData
 {
     public string UserName;
-    public string UserId;
+    //public string UserId;
     public int AvatarID;
     public int Bananas;
     public int MatchWin;

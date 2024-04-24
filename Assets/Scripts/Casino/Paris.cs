@@ -36,10 +36,10 @@ public class Paris : MonoBehaviour
 
     private float wageredBet;
 
-    public void Bet()
+    public async void Bet()
     {
         wageredBet = inputPad.GetCurrentInputValue();
-        if(wageredBet < 100) return;
+        if(wageredBet < 100 || wageredBet > UserBehaviour.i.Bananas) return;
         
         GameManager.Instance.bananas -= wageredBet;
         AddPlayerBet(currentBetTeam, wageredBet);
@@ -49,6 +49,20 @@ public class Paris : MonoBehaviour
         betButtonLabel.text = "Montant parié";
 
         // TODO : bet sur round ou match a l'aide de currentbetType
+        int banana = Mathf.RoundToInt(wageredBet);
+        string fighterName = await BetManager.i.GetFighterName(currentBetTeam == Team.Red);
+
+        switch (currentBetType)
+        {
+            case BetType.Round:
+                await BetManager.i.BetOnRound(banana, fighterName);
+                break;
+            case BetType.Match:
+                await BetManager.i.BetOnMatch(banana, fighterName);
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnBetTypeSelected(Team team, BetType type)

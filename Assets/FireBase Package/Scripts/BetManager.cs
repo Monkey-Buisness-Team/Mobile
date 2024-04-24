@@ -11,6 +11,15 @@ using UnityEngine.UI;
 
 public class BetManager : MonoBehaviour
 {
+    public static BetManager i;
+
+    private void Awake()
+    {
+        if (i != null)
+            Destroy(i);
+        i = this;
+    }
+
     private const string BET_KEY = "BET_KEY";
     private DatabaseReference BetDataBase;
 
@@ -41,6 +50,8 @@ public class BetManager : MonoBehaviour
 
     public UnityEvent OnEnterChoice;
     public UnityEvent OnJoinAction;
+    public UnityEvent OnJoinAsBettor;
+    public UnityEvent OnJoinAsFighter;
 
     private async void Start()
     {
@@ -106,6 +117,7 @@ public class BetManager : MonoBehaviour
                     else
                     {
                         Debug.LogError("Fighter Already Full");
+                        JoinAsBettor();
                         return false;
                     }
                 }
@@ -127,6 +139,21 @@ public class BetManager : MonoBehaviour
                     Debug.LogError("Already a Fighter");
                     return false;
                 }
+
+            default:
+                if (await CheckIfFighterEqualUser(FIGHTER_ONE) || await CheckIfFighterEqualUser(FIGHTER_TWO))
+                {
+                    await JoinAsFighter();
+                    return true;
+                }
+
+                if (await CheckIfFighterNull(FIGHTER_ONE) && await CheckIfFighterNull(FIGHTER_TWO))
+                {
+                    Debug.LogError("No Place for Fighter");
+                    JoinAsBettor();
+                    return true;
+                }
+                break;
         }
 
         Debug.LogError("User Type is not Correct");
@@ -152,7 +179,15 @@ public class BetManager : MonoBehaviour
 
     async Task JoinAsFighter()
     {
-        if(await CheckIfFighterNull(FIGHTER_ONE) || await CheckIfFighterNull(FIGHTER_TWO))
+        if(await CheckIfFighterEqualUser(FIGHTER_ONE) || await CheckIfFighterEqualUser(FIGHTER_TWO))
+        {
+            UserBehaviour.i.ChangeUserType(UserType.Fighter);
+            OnJoinAction?.Invoke();
+            OnJoinAsFighter?.Invoke();
+            return;
+        }
+
+        if(await CheckIfFighterNull(FIGHTER_ONE) && await CheckIfFighterNull(FIGHTER_TWO))
         {
             Debug.LogError("No Place for Fighter");
             JoinAsBettor();
@@ -164,12 +199,14 @@ public class BetManager : MonoBehaviour
 
         UserBehaviour.i.ChangeUserType(UserType.Fighter);
         OnJoinAction?.Invoke();
+        OnJoinAsFighter?.Invoke();
     }
 
     void JoinAsBettor()
     {
         UserBehaviour.i.ChangeUserType(UserType.Bettor);
         OnJoinAction?.Invoke();
+        OnJoinAsBettor?.Invoke();
     }
 
     private void OddsMatchChange(object sender, ValueChangedEventArgs value)
@@ -184,7 +221,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             MatchOdds = (float)i;
         }
-        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + MatchOdds);
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + MatchOdds);
     }
 
     private void OddsRoundChange(object sender, ValueChangedEventArgs value)
@@ -199,7 +236,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             RoundOdds = (float)i;
         }
-        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + RoundOdds);
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + RoundOdds);
     }
 
     public async Task<bool> BetOnMatch(int banana, string fighterName)
@@ -289,7 +326,15 @@ public class BetManager : MonoBehaviour
     async Task<bool> CheckIfFighterNull(string key)
     {
         DataSnapshot dataSnapshot = await FighterDataBase.Child(key).GetValueAsync();
+        Debug.Log((dataSnapshot.Value as string) != string.Empty);
         return (dataSnapshot.Value as string) != string.Empty;
+    }
+
+    async Task<bool> CheckIfFighterEqualUser(string key)
+    {
+        DataSnapshot dataSnapshot = await FighterDataBase.Child(key).GetValueAsync();
+        Debug.Log((dataSnapshot.Value as string) != string.Empty);
+        return (dataSnapshot.Value as string) == UserBehaviour.i.UserName;
     }
 
     async Task<bool> CheckActiveBet()
@@ -310,7 +355,28 @@ public class BetManager : MonoBehaviour
         tasksFighters[0] = FighterDataBase.Child(FIGHTER_ONE).GetValueAsync();
         tasksFighters[1] = FighterDataBase.Child(FIGHTER_TWO).GetValueAsync();
         await Task.WhenAll(tasksFighters);
-        return !tasksFighters.ToList().TrueForAll(x => !JsonUtility.FromJson<UserFighter>(x.Result.GetRawJsonValue()).UserName.Equals(string.Empty));
+        DataSnapshot[] datas = new DataSnapshot[2];
+        datas[0] = tasksFighters[0].Result;
+        datas[1] = tasksFighters[1].Result;
+
+        string f1 = null;
+        string f2 = null;
+
+        if (datas[0].Exists)
+             f1 = datas[0].Value as string;
+        if (datas[1].Exists)
+             f2 = datas[1].Value as string;
+
+        return f1 == UserBehaviour.i.UserName || f2 == UserBehaviour.i.UserName;
+        
+        //return tasksFighters.ToList().Exists(x => JsonUtility.FromJson<UserFighter>(x.Result.GetRawJsonValue()).UserName == UserBehaviour.i.UserName);
+    }
+
+    public async Task<string> GetFighterName(bool first)
+    {
+        DataSnapshot dataSnapshot = await FighterDataBase.Child(first ? FIGHTER_ONE : FIGHTER_TWO).GetValueAsync();
+        Debug.Log(dataSnapshot.Value as string);
+        return dataSnapshot.Value as string;
     }
 
     #endregion

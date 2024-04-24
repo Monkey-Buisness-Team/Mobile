@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public struct UserBet
 {
     public string UserName;
@@ -10,6 +11,7 @@ public struct UserBet
     public float Odd;
 }
 
+[System.Serializable]
 public struct UserFighter
 {
     public string UserName;
