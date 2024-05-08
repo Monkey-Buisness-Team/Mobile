@@ -53,7 +53,7 @@ public class BetManager : MonoBehaviour
     public UnityEvent OnJoinAsBettor;
     public UnityEvent OnJoinAsFighter;
 
-    private async void Start()
+    private void Start()
     {
         FireBaseManager.i.OnFireBaseInit += Init;
     }
