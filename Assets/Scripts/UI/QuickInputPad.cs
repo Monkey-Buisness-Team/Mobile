@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System;
-using Sirenix.Utilities;
 
 public class QuickInputPad : MonoBehaviour
 {
@@ -38,7 +37,11 @@ public class QuickInputPad : MonoBehaviour
 
     public void SetButtonsActive(bool param)
     {
-        GetComponentsInChildren<Button>().ForEach(x => x.interactable = param);
+        //GetComponentsInChildren<Button>().ForEach(x => x.interactable = param);
+        foreach (var item in GetComponentsInChildren<Button>())
+        {
+            item.interactable = param;
+        }
     }
 
     #region Inputs

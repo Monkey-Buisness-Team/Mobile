@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FireBaseManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class FireBaseManager : MonoBehaviour
     }
 
     public Action OnFireBaseInit;
+    public UnityEvent OnFireBaseInitEvent;
 
     [Header("DataBase")]
     private FirebaseDatabase _database;
@@ -41,6 +43,7 @@ public class FireBaseManager : MonoBehaviour
 
             SetDataBase();
             OnFireBaseInit?.Invoke();
+            OnFireBaseInitEvent?.Invoke();
         });
     }
 
