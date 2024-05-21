@@ -32,6 +32,8 @@ public class FirebaseAutorisationManager : MonoBehaviour
     public UnityEvent<bool> RoundBetIsOpen;
     public UnityEvent<bool> MatchBetIsOpen;
 
+    public Action OnRoomChange;
+
     private void Start()
     {
         FireBaseManager.i.OnFireBaseInit += Init;
@@ -43,6 +45,12 @@ public class FirebaseAutorisationManager : MonoBehaviour
         ActiveDataBase = BetDataBase.Child(ACTIVE_KEY);
         RoundBetOpenDataBase = BetDataBase.Child(ROUND_BET_OPEN);
         MatchBetOpenDataBase = BetDataBase.Child(MATCH_BET_OPEN);
+        RoomIsOpen.AddListener((value) => 
+        {
+            if (!value) 
+                UserBehaviour.i.ChangeUserType(UserType.None);
+            //Debug.Log(UserBehaviour.i.CurrentUserType);
+        });
 
         RegisterEvent();
     }
@@ -75,8 +83,9 @@ public class FirebaseAutorisationManager : MonoBehaviour
     {
         if(value.Snapshot.Value is bool)
         {
+            OnRoomChange?.Invoke();
             RoomIsOpen?.Invoke((bool)value.Snapshot.Value);
-            Debug.Log((bool)value.Snapshot.Value);
+            //Debug.Log((bool)value.Snapshot.Value);
         }
         else
         {
@@ -88,8 +97,9 @@ public class FirebaseAutorisationManager : MonoBehaviour
     {
         if (value.Snapshot.Value is bool)
         {
+            OnRoomChange?.Invoke();
             RoundBetIsOpen?.Invoke((bool)value.Snapshot.Value);
-            Debug.Log((bool)value.Snapshot.Value);
+            //Debug.Log((bool)value.Snapshot.Value);
         }
         else
         {
@@ -101,8 +111,9 @@ public class FirebaseAutorisationManager : MonoBehaviour
     {
         if (value.Snapshot.Value is bool)
         {
+            OnRoomChange?.Invoke();
             MatchBetIsOpen?.Invoke((bool)value.Snapshot.Value);
-            Debug.Log((bool)value.Snapshot.Value);
+            //Debug.Log((bool)value.Snapshot.Value);
         }
         else
         {

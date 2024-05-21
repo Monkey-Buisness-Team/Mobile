@@ -17,4 +17,10 @@ public class CurrentPlayerBetUI : MonoBehaviour
     {
         betBananas.text = bananas.ToString();
     }
+
+    public void InitializeBet(int bananas, string userName)
+    {
+        betBananas.text = bananas.ToString();
+        playerName.text = userName;
+    }
 }

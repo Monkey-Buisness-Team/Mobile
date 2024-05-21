@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8179408900343266915}
   - component: {fileID: 7646189759083871246}
+  - component: {fileID: 1164537695458688570}
   - component: {fileID: 5080526078486411342}
   - component: {fileID: 4356647055246205524}
   m_Layer: 0
@@ -47,6 +48,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1b73ac63f9d44644a9045f36524180a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnFireBaseInitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1164537695458688570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59232562828632327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cadd42484c1d49a4faf224880588fada, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoomIsOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  RoundBetIsOpen:
+    m_PersistentCalls:
+      m_Calls: []
+  MatchBetIsOpen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5080526078486411342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,11 +84,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2daaca3e0805d74da04f090c1afa392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userTypeText: {fileID: 0}
-  _fighterJoinButton: {fileID: 0}
-  _fighterOneBetButton: {fileID: 0}
-  _fighterTwoBetButton: {fileID: 0}
-  _bettorJoinButton: {fileID: 0}
+  OnEnterChoice:
+    m_PersistentCalls:
+      m_Calls: []
+  OnJoinAction:
+    m_PersistentCalls:
+      m_Calls: []
+  OnJoinAsBettor:
+    m_PersistentCalls:
+      m_Calls: []
+  OnJoinAsFighter:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4356647055246205524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userBehaviour: {fileID: 6294308224703227164}
+  OnUserLoginUE:
+    m_PersistentCalls:
+      m_Calls: []
   _registerPage: {fileID: 0}
   _registerInputField: {fileID: 0}
   _registerButton: {fileID: 0}
@@ -158,7 +193,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userData:
     UserName: 
-    UserId: 
     AvatarID: 0
     Bananas: 0
     MatchWin: 0

@@ -65,10 +65,63 @@ public class Paris : MonoBehaviour
         }
     }
 
-    public void OnBetTypeSelected(Team team, BetType type)
+    public void Start()
+    {
+        FirebaseAutorisationManager.i.OnRoomChange += UpdateBetButton;
+        BetManager.i.OnBetReceive += AddPlayerBet;
+        BetManager.i.OnClearBet += ClearAllBets;
+        SetBetButton(false);
+    }
+
+    public void OnDestroy()
+    {
+        FirebaseAutorisationManager.i.OnRoomChange -= UpdateBetButton;
+        BetManager.i.OnBetReceive -= AddPlayerBet;
+        BetManager.i.OnClearBet -= ClearAllBets;
+    }
+
+    public async void UpdateBetButton()
+    {
+        bool open = false;
+        switch (currentBetType)
+        {
+            case BetType.Round:
+                open = await FirebaseAutorisationManager.i.IsRoundBetOpen();
+                break;
+
+            case BetType.Match:
+                open = await FirebaseAutorisationManager.i.IsMatchBetOpen();
+                break;
+        }
+
+        SetBetButton(open);
+    }
+
+    public async void OnBetTypeSelected(Team team, BetType type)
     {
         currentBetTeam = team;
         currentBetType = type;
+
+        bool open = false;
+        switch (type)
+        {
+            case BetType.Round:
+                open = await FirebaseAutorisationManager.i.IsRoundBetOpen();
+                break;
+
+            case BetType.Match:
+                open = await FirebaseAutorisationManager.i.IsMatchBetOpen();
+                break;
+        }
+
+        SetBetButton(open);
+    }
+
+    private void SetBetButton(bool isActive)
+    {
+        betButton.interactable = isActive;
+        betButtonImage.color = isActive ? betButtonColor : betButtonDisabledColor;
+        betButtonLabel.text = isActive ? "Parier" : "Pari Indisponible";
     }
 
     /// <summary>
@@ -76,8 +129,13 @@ public class Paris : MonoBehaviour
     /// </summary>
     public void AddPlayerBet(Team team, float bananas)
     {
+        AddPlayerBet(team, bananas, UserBehaviour.i.UserName);
+    }
+
+    public void AddPlayerBet(Team team, float bananas, string userName)
+    {
         CurrentPlayerBetUI bet = Instantiate(playerBetUIPrefab, team == Team.Red ? redCurrentBetsContainer : blueCurrentBetsContainer);
-        bet.InitializeBet(Mathf.RoundToInt(bananas));
+        bet.InitializeBet(Mathf.RoundToInt(bananas), userName);
         playerBets.Add(bet);
 
         GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());

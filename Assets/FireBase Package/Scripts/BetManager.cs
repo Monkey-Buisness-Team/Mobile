@@ -40,18 +40,21 @@ public class BetManager : MonoBehaviour
     private DatabaseReference OddsDataBase;
 
     private const string MATCH_KEY = "MATCH_KEY";
-    private DatabaseReference MatchDataBase;
-
     private const string ROUND_KEY = "ROUND_KEY";
-    private DatabaseReference RoundDataBase;
 
-    public float MatchOdds { get; private set; }
-    public float RoundOdds { get; private set; }
+    public float F1MatchOdds { get; private set; }
+    public float F1RoundOdds { get; private set; }
+
+    public float F2MatchOdds { get; private set; }
+    public float F2RoundOdds { get; private set; }
 
     public UnityEvent OnEnterChoice;
     public UnityEvent OnJoinAction;
     public UnityEvent OnJoinAsBettor;
     public UnityEvent OnJoinAsFighter;
+
+    public Action<Team, float, string> OnBetReceive;
+    public Action OnClearBet;
 
     private void Start()
     {
@@ -65,8 +68,6 @@ public class BetManager : MonoBehaviour
         UserBetDataBase = BetDataBase.Child(USERBET_KEY);
         ActiveDataBase = BetDataBase.Child(ACTIVE_KEY);
         OddsDataBase = BetDataBase.Child(ODDS_KEY);
-        MatchDataBase = OddsDataBase.Child(MATCH_KEY);
-        RoundDataBase = OddsDataBase.Child(ROUND_KEY);
 
         RegisterEvent();
     }
@@ -83,14 +84,30 @@ public class BetManager : MonoBehaviour
 
     void RegisterEvent()
     {
-        MatchDataBase.ValueChanged += OddsMatchChange;
-        RoundDataBase.ValueChanged += OddsRoundChange;
+        OddsDataBase.Child(FIGHTER_ONE).Child(MATCH_KEY).ValueChanged += OddsF1MatchChange;
+        OddsDataBase.Child(FIGHTER_ONE).Child(ROUND_KEY).ValueChanged += OddsF1RoundChange;
+
+        OddsDataBase.Child(FIGHTER_TWO).Child(MATCH_KEY).ValueChanged += OddsF2MatchChange;
+        OddsDataBase.Child(FIGHTER_TWO).Child(ROUND_KEY).ValueChanged += OddsF2RoundChange;
+
+        UserBetDataBase.Child(MATCH_BET).ChildAdded += OnMatchBetAdd;
+        UserBetDataBase.Child(MATCH_BET).ChildRemoved += OnMatchBetRemove;
+        UserBetDataBase.Child(ROUND_BET).ChildAdded += OnRoundBetAdd;
+        UserBetDataBase.Child(ROUND_BET).ChildRemoved += OnRoundBetRemove;
     }
 
     void UnRegisterEvent()
     {
-        MatchDataBase.ValueChanged -= OddsMatchChange;
-        RoundDataBase.ValueChanged -= OddsRoundChange;
+        OddsDataBase.Child(FIGHTER_ONE).Child(MATCH_KEY).ValueChanged -= OddsF1MatchChange;
+        OddsDataBase.Child(FIGHTER_ONE).Child(ROUND_KEY).ValueChanged -= OddsF1RoundChange;
+
+        OddsDataBase.Child(FIGHTER_TWO).Child(MATCH_KEY).ValueChanged -= OddsF2MatchChange;
+        OddsDataBase.Child(FIGHTER_TWO).Child(ROUND_KEY).ValueChanged -= OddsF2RoundChange;
+
+        UserBetDataBase.Child(MATCH_BET).ChildAdded -= OnMatchBetAdd;
+        UserBetDataBase.Child(MATCH_BET).ChildRemoved -= OnMatchBetRemove;
+        UserBetDataBase.Child(ROUND_BET).ChildAdded -= OnRoundBetAdd;
+        UserBetDataBase.Child(ROUND_BET).ChildRemoved -= OnRoundBetRemove;
     }
 
     private async Task<bool> EnterBetRoom(UserType userType)
@@ -209,34 +226,64 @@ public class BetManager : MonoBehaviour
         OnJoinAsBettor?.Invoke();
     }
 
-    private void OddsMatchChange(object sender, ValueChangedEventArgs value)
+    private void OddsF1MatchChange(object sender, ValueChangedEventArgs value)
     {
         if(value.Snapshot.Value is double)
         {
             double d = (double)value.Snapshot.Value;
-            MatchOdds = (float)d;
+            F1MatchOdds = (float)d;
         }
         else if(value.Snapshot.Value is Int64)
         {
             Int64 i = (Int64)value.Snapshot.Value;
-            MatchOdds = (float)i;
+            F1MatchOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + MatchOdds);
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1MatchOdds);
     }
 
-    private void OddsRoundChange(object sender, ValueChangedEventArgs value)
+    private void OddsF2MatchChange(object sender, ValueChangedEventArgs value)
+    {
+        if (value.Snapshot.Value is double)
+        {
+            double d = (double)value.Snapshot.Value;
+            F2MatchOdds = (float)d;
+        }
+        else if (value.Snapshot.Value is Int64)
+        {
+            Int64 i = (Int64)value.Snapshot.Value;
+            F2MatchOdds = (float)i;
+        }
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2MatchOdds);
+    }
+
+    private void OddsF1RoundChange(object sender, ValueChangedEventArgs value)
     {
         if(value.Snapshot.Value is double)
         {
             double d = (double)value.Snapshot.Value;
-            RoundOdds = (float)d;
+            F1RoundOdds = (float)d;
         }
         else if(value.Snapshot.Value is Int64)
         {
             Int64 i = (Int64)value.Snapshot.Value;
-            RoundOdds = (float)i;
+            F1RoundOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + RoundOdds);
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1RoundOdds);
+    }
+
+    private void OddsF2RoundChange(object sender, ValueChangedEventArgs value)
+    {
+        if (value.Snapshot.Value is double)
+        {
+            double d = (double)value.Snapshot.Value;
+            F2RoundOdds = (float)d;
+        }
+        else if (value.Snapshot.Value is Int64)
+        {
+            Int64 i = (Int64)value.Snapshot.Value;
+            F2RoundOdds = (float)i;
+        }
+        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2RoundOdds);
     }
 
     public async Task<bool> BetOnMatch(int banana, string fighterName)
@@ -270,7 +317,7 @@ public class BetManager : MonoBehaviour
         UserBet userBet = new();
         userBet.BananaBet = banana;
         userBet.UserName = UserBehaviour.i.UserName;
-        userBet.Odd = MatchOdds;
+        userBet.Odd = await GetFighterName(true) == fighterName ? F1MatchOdds : F2MatchOdds;
         userBet.FighterName = fighterName;
 
         UserBehaviour.i.AddBanana(-banana);
@@ -311,7 +358,7 @@ public class BetManager : MonoBehaviour
         UserBet userBet = new();
         userBet.BananaBet = banana;
         userBet.UserName = UserBehaviour.i.UserName;
-        userBet.Odd = RoundOdds;
+        userBet.Odd = await GetFighterName(true) == fighterName ? F1RoundOdds : F2RoundOdds;
         userBet.FighterName = fighterName;
 
         UserBehaviour.i.AddBanana(-banana);
@@ -321,19 +368,69 @@ public class BetManager : MonoBehaviour
         return true;
     }
 
+    private async void OnMatchBetAdd(object sender, ChildChangedEventArgs e)
+    {
+        var data = e.Snapshot;
+        var json = data.GetRawJsonValue();
+        var bet = JsonUtility.FromJson<UserBet>(json);
+
+        if (bet.UserName.Equals("Default")) return;
+
+        //Debug.Log($"ADD [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
+        Team t = await GetFighterName(true) == bet.FighterName ? Team.Red : Team.Blue;
+        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
+    }
+
+    private async void OnMatchBetRemove(object sender, ChildChangedEventArgs e)
+    {
+        var data = e.Snapshot;
+        var json = data.GetRawJsonValue();
+        var bet = JsonUtility.FromJson<UserBet>(json);
+
+        if (bet.UserName.Equals("Default")) return;
+
+        //Debug.Log($"REMOVE [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
+        OnClearBet?.Invoke();
+    }
+
+    private async void OnRoundBetAdd(object sender, ChildChangedEventArgs e)
+    {
+        var data = e.Snapshot;
+        var json = data.GetRawJsonValue();
+        var bet = JsonUtility.FromJson<UserBet>(json);
+
+        if (bet.UserName.Equals("Default")) return;
+
+        //Debug.Log($"ADD [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
+        Team t = await GetFighterName(true) == bet.FighterName ? Team.Red : Team.Blue;
+        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
+    }
+
+    private async void OnRoundBetRemove(object sender, ChildChangedEventArgs e)
+    {
+        var data = e.Snapshot;
+        var json = data.GetRawJsonValue();
+        var bet = JsonUtility.FromJson<UserBet>(json);
+
+        if (bet.UserName.Equals("Default")) return;
+
+        //Debug.Log($"REMOVE [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
+        OnClearBet?.Invoke();
+    }
+
     #region Utils
 
     async Task<bool> CheckIfFighterNull(string key)
     {
         DataSnapshot dataSnapshot = await FighterDataBase.Child(key).GetValueAsync();
-        Debug.Log((dataSnapshot.Value as string) != string.Empty);
+        //Debug.Log((dataSnapshot.Value as string) != string.Empty);
         return (dataSnapshot.Value as string) != string.Empty;
     }
 
     async Task<bool> CheckIfFighterEqualUser(string key)
     {
         DataSnapshot dataSnapshot = await FighterDataBase.Child(key).GetValueAsync();
-        Debug.Log((dataSnapshot.Value as string) != string.Empty);
+        //Debug.Log((dataSnapshot.Value as string) != string.Empty);
         return (dataSnapshot.Value as string) == UserBehaviour.i.UserName;
     }
 
@@ -375,7 +472,7 @@ public class BetManager : MonoBehaviour
     public async Task<string> GetFighterName(bool first)
     {
         DataSnapshot dataSnapshot = await FighterDataBase.Child(first ? FIGHTER_ONE : FIGHTER_TWO).GetValueAsync();
-        Debug.Log(dataSnapshot.Value as string);
+        //Debug.Log(dataSnapshot.Value as string);
         return dataSnapshot.Value as string;
     }
 
