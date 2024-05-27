@@ -121,6 +121,16 @@ public class FirebaseAutorisationManager : MonoBehaviour
         }
     }
 
+    public async Task<bool> IsRoomOpen()
+    {
+        DataSnapshot data = await ActiveDataBase.GetValueAsync();
+        if (data.Value is bool)
+        {
+            return (bool)data.Value;
+        }
+        return false;
+    }
+
     public async Task<bool> IsRoundBetOpen()
     {
         DataSnapshot data = await RoundBetOpenDataBase.GetValueAsync();

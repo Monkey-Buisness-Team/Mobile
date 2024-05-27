@@ -381,7 +381,7 @@ public class BetManager : MonoBehaviour
         OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
     }
 
-    private async void OnMatchBetRemove(object sender, ChildChangedEventArgs e)
+    private void OnMatchBetRemove(object sender, ChildChangedEventArgs e)
     {
         var data = e.Snapshot;
         var json = data.GetRawJsonValue();
@@ -406,7 +406,7 @@ public class BetManager : MonoBehaviour
         OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
     }
 
-    private async void OnRoundBetRemove(object sender, ChildChangedEventArgs e)
+    private void OnRoundBetRemove(object sender, ChildChangedEventArgs e)
     {
         var data = e.Snapshot;
         var json = data.GetRawJsonValue();
