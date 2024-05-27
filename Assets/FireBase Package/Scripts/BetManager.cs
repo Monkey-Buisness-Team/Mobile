@@ -310,6 +310,34 @@ public class BetManager : MonoBehaviour
         Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2RoundOdds);
     }
 
+    private void OnScoreFighter1Change(object sender, ValueChangedEventArgs value)
+    {
+        if (value.Snapshot.Value is double)
+        {
+            double d = (double)value.Snapshot.Value;
+            F1Score = Mathf.RoundToInt((float)d);
+        }
+        else if (value.Snapshot.Value is Int64)
+        {
+            Int64 i = (Int64)value.Snapshot.Value;
+            F1Score = Mathf.RoundToInt((float)i);
+        }
+    }
+
+    private void OnScoreFighter2Change(object sender, ValueChangedEventArgs value)
+    {
+        if (value.Snapshot.Value is double)
+        {
+            double d = (double)value.Snapshot.Value;
+            F2Score = Mathf.RoundToInt((float)d);
+        }
+        else if (value.Snapshot.Value is Int64)
+        {
+            Int64 i = (Int64)value.Snapshot.Value;
+            F2Score = Mathf.RoundToInt((float)i);
+        }
+    }
+
     public async Task<bool> BetOnMatch(int banana, string fighterName)
     {
         if(!UserBehaviour.i.CurrentUserType.Equals(UserType.Bettor))
@@ -450,16 +478,6 @@ public class BetManager : MonoBehaviour
     private void OnFighter2Change(object sender, ValueChangedEventArgs value)
     {
         F2Name = (string)value.Snapshot.Value;
-    }
-
-    private void OnScoreFighter1Change(object sender, ValueChangedEventArgs value)
-    {
-        F1Score = (int)value.Snapshot.Value;
-    }
-
-    private void OnScoreFighter2Change(object sender, ValueChangedEventArgs value)
-    {
-        F2Score = (int)value.Snapshot.Value;
     }
 
     #region Utils
