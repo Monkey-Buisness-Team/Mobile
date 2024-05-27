@@ -17,7 +17,9 @@ public class ValueUiText : MonoBehaviour
         RoundF2Odd,
         Fighter1,
         Fighter2,
-        UserName
+        UserName,
+        F1Score,
+        F2Score
     }
 
     [SerializeField] private Type _type;
@@ -93,6 +95,14 @@ public class ValueUiText : MonoBehaviour
 
             case Type.UserName:
                 _text.text = UserBehaviour.i.UserName;
+                break;
+
+            case Type.F1Score:
+                _text.text = BetManager.i.F1Score.ToString();
+                break;
+
+            case Type.F2Score:
+                _text.text = BetManager.i.F2Score.ToString();
                 break;
 
             default:

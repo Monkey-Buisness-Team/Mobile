@@ -42,6 +42,9 @@ public class BetManager : MonoBehaviour
     private const string MATCH_KEY = "MATCH_KEY";
     private const string ROUND_KEY = "ROUND_KEY";
 
+    private const string SCORE_KEY = "SCORE_KEY";
+    private DatabaseReference ScoreDataBase;
+
     public float F1MatchOdds { get; private set; }
     public float F1RoundOdds { get; private set; }
 
@@ -50,6 +53,9 @@ public class BetManager : MonoBehaviour
 
     public string F1Name { get; private set; } = string.Empty;
     public string F2Name { get; private set; } = string.Empty;
+
+    public int F1Score { get; private set; } = 0;
+    public int F2Score { get; private set; } = 0;
 
     public UnityEvent OnEnterChoice;
     public UnityEvent OnJoinAction;
@@ -62,6 +68,8 @@ public class BetManager : MonoBehaviour
     private void Start()
     {
         FireBaseManager.i.OnFireBaseInit += Init;
+        OnClearBet += () => F1Score = 0;
+        OnClearBet += () => F2Score = 0;
     }
 
     private void Init()
@@ -71,6 +79,7 @@ public class BetManager : MonoBehaviour
         UserBetDataBase = BetDataBase.Child(USERBET_KEY);
         ActiveDataBase = BetDataBase.Child(ACTIVE_KEY);
         OddsDataBase = BetDataBase.Child(ODDS_KEY);
+        ScoreDataBase = BetDataBase.Child(SCORE_KEY);
 
         RegisterEvent();
     }
@@ -96,6 +105,9 @@ public class BetManager : MonoBehaviour
         FighterDataBase.Child(FIGHTER_ONE).ValueChanged += OnFighter1Change;
         FighterDataBase.Child(FIGHTER_TWO).ValueChanged += OnFighter2Change;
 
+        ScoreDataBase.Child(FIGHTER_ONE).ValueChanged += OnScoreFighter1Change;
+        ScoreDataBase.Child(FIGHTER_TWO).ValueChanged += OnScoreFighter2Change;
+
         UserBetDataBase.Child(MATCH_BET).ChildAdded += OnMatchBetAdd;
         UserBetDataBase.Child(MATCH_BET).ChildRemoved += OnMatchBetRemove;
         UserBetDataBase.Child(ROUND_BET).ChildAdded += OnRoundBetAdd;
@@ -112,6 +124,9 @@ public class BetManager : MonoBehaviour
 
         FighterDataBase.Child(FIGHTER_ONE).ValueChanged -= OnFighter1Change;
         FighterDataBase.Child(FIGHTER_TWO).ValueChanged -= OnFighter2Change;
+
+        ScoreDataBase.Child(FIGHTER_ONE).ValueChanged -= OnScoreFighter1Change;
+        ScoreDataBase.Child(FIGHTER_TWO).ValueChanged -= OnScoreFighter2Change;
 
         UserBetDataBase.Child(MATCH_BET).ChildAdded -= OnMatchBetAdd;
         UserBetDataBase.Child(MATCH_BET).ChildRemoved -= OnMatchBetRemove;
@@ -435,6 +450,16 @@ public class BetManager : MonoBehaviour
     private void OnFighter2Change(object sender, ValueChangedEventArgs value)
     {
         F2Name = (string)value.Snapshot.Value;
+    }
+
+    private void OnScoreFighter1Change(object sender, ValueChangedEventArgs value)
+    {
+        F1Score = (int)value.Snapshot.Value;
+    }
+
+    private void OnScoreFighter2Change(object sender, ValueChangedEventArgs value)
+    {
+        F2Score = (int)value.Snapshot.Value;
     }
 
     #region Utils
