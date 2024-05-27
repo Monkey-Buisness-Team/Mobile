@@ -14,7 +14,9 @@ public class ValueUiText : MonoBehaviour
         MatchF1Odd,
         MatchF2Odd,
         RoundF1Odd,
-        RoundF2Odd
+        RoundF2Odd,
+        Fighter1,
+        Fighter2
     }
 
     [SerializeField] private Type _type;
@@ -79,8 +81,16 @@ public class ValueUiText : MonoBehaviour
                 _text.text = text;
 
                 break;
+
+            case Type.Fighter1:
+                _text.text = BetManager.i.F1Name;
+                break;
+            
+            case Type.Fighter2:
+                _text.text = BetManager.i.F2Name;
+                break;
+
             default:
-                
                 break;
         }
     }

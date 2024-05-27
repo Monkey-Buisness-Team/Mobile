@@ -48,6 +48,9 @@ public class BetManager : MonoBehaviour
     public float F2MatchOdds { get; private set; }
     public float F2RoundOdds { get; private set; }
 
+    public string F1Name { get; private set; } = string.Empty;
+    public string F2Name { get; private set; } = string.Empty;
+
     public UnityEvent OnEnterChoice;
     public UnityEvent OnJoinAction;
     public UnityEvent OnJoinAsBettor;
@@ -90,6 +93,9 @@ public class BetManager : MonoBehaviour
         OddsDataBase.Child(FIGHTER_TWO).Child(MATCH_KEY).ValueChanged += OddsF2MatchChange;
         OddsDataBase.Child(FIGHTER_TWO).Child(ROUND_KEY).ValueChanged += OddsF2RoundChange;
 
+        FighterDataBase.Child(FIGHTER_ONE).ValueChanged += OnFighter1Change;
+        FighterDataBase.Child(FIGHTER_TWO).ValueChanged += OnFighter2Change;
+
         UserBetDataBase.Child(MATCH_BET).ChildAdded += OnMatchBetAdd;
         UserBetDataBase.Child(MATCH_BET).ChildRemoved += OnMatchBetRemove;
         UserBetDataBase.Child(ROUND_BET).ChildAdded += OnRoundBetAdd;
@@ -103,6 +109,9 @@ public class BetManager : MonoBehaviour
 
         OddsDataBase.Child(FIGHTER_TWO).Child(MATCH_KEY).ValueChanged -= OddsF2MatchChange;
         OddsDataBase.Child(FIGHTER_TWO).Child(ROUND_KEY).ValueChanged -= OddsF2RoundChange;
+
+        FighterDataBase.Child(FIGHTER_ONE).ValueChanged -= OnFighter1Change;
+        FighterDataBase.Child(FIGHTER_TWO).ValueChanged -= OnFighter2Change;
 
         UserBetDataBase.Child(MATCH_BET).ChildAdded -= OnMatchBetAdd;
         UserBetDataBase.Child(MATCH_BET).ChildRemoved -= OnMatchBetRemove;
@@ -416,6 +425,16 @@ public class BetManager : MonoBehaviour
 
         //Debug.Log($"REMOVE [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
         OnClearBet?.Invoke();
+    }
+
+    private void OnFighter1Change(object sender, ValueChangedEventArgs value)
+    {
+        F1Name = (string)value.Snapshot.Value;
+    }
+
+    private void OnFighter2Change(object sender, ValueChangedEventArgs value)
+    {
+        F2Name = (string)value.Snapshot.Value;
     }
 
     #region Utils
