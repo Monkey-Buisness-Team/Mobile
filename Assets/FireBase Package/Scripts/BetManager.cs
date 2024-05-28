@@ -62,6 +62,7 @@ public class BetManager : MonoBehaviour
     public UnityEvent OnJoinAsBettor;
     public UnityEvent OnJoinAsFighter;
 
+    public Action<string, string> OnFighterChange;
     public Action<Team, float, string> OnBetReceive;
     public Action OnClearBet;
 
@@ -473,11 +474,13 @@ public class BetManager : MonoBehaviour
     private void OnFighter1Change(object sender, ValueChangedEventArgs value)
     {
         F1Name = (string)value.Snapshot.Value;
+        OnFighterChange?.Invoke(F1Name, F2Name);
     }
 
     private void OnFighter2Change(object sender, ValueChangedEventArgs value)
     {
         F2Name = (string)value.Snapshot.Value;
+        OnFighterChange?.Invoke(F1Name, F2Name);
     }
 
     #region Utils

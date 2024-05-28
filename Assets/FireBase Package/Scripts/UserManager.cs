@@ -2,6 +2,7 @@ using Firebase.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,9 @@ public class UserManager : MonoBehaviour
 
     public Action OnUserLogin;
     public UnityEvent OnUserLoginUE;
+
+    public Sprite[] UserAvatars => _userAvatars;
+    [SerializeField] Sprite[] _userAvatars;
 
     private void Start()
     {
@@ -193,6 +197,8 @@ public class UserManager : MonoBehaviour
     [SerializeField]
     Button _registerButton;
 
+    [SerializeField] Image _registerAvatar;
+
     public async void TryRegister()
     {
         _registerInputField.interactable = false;
@@ -209,8 +215,32 @@ public class UserManager : MonoBehaviour
             return;
         }
 
-        await RegisterUser(username, remember);
+        await RegisterUser(username, remember, GetId(_registerAvatar.sprite));
         _registerInputField.interactable = true;
         _registerButton.interactable = true;
+    }
+
+    public int GetId(Sprite sprite) => _userAvatars.ToList().IndexOf(sprite);
+    public Sprite GetAvatar() => _userAvatars[UserBehaviour.i.AvatarID];
+    public async Task<Sprite> GetAvatar(string username)
+    {
+        var data = await FireBaseManager.i.DataBase.GetReference(USER_KEY).Child(username).Child("AvatarID").GetValueAsync();
+        Debug.Log(data.Value);
+
+        float id = -1;
+        if (data.Value is double)
+        {
+            double d = (double)data.Value;
+            id = (float)d;
+        }
+        else if (data.Value is Int64)
+        {
+            Int64 i = (Int64)data.Value;
+            id = (float)i;
+        }
+
+        if (id >= _userAvatars.Length || id < 0) return null;
+
+        return _userAvatars[Mathf.RoundToInt(id)];
     }
 }
