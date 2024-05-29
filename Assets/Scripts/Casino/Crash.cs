@@ -251,7 +251,10 @@ public class Crash : MonoBehaviour
     private void Bet()
     {
         wageredBet = inputPad.GetCurrentInputValue();
-        if(wageredBet < 100) return;
+        if(wageredBet < 100 || wageredBet > UserBehaviour.i.Bananas) return;
+
+        //GameManager.Instance.bananas -= wageredBet;
+        UserBehaviour.i.AddBanana(-Mathf.RoundToInt(wageredBet));
 
         isWagering = true;
         inputPad.SetButtonsActive(false);
@@ -268,7 +271,8 @@ public class Crash : MonoBehaviour
         inputPad.SetButtonsActive(true);
         betButton.interactable = false;
         betButton.gameObject.SetActive(false);
-        GameManager.Instance.bananas += Mathf.RoundToInt(wageredBet * current);
+        UserBehaviour.i.AddBanana(Mathf.RoundToInt(wageredBet * current));
+        //GameManager.Instance.bananas += Mathf.RoundToInt(wageredBet * current);
         MovePlayerBetToCashout();
         wageredBet = 0;
     }

@@ -263,7 +263,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             F1MatchOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1MatchOdds);
+        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1MatchOdds);
     }
 
     private void OddsF2MatchChange(object sender, ValueChangedEventArgs value)
@@ -278,7 +278,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             F2MatchOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2MatchOdds);
+        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2MatchOdds);
     }
 
     private void OddsF1RoundChange(object sender, ValueChangedEventArgs value)
@@ -293,7 +293,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             F1RoundOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1RoundOdds);
+        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F1RoundOdds);
     }
 
     private void OddsF2RoundChange(object sender, ValueChangedEventArgs value)
@@ -308,7 +308,7 @@ public class BetManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             F2RoundOdds = (float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2RoundOdds);
+        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + F2RoundOdds);
     }
 
     private void OnScoreFighter1Change(object sender, ValueChangedEventArgs value)

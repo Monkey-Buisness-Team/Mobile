@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Page { Signup, Home, Bets, Roulette, Crash, Mines, Cases };
+public enum Page { Signup, Home, Bets, Roulette, Crash, Mines, Cases, Casino };
 public enum Team { Red, Blue };
 public enum BetType { Round, Match };
 
