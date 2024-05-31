@@ -6,9 +6,11 @@ using TMPro;
 
 public class CurrentPlayerBetUI : MonoBehaviour
 {
-    [SerializeField] Image avatar;
-    [SerializeField] TextMeshProUGUI playerName;
-    [SerializeField] TextMeshProUGUI betBananas;
+    [SerializeField] protected Image avatar;
+    [SerializeField] protected TextMeshProUGUI playerName;
+    [SerializeField] protected TextMeshProUGUI betBananas;
+
+    public int Bananas { get; protected set; }
     
     /// <summary>
     /// TODO netcode : Takes the player data in parameter and fill the current bet UI with it
@@ -16,11 +18,16 @@ public class CurrentPlayerBetUI : MonoBehaviour
     public void InitializeBet(int bananas)
     {
         betBananas.text = bananas.ToString();
+        playerName.text = UserBehaviour.i.UserName;
+        avatar.sprite = UserManager.i.GetAvatar();
+        Bananas = bananas;
     }
 
-    public void InitializeBet(int bananas, string userName)
+    public async void InitializeBet(int bananas, string userName)
     {
         betBananas.text = bananas.ToString();
         playerName.text = userName;
+        avatar.sprite = await UserManager.i.GetAvatar(userName);
+        Bananas = bananas;
     }
 }

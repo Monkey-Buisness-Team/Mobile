@@ -309,7 +309,7 @@ public class Crash : MonoBehaviour
     {
         Destroy(currentBetsContainer.GetChild(0).gameObject);
         CurrentPlayerCashedBetUI bet = Instantiate(playerCashedBetUIPrefab, cashedBetsContainer);
-        bet.InitializeCashedBet(Mathf.RoundToInt(wageredBet * current), $"x{current.ToString("0.00").Replace(',', '.')}");
+        bet.InitializeCashedBet(Mathf.RoundToInt(wageredBet * current), $"x{current.ToString("0.00").Replace(',', '.')}", UserBehaviour.i.UserName);
         currentBets.SetActive(false);
         cashedBets.SetActive(true);
         GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());

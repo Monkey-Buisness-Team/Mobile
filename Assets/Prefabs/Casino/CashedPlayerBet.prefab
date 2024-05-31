@@ -180,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar: {fileID: 5098397043159460497}
   playerName: {fileID: 2003198613131155423}
-  cashedBananas: {fileID: 5208436367966485238}
+  betBananas: {fileID: 5208436367966485238}
   cashedMultiplier: {fileID: 8336312821231662711}
 --- !u!1 &1601176014507008127
 GameObject:
@@ -249,8 +249,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x2.54
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4eccd51250cfa3948a3ac1e21d15fe34, type: 2}
-  m_sharedMaterial: {fileID: 7304186015023537574, guid: 4eccd51250cfa3948a3ac1e21d15fe34, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -957,6 +957,7 @@ GameObject:
   - component: {fileID: 123689534100136632}
   - component: {fileID: 293026957232504510}
   - component: {fileID: 3859190221026545700}
+  - component: {fileID: 2985042562201007584}
   m_Layer: 5
   m_Name: PlayerAvatar
   m_TagString: Untagged
@@ -1022,3 +1023,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.01
+--- !u!114 &2985042562201007584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094317724644672065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1

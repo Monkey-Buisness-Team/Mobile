@@ -4,19 +4,19 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CurrentPlayerCashedBetUI : MonoBehaviour
+public class CurrentPlayerCashedBetUI : CurrentPlayerBetUI
 {
-    [SerializeField] Image avatar;
-    [SerializeField] TextMeshProUGUI playerName;
-    [SerializeField] TextMeshProUGUI cashedBananas;
     [SerializeField] TextMeshProUGUI cashedMultiplier;
 
     /// <summary>
     /// TODO netcode : Takes the player data in parameter and fill the current bet UI with it
     /// </summary>
-    public void InitializeCashedBet(int bananas, string multiplier)
+    public async void InitializeCashedBet(int bananas, string multiplier, string userName)
     {
-        cashedBananas.text = bananas.ToString();
+        betBananas.text = bananas.ToString();
         cashedMultiplier.text = multiplier;
+        playerName.text = userName;
+        avatar.sprite = await UserManager.i.GetAvatar(userName);
+        Bananas = bananas;
     }
 }
