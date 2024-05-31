@@ -24,6 +24,8 @@ public class PageManager : MonoBehaviour
     [SerializeField] private List<Page> _casinoPages;
     [SerializeField] private List<Page> _fightPages;
 
+    [SerializeField] private GameObject _homeButton;
+
     public void Start()
     {
         for (int i = 0; i < _pages.Count; i++)
@@ -36,6 +38,7 @@ public class PageManager : MonoBehaviour
             if(!value && _fightPages.Contains(_currentPage))
             {
                 GoToPage(Page.Home);
+                _homeButton.SetActive(false);
             }
         });
     }

@@ -700,6 +700,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1323356680}
     m_Modifications:
+    - target: {fileID: 2445158327138803958, guid: f3d82f158526aa14fb0c0aa90c0e6ea2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00024414062
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445158327138803958, guid: f3d82f158526aa14fb0c0aa90c0e6ea2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -660
+      objectReference: {fileID: 0}
     - target: {fileID: 3393083085796016791, guid: f3d82f158526aa14fb0c0aa90c0e6ea2, type: 3}
       propertyPath: m_Name
       value: MiniJeux
@@ -1714,6 +1722,8 @@ MonoBehaviour:
   - {fileID: 708694714}
   - {fileID: 899529572}
   _casinoPages: 0300000004000000050000000600000008000000
+  _fightPages: 02000000
+  _homeButton: {fileID: 1511616495}
 --- !u!1 &2077085949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,14 +1909,22 @@ PrefabInstance:
       objectReference: {fileID: 845824119}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
       propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
       propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 6728432883413143673}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
+      propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1163813312}
+    - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
       propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
+      propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
@@ -1914,11 +1932,23 @@ PrefabInstance:
       value: SetActive
       objectReference: {fileID: 0}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
+      propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
       propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
+      propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
       propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893742802148406629, guid: 00b6ff992ac0d094ca2e874346442659, type: 3}
+      propertyPath: OnValueChange.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3716,7 +3746,7 @@ PrefabInstance:
       objectReference: {fileID: 1511616495}
     - target: {fileID: 7314013913871048364, guid: 4fbb12d84d637994baa0c13941efc7c6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.15002441
+      value: -0.14990234
       objectReference: {fileID: 0}
     - target: {fileID: 7314013913871048364, guid: 4fbb12d84d637994baa0c13941efc7c6, type: 3}
       propertyPath: m_AnchoredPosition.y
