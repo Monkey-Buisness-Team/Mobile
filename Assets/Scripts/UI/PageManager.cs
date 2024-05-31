@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PageManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class PageManager : MonoBehaviour
 
     [Header("Casino")]
     [SerializeField] private Transform _casinoTransform;
+    [SerializeField] private List<Image> _selectedNavBar;
+    [SerializeField] private List<Page> _casinoPages;
 
     public void Start()
     {
@@ -33,7 +36,7 @@ public class PageManager : MonoBehaviour
         var p = _pages.Find(x => x.Type.Equals(page));
         _currentPage = p.Type;
 
-        Transform trans = _currentPage == Page.Roulette || _currentPage == Page.Crash || _currentPage == Page.Mines || _currentPage == Page.Cases ? _casinoTransform : this.transform;
+        Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
         trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.position.y), 0.5f);
     }
 
@@ -42,8 +45,19 @@ public class PageManager : MonoBehaviour
         var p = _pages.Find(x => x.Type.ToString().Equals(page));
         _currentPage = p.Type;
 
-        Transform trans = _currentPage == Page.Roulette || _currentPage == Page.Crash || _currentPage == Page.Mines || _currentPage == Page.Cases ? _casinoTransform : this.transform;
+        Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
         trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.position.y), 0.5f);
+    }
+
+    public void DisableAllImage()
+    {
+        foreach (var image in _selectedNavBar)
+        {
+            image.enabled = false;
+        }
+
+        if(_currentPage != Page.Fruit)
+            FruitGameManager.i.DeactiveGameOverText(false);
     }
 
     public void QuitApp()
