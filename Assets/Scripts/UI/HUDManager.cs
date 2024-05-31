@@ -15,13 +15,16 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Color _activeColor;
     [SerializeField] Color _deactiveColor;
 
+    const string COMBAT_OPEN = "Combat en cours !!!";
+    const string COMBAT_CLOSE = "Pas de Combat pour le moment ...";
+
     public IEnumerator Start()
     {
         displayAllAvatar.OnAvatarSelected.AddListener(UserBehaviour.i.ChangeAvatar);
         StartingMessage();
 
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) => ChangeText(
-            value ? "LES PARIS SONT OUVERT !" : "Les Paris sont fermé ...",
+            value ? COMBAT_OPEN : COMBAT_CLOSE,
             value ? _activeColor : _deactiveColor
             ));
 
@@ -36,7 +39,7 @@ public class HUDManager : MonoBehaviour
     {
         bool open = await FirebaseAutorisationManager.i.IsRoomOpen();
         ChangeText(
-            open ? "LES PARIS SONT OUVERT !" : "Les Paris sont fermé ...",
+            open ? COMBAT_OPEN : COMBAT_CLOSE,
             open ? _activeColor : _deactiveColor
             );
     }
@@ -58,10 +61,10 @@ public class HUDManager : MonoBehaviour
 
         while (true)
         {
-            if (rectTransform.localPosition.x >= 1440f)
-                rectTransform.localPosition = new Vector3(-1440f, rectTransform.localPosition.y);
+            if (rectTransform.localPosition.x >= -1440f)
+                rectTransform.localPosition = new Vector3(1440f, rectTransform.localPosition.y);
             //Debug.Log($"{Screen.width} | {rectTransform.localPosition}");
-            yield return rectTransform.transform.DOLocalMoveX(1440f, 4f).SetEase(Ease.Linear).WaitForCompletion();
+            yield return rectTransform.transform.DOLocalMoveX(-1440f, 4f).SetEase(Ease.Linear).WaitForCompletion();
         }
     }
 }

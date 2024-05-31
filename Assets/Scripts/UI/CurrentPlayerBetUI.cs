@@ -11,6 +11,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI betBananas;
 
     public int Bananas { get; protected set; }
+    public BetType Type { get; protected set; }
     
     /// <summary>
     /// TODO netcode : Takes the player data in parameter and fill the current bet UI with it
@@ -23,11 +24,12 @@ public class CurrentPlayerBetUI : MonoBehaviour
         Bananas = bananas;
     }
 
-    public async void InitializeBet(int bananas, string userName)
+    public async void InitializeBet(int bananas, string userName, BetType betType)
     {
         betBananas.text = bananas.ToString();
         playerName.text = userName;
         avatar.sprite = await UserManager.i.GetAvatar(userName);
         Bananas = bananas;
+        Type = betType;
     }
 }

@@ -41,6 +41,13 @@ public class UserManager : MonoBehaviour
     {
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
+        FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
+        {
+            if (!value)
+            {
+                UserBehaviour.i.ChangeUserType(UserType.None);
+            }
+        });
     }
 
     private async void Init()
@@ -232,7 +239,7 @@ public class UserManager : MonoBehaviour
     {
         if (FireBaseManager.i == null) return null;
         var data = await FireBaseManager.i.DataBase.GetReference(USER_KEY).Child(username).Child("AvatarID").GetValueAsync();
-        Debug.Log(data.Value);
+        //Debug.Log(data.Value);
 
         float id = -1;
         if (data.Value is double)

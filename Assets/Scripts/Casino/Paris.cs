@@ -127,15 +127,15 @@ public class Paris : MonoBehaviour
     /// <summary>
     /// TODO netcode : Takes the player data in parameter and adds it the current bets
     /// </summary>
-    public void AddPlayerBet(Team team, float bananas)
-    {
-        AddPlayerBet(team, bananas, UserBehaviour.i.UserName);
-    }
+    //public void AddPlayerBet(Team team, float bananas)
+    //{
+    //    AddPlayerBet(team, bananas, UserBehaviour.i.UserName, BetType.Round);
+    //}
 
-    public void AddPlayerBet(Team team, float bananas, string userName)
+    public void AddPlayerBet(Team team, float bananas, string userName, BetType betType)
     {
         CurrentPlayerBetUI bet = Instantiate(playerBetUIPrefab, team == Team.Red ? redCurrentBetsContainer : blueCurrentBetsContainer);
-        bet.InitializeBet(Mathf.RoundToInt(bananas), userName);
+        bet.InitializeBet(Mathf.RoundToInt(bananas), userName, betType);
         playerBets.Add(bet);
 
         GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
@@ -153,6 +153,20 @@ public class Paris : MonoBehaviour
         foreach(CurrentPlayerBetUI t in playerBets)
             Destroy(t.gameObject);
         playerBets.Clear();
+        GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
+    }
+
+    public void ClearAllBets(BetType type)
+    {
+        foreach (CurrentPlayerBetUI t in playerBets)
+        {
+            if(t.Type == type)
+            {
+                playerBets.Remove(t);
+                Destroy(t.gameObject);
+            }
+        }
+        GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
     }
 
     public void UpdateScore()

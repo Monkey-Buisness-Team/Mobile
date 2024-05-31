@@ -63,14 +63,14 @@ public class BetManager : MonoBehaviour
     public UnityEvent OnJoinAsFighter;
 
     public Action<string, string> OnFighterChange;
-    public Action<Team, float, string> OnBetReceive;
-    public Action OnClearBet;
+    public Action<Team, float, string, BetType> OnBetReceive;
+    public Action<BetType> OnClearBet;
 
     private void Start()
     {
         FireBaseManager.i.OnFireBaseInit += Init;
-        OnClearBet += () => F1Score = 0;
-        OnClearBet += () => F2Score = 0;
+        OnClearBet += (type) => F1Score = 0;
+        OnClearBet += (type) => F2Score = 0;
     }
 
     private void Init()
@@ -431,7 +431,7 @@ public class BetManager : MonoBehaviour
 
         //Debug.Log($"ADD [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
         Team t = await GetFighterName(true) == bet.FighterName ? Team.Red : Team.Blue;
-        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
+        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName, BetType.Match);
     }
 
     private void OnMatchBetRemove(object sender, ChildChangedEventArgs e)
@@ -443,7 +443,7 @@ public class BetManager : MonoBehaviour
         if (bet.UserName.Equals("Default")) return;
 
         //Debug.Log($"REMOVE [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
-        OnClearBet?.Invoke();
+        OnClearBet?.Invoke(BetType.Match);
     }
 
     private async void OnRoundBetAdd(object sender, ChildChangedEventArgs e)
@@ -456,7 +456,7 @@ public class BetManager : MonoBehaviour
 
         //Debug.Log($"ADD [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
         Team t = await GetFighterName(true) == bet.FighterName ? Team.Red : Team.Blue;
-        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName);
+        OnBetReceive?.Invoke(t, bet.BananaBet, bet.UserName, BetType.Round);
     }
 
     private void OnRoundBetRemove(object sender, ChildChangedEventArgs e)
@@ -468,7 +468,7 @@ public class BetManager : MonoBehaviour
         if (bet.UserName.Equals("Default")) return;
 
         //Debug.Log($"REMOVE [Bettor : {bet.UserName} | Fighter : {bet.FighterName} | Bananas : {bet.BananaBet} | Odd : {bet.Odd}]");
-        OnClearBet?.Invoke();
+        OnClearBet?.Invoke(BetType.Round);
     }
 
     private void OnFighter1Change(object sender, ValueChangedEventArgs value)

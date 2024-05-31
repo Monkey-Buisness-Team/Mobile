@@ -11482,6 +11482,7 @@ MonoBehaviour:
   redCurrentBetsContainer: {fileID: 990929124964551899}
   blueCurrentBetsContainer: {fileID: 4783955905332409451}
   playerBetUIPrefab: {fileID: 5355799842876482404, guid: 66aec7909ab54224892e8aecaad56e7e, type: 3}
+  verticalLayoutGroup: {fileID: 7689897321835550746}
   betButton: {fileID: 337468490952812257}
   betButtonImage: {fileID: 6450668108246436919}
   betButtonLabel: {fileID: 3435382658128459260}

@@ -22,6 +22,7 @@ public class PageManager : MonoBehaviour
     [SerializeField] private Transform _casinoTransform;
     [SerializeField] private List<Image> _selectedNavBar;
     [SerializeField] private List<Page> _casinoPages;
+    [SerializeField] private List<Page> _fightPages;
 
     public void Start()
     {
@@ -29,6 +30,14 @@ public class PageManager : MonoBehaviour
         {
             _pages[i].StartingTransform = _pages[i].Page.transform;
         }
+
+        FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
+        {
+            if(!value && _fightPages.Contains(_currentPage))
+            {
+                GoToPage(Page.Home);
+            }
+        });
     }
 
     public void GoToPage(Page page)
