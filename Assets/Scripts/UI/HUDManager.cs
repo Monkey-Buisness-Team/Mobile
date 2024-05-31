@@ -11,8 +11,12 @@ public class HUDManager : MonoBehaviour
     [SerializeField] List<TextMeshProUGUI> _texts;
     [SerializeField] Image _background;
 
+    [SerializeField] DisplayAllAvatar displayAllAvatar;
+
     public IEnumerator Start()
     {
+        displayAllAvatar.OnAvatarSelected.AddListener(UserBehaviour.i.ChangeAvatar);
+
         for (int i = 0; i < _texts.Count; i++)
         {
             StartCoroutine(MoveText(_texts[i]));

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SetAvatar : MonoBehaviour
 {
+    public DisplayAllAvatar displayManager {  get; set; }
     public void SetCurrentAvatar()
     {
-        DisplayAllAvatar.Instance.Validate(GetComponent<Image>().sprite);
+        displayManager.Validate(GetComponent<Image>().sprite);
     }
 }

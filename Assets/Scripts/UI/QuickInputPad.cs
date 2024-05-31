@@ -74,7 +74,7 @@ public class QuickInputPad : MonoBehaviour
 
     public void QuickInputButtonMax()
     {
-        inputField.text = GameManager.Instance.bananas.ToString();
+        inputField.text = UserBehaviour.i.Bananas.ToString();
     }
 
     #endregion Inputs
