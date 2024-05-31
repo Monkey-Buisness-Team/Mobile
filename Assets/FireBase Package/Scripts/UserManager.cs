@@ -165,6 +165,12 @@ public class UserManager : MonoBehaviour
 
     public async Task RegisterUser(string username, bool remember = false, int avatarID = 0)
     {
+        if (!username.All(x => char.IsLetterOrDigit(x)))
+        {
+            Debug.LogError("Spécial Char Detect");
+            return;
+        }
+
         bool exist = await SaveExist(username);
 
         if (exist)
@@ -177,7 +183,7 @@ public class UserManager : MonoBehaviour
 
         //Default UserData Config
         userData.UserName = username;
-        userData.Bananas = 1000;
+        userData.Bananas = 5000;
         userData.AvatarID = avatarID;
         userData.NbBetWin = 0;
         userData.UserType = "None";
@@ -224,6 +230,7 @@ public class UserManager : MonoBehaviour
     public Sprite GetAvatar() => _userAvatars[UserBehaviour.i.AvatarID];
     public async Task<Sprite> GetAvatar(string username)
     {
+        if (FireBaseManager.i == null) return null;
         var data = await FireBaseManager.i.DataBase.GetReference(USER_KEY).Child(username).Child("AvatarID").GetValueAsync();
         Debug.Log(data.Value);
 
