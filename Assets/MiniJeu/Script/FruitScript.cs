@@ -41,7 +41,7 @@ public class Fruit : MonoBehaviour
         {
             // Inverser la direction de déplacement du fruit
             rb.velocity = Vector2.Reflect(rb.velocity, collision.contacts[0].normal);
-            Debug.Log("Wall");
+            //Debug.Log("Wall");
         }
     }
 }

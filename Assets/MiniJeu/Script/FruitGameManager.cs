@@ -146,7 +146,7 @@ public class FruitGameManager : MonoBehaviour
 
         // Génère un nombre aléatoire entre 1 et 15
         int randomNumber = UnityEngine.Random.Range(1, 31);
-        Debug.Log("Random Number: " + randomNumber);
+        //Debug.Log("Random Number: " + randomNumber);
 
         if (randomNumber == 1)
         {
@@ -288,7 +288,7 @@ public class FruitGameManager : MonoBehaviour
             if(fruit != null)
                 Destroy(fruit);
         }
-        Debug.Log("Game Over! Score: " + score);
+        //Debug.Log("Game Over! Score: " + score);
         // Ajoutez ici le code pour afficher un écran de fin de jeu ou redémarrer le jeu.
     }
 
