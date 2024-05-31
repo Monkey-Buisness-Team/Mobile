@@ -12,10 +12,18 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Image _background;
 
     [SerializeField] DisplayAllAvatar displayAllAvatar;
+    [SerializeField] Color _activeColor;
+    [SerializeField] Color _deactiveColor;
 
     public IEnumerator Start()
     {
         displayAllAvatar.OnAvatarSelected.AddListener(UserBehaviour.i.ChangeAvatar);
+        StartingMessage();
+
+        FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) => ChangeText(
+            value ? "LES PARIS SONT OUVERT !" : "Les Paris sont fermé ...",
+            value ? _activeColor : _deactiveColor
+            ));
 
         for (int i = 0; i < _texts.Count; i++)
         {
@@ -24,7 +32,16 @@ public class HUDManager : MonoBehaviour
         }
     }
 
-    public void ChangeText(string text) => ChangeText(text, Color.green);
+    private async void StartingMessage()
+    {
+        bool open = await FirebaseAutorisationManager.i.IsRoomOpen();
+        ChangeText(
+            open ? "LES PARIS SONT OUVERT !" : "Les Paris sont fermé ...",
+            open ? _activeColor : _deactiveColor
+            );
+    }
+
+    public void ChangeText(string text) => ChangeText(text, _activeColor);
 
     public void ChangeText(string text, Color color)
     {

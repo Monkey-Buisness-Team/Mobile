@@ -123,6 +123,7 @@ public class FirebaseAutorisationManager : MonoBehaviour
 
     public async Task<bool> IsRoomOpen()
     {
+        if(ActiveDataBase == null) return false;
         DataSnapshot data = await ActiveDataBase.GetValueAsync();
         if (data.Value is bool)
         {
@@ -133,6 +134,7 @@ public class FirebaseAutorisationManager : MonoBehaviour
 
     public async Task<bool> IsRoundBetOpen()
     {
+        if (RoundBetOpenDataBase == null) return false;
         DataSnapshot data = await RoundBetOpenDataBase.GetValueAsync();
         if(data.Value is bool)
         {
@@ -143,6 +145,7 @@ public class FirebaseAutorisationManager : MonoBehaviour
 
     public async Task<bool> IsMatchBetOpen()
     {
+        if (MatchBetOpenDataBase == null) return false;
         DataSnapshot data = await MatchBetOpenDataBase.GetValueAsync();
         if (data.Value is bool)
         {
