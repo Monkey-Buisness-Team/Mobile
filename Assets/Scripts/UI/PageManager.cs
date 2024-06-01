@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,10 +34,11 @@ public class PageManager : MonoBehaviour
             _pages[i].StartingTransform = _pages[i].Page.transform;
         }
 
-        FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
+        FirebaseAutorisationManager.i.RoomIsOpen.AddListener(async (value) =>
         {
             if(!value && _fightPages.Contains(_currentPage))
             {
+                await Task.Delay(500);
                 GoToPage(Page.Home);
                 _homeButton.SetActive(false);
             }
