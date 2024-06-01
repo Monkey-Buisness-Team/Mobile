@@ -39,6 +39,7 @@ public class UserManager : MonoBehaviour
 
     private void Start()
     {
+        _errorText.text = string.Empty;
         _registerButton.interactable = false;
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
@@ -169,14 +170,25 @@ public class UserManager : MonoBehaviour
         _userBehaviour.UpdateUser(data);
         OnUserLogin?.Invoke();
         OnUserLoginUE?.Invoke();
+        _errorText.text = string.Empty;
         Debug.Log($"User {data.UserName} is LogIn");
     }
 
     public async Task RegisterUser(string username, bool remember = false, int avatarID = 0)
     {
+        _errorText.text = string.Empty;
+
         if (!username.All(x => char.IsLetterOrDigit(x)))
         {
+            _errorText.text = "Character spéciaux interdit";
             Debug.LogError("Spécial Char Detect");
+            return;
+        }
+
+        if (!(username.ToCharArray().Length > 15))
+        {
+            _errorText.text = "15 characters max";
+            Debug.LogError("To Many Char");
             return;
         }
 
@@ -184,6 +196,7 @@ public class UserManager : MonoBehaviour
 
         if (exist)
         {
+            _errorText.text = "Nom d'utilisateur déjà utilisé";
             Debug.LogError("User already Exist");
             return;
         }
@@ -213,6 +226,7 @@ public class UserManager : MonoBehaviour
     Button _registerButton;
 
     [SerializeField] Image _registerAvatar;
+    [SerializeField] TextMeshProUGUI _errorText;
 
     public async void TryRegister()
     {

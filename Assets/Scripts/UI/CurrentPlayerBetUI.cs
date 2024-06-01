@@ -9,6 +9,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
     [SerializeField] protected Image avatar;
     [SerializeField] protected TextMeshProUGUI playerName;
     [SerializeField] protected TextMeshProUGUI betBananas;
+    [SerializeField] private TextMeshProUGUI betTypeText;
 
     public int Bananas { get; protected set; }
     public BetType Type { get; protected set; }
@@ -31,5 +32,6 @@ public class CurrentPlayerBetUI : MonoBehaviour
         avatar.sprite = await UserManager.i.GetAvatar(userName);
         Bananas = bananas;
         Type = betType;
+        betTypeText.text = betType.ToString();
     }
 }
