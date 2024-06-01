@@ -11,6 +11,12 @@ public class LeaderBoardDisplayerValue : LeaderBoardDisplayer
     public override void Init(Sprite a, string name, int rank)
     {
         base.Init(a, name, rank);
+
+        if (name == UserBehaviour.i.UserName)
+        {
+            valueText.color = userColor;
+        }
+
         valueText.text = $"{Value}";
     }
 }

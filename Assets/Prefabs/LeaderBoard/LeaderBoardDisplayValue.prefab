@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -221,6 +221,7 @@ MonoBehaviour:
   avatar: {fileID: 573929429361134505}
   playerName: {fileID: 8563030153483986987}
   rankText: {fileID: 577925252188109630}
+  userColor: {r: 1, g: 0.8862745, b: 0.4, a: 1}
   valueText: {fileID: 6653523514338892267}
 --- !u!1 &4662049654545432829
 GameObject:

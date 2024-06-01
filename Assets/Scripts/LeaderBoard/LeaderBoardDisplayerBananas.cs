@@ -11,6 +11,12 @@ public class LeaderBoardDisplayerBananas : LeaderBoardDisplayer
     public override void Init(Sprite a, string name, int rank)
     {
         base.Init(a, name, rank);
+
+        if (name == UserBehaviour.i.UserName)
+        {
+            bananasText.color = userColor;
+        }
+
         bananasText.text = $"<sprite=0>{Bananas}";
     }
 }

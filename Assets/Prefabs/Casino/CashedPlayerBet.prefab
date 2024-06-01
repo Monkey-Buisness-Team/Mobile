@@ -181,6 +181,7 @@ MonoBehaviour:
   avatar: {fileID: 5098397043159460497}
   playerName: {fileID: 2003198613131155423}
   betBananas: {fileID: 5208436367966485238}
+  betTypeText: {fileID: 0}
   cashedMultiplier: {fileID: 8336312821231662711}
 --- !u!1 &1601176014507008127
 GameObject:
@@ -461,8 +462,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.097}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
-  m_SizeDelta: {x: -12.1, y: -11.95}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4180975477781648893
 CanvasRenderer:

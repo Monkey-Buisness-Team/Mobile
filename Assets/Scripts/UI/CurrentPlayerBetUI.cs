@@ -23,6 +23,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
         playerName.text = UserBehaviour.i.UserName;
         avatar.sprite = UserManager.i.GetAvatar();
         Bananas = bananas;
+        betTypeText.text = string.Empty;
     }
 
     public async void InitializeBet(int bananas, string userName, BetType betType)
