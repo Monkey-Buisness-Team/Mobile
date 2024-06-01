@@ -49,7 +49,7 @@ public class PageManager : MonoBehaviour
         _currentPage = p.Type;
 
         Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
-        trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.position.y), 0.5f);
+        trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.localPosition.y), 0.5f);
     }
 
     public void GoToPage(string page)
@@ -58,7 +58,7 @@ public class PageManager : MonoBehaviour
         _currentPage = p.Type;
 
         Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
-        trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.position.y), 0.5f);
+        trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.localPosition.y), 0.5f);
     }
 
     public void DisableAllImage()

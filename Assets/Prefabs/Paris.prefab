@@ -11482,7 +11482,6 @@ MonoBehaviour:
   redCurrentBetsContainer: {fileID: 990929124964551899}
   blueCurrentBetsContainer: {fileID: 4783955905332409451}
   playerBetUIPrefab: {fileID: 5355799842876482404, guid: 66aec7909ab54224892e8aecaad56e7e, type: 3}
-  verticalLayoutGroup: {fileID: 7689897321835550746}
   betButton: {fileID: 337468490952812257}
   betButtonImage: {fileID: 6450668108246436919}
   betButtonLabel: {fileID: 3435382658128459260}
@@ -14658,7 +14657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 7.299988, y: 0}
   m_SizeDelta: {x: 1345.8, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7702288784815974885
@@ -17591,7 +17590,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 7.299988, y: 0}
   m_SizeDelta: {x: 1345.8, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5885299418481015744

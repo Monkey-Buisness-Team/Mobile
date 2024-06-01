@@ -39,6 +39,7 @@ public class UserManager : MonoBehaviour
 
     private void Start()
     {
+        _registerButton.interactable = false;
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
@@ -68,6 +69,7 @@ public class UserManager : MonoBehaviour
                 return;
             }
         }
+        _registerButton.interactable = true;
     }
 
     public void ErasePlayerPref()
