@@ -1006,6 +1006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4009813874654059730}
   - component: {fileID: 6224867210553712173}
+  - component: {fileID: 2213682291036776482}
   - component: {fileID: 2889024054819375889}
   m_Layer: 5
   m_Name: Avatar
@@ -1041,6 +1042,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7517391433349422524}
   m_CullTransparentMesh: 1
+--- !u!114 &2213682291036776482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7517391433349422524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3830e93143d60b04aa896af429fe19cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!114 &2889024054819375889
 MonoBehaviour:
   m_ObjectHideFlags: 0
