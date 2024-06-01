@@ -55,6 +55,9 @@ public class PageManager : MonoBehaviour
     public void GoToPage(Page page)
     {
         var p = _pages.Find(x => x.Type.Equals(page));
+
+        if (_currentPage == p.Type) return;
+
         _currentPage = p.Type;
 
         Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
@@ -72,6 +75,9 @@ public class PageManager : MonoBehaviour
     public void GoToPage(string page)
     {
         var p = _pages.Find(x => x.Type.ToString().Equals(page));
+
+        if (_currentPage == p.Type) return;
+
         _currentPage = p.Type;
 
         Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;

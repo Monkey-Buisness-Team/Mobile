@@ -251,6 +251,7 @@ public class UserManager : MonoBehaviour
 
     public int GetId(Sprite sprite) => _userAvatars.ToList().IndexOf(sprite);
     public Sprite GetAvatar() => _userAvatars[UserBehaviour.i.AvatarID];
+    public Sprite GetAvatar(int id) => _userAvatars[id];
     public async Task<Sprite> GetAvatar(string username)
     {
         if (FireBaseManager.i == null) return null;
