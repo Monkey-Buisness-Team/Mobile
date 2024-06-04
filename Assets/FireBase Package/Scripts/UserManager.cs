@@ -185,7 +185,7 @@ public class UserManager : MonoBehaviour
             return;
         }
 
-        if (!(username.ToCharArray().Length > 15))
+        if ((username.ToCharArray().Length > 15))
         {
             _errorText.text = "15 characters max";
             Debug.LogError("To Many Char");

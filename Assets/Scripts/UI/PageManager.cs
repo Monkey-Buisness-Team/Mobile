@@ -20,21 +20,37 @@ public class PageManager : MonoBehaviour
     [SerializeField] private List<PageObject> _pages;
     [SerializeField] private Page _currentPage;
 
-    [SerializeField] private Page _lastCasinoPage;
+    [SerializeField] private GameObject _homeButton;
+    [SerializeField] private GameObject _helpButton;
+    [SerializeField] private Image _helpImageHolder;
 
     [Header("Casino")]
     [SerializeField] private Transform _casinoTransform;
     [SerializeField] private List<Image> _selectedNavBar;
     [SerializeField] private List<Page> _casinoPages;
+    [SerializeField] private Page _lastCasinoPage;
+
+    [Header("Pari")]
     [SerializeField] private List<Page> _fightPages;
 
-    [SerializeField] private GameObject _homeButton;
-    [SerializeField] private GameObject _helpButton;
-    [SerializeField] private Image _helpImageHolder;
+    [Header("LeaderBoard")]
+    [SerializeField] private List<Page> _leaderBoardPages;
+    [SerializeField] private Transform _leaderBoardTransform;
+    [SerializeField] private List<Image> _selectedNavBarL;
+    [SerializeField] private List<Image> _colorNavBar;
+
+    private Color[] leaderBoardColor = new Color[]
+    {
+        new Color(0.992f, 0.859f, 0.29f),
+        new Color(0.224f, 0.878f, 0.376f),
+        new Color(1f, 0.302f, 0.302f)
+    };
+
 
     public void Start()
     {
         _lastCasinoPage = Page.Crash;
+        SwitchColorLeaderBoard(0);
 
         for (int i = 0; i < _pages.Count; i++)
         {
@@ -60,7 +76,14 @@ public class PageManager : MonoBehaviour
 
         _currentPage = p.Type;
 
-        Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
+        Transform trans = this.transform;
+        
+        if (_casinoPages.Contains(_currentPage))
+            trans = _casinoTransform;
+
+        if (_leaderBoardPages.Contains(_currentPage))
+            trans = _leaderBoardTransform;
+
         trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.localPosition.y), 0.5f);
 
         if (_currentPage == Page.Casino)
@@ -75,28 +98,24 @@ public class PageManager : MonoBehaviour
     public void GoToPage(string page)
     {
         var p = _pages.Find(x => x.Type.ToString().Equals(page));
-
-        if (_currentPage == p.Type) return;
-
-        _currentPage = p.Type;
-
-        Transform trans = _casinoPages.Contains(_currentPage) ? _casinoTransform : this.transform;
-        trans.DOLocalMove(new Vector3(-p.Page.transform.localPosition.x, trans.localPosition.y), 0.5f);
-
-        if (_currentPage == Page.Casino)
-            _currentPage = _lastCasinoPage;
-        else if (_casinoPages.Contains(_currentPage))
-            _lastCasinoPage = _currentPage;
-
-        _helpButton.SetActive(_pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpImage != null);
-        _helpImageHolder.gameObject.SetActive(false);
+        GoToPage(p.Type);
     }
 
-    public void DisableAllImage()
+    public void DisableAllImage(bool isCasino)
     {
-        foreach (var image in _selectedNavBar)
+        if (isCasino)
         {
-            image.enabled = false;
+            foreach (var image in _selectedNavBar)
+            {
+                image.enabled = false;
+            }
+        }
+        else
+        {
+            foreach (var image in _selectedNavBarL)
+            {
+                image.enabled = false;
+            }
         }
 
         if(_currentPage != Page.Fruit)
@@ -116,6 +135,16 @@ public class PageManager : MonoBehaviour
         {
             _helpImageHolder.sprite = page.HelpImage;
             _helpImageHolder.gameObject.SetActive(true);
+        }
+    }
+
+    public void SwitchColorLeaderBoard(int id)
+    {
+        if (id >= 3) return;
+
+        foreach (var c in _colorNavBar)
+        {
+            c.DOColor(leaderBoardColor[id], 0.5f);
         }
     }
 

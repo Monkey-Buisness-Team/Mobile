@@ -2,20 +2,12 @@ using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LeaderBoardManager : MonoBehaviour
 {
-    public static LeaderBoardManager i;
-
-    private void Awake()
-    {
-        if (i != null)
-            Destroy(i);
-        i = this;
-    }
-
     private const string USER_KEY = "USER_KEY";
     private FirebaseDatabase DataBase;
     public void Start()
@@ -51,8 +43,8 @@ public class LeaderBoardManager : MonoBehaviour
     {
         if (FireBaseManager.i == null || DataBase == null) return;
 
-        DisplayBananasBoard();
-        DisplayWinBoard();
+        DisplayBoard();
+        //DisplayWinBoard();
         Debug.Log("Update LeaderBoard");
     }
 
@@ -61,109 +53,110 @@ public class LeaderBoardManager : MonoBehaviour
         UpdateAllBoard();
     }
 
-    [SerializeField] GameObject _content;
-    [SerializeField] int maxDisplay;
-
-    [SerializeField, Header("Bananas")] Transform _bananaBoardContainer;
-    [SerializeField] LeaderBoardDisplayer _bananaBoardDisplayPref;
-    private List<LeaderBoardDisplayer> _bananaDisplayers = new List<LeaderBoardDisplayer>();
-
-    private async void DisplayBananasBoard()
+    public enum LeaderBoardType
     {
-        var dataList = await DataBase.GetReference(USER_KEY).OrderByChild("Bananas").GetValueAsync();
-
-        foreach (var display in _bananaDisplayers)
-        {
-            Destroy(display.gameObject);
-        }
-        _bananaDisplayers.Clear();
-
-        int i = 0;
-        foreach (var data in dataList.Children.Reverse())
-        {
-            if (i >= maxDisplay) break;
-            i++;
-
-            var d = JsonUtility.FromJson<UserData>(data.GetRawJsonValue());
-
-            var display = Instantiate(_bananaBoardDisplayPref, _bananaBoardContainer) as LeaderBoardDisplayerBananas;
-            display.Bananas = d.Bananas;
-            display.Init(UserManager.i.GetAvatar(d.AvatarID), d.UserName, i);
-            _bananaDisplayers.Add(display);
-        }
-
-        if (!_bananaDisplayers.Any(x => x.UserName == UserBehaviour.i.UserName))
-        {
-            var display = Instantiate(_bananaBoardDisplayPref, _bananaBoardContainer) as LeaderBoardDisplayerBananas;
-            display.Bananas = UserBehaviour.i.Bananas;
-
-            var d = dataList.Children.ToList().Find(x => JsonUtility.FromJson<UserData>(x.GetRawJsonValue()).UserName == UserBehaviour.i.UserName);
-
-            int index = -1;
-            for (int y = 0; y < dataList.Children.Reverse().ToList().Count; y++)
-            {
-                var t = JsonUtility.FromJson<UserData>(dataList.Children.Reverse().ToList()[y].GetRawJsonValue());
-                if(t.UserName == UserBehaviour.i.UserName)
-                {
-                    index = y + 1;
-                    break;
-                }
-            }
-
-            display.Init(UserManager.i.GetAvatar(UserBehaviour.i.AvatarID), UserBehaviour.i.UserName, index);
-            
-            _bananaDisplayers.Add(display);
-        }
+        Banana,
+        Pari,
+        Combat
     }
+    [SerializeField] private LeaderBoardType type;
 
-    [SerializeField, Header("Win")] Transform _winBoardContainer;
-    [SerializeField] LeaderBoardDisplayer _winBoardDisplayPref;
-    private List<LeaderBoardDisplayer> _winDisplayers = new List<LeaderBoardDisplayer>();
+    [SerializeField] GameObject _content;
+    [SerializeField] string dataKey;
 
-    private async void DisplayWinBoard()
+    [SerializeField] Transform _boardContainer;
+    [SerializeField] LeaderBoardDisplayerValue _boardDisplayPref;
+    private List<LeaderBoardDisplayerValue> _displayers = new List<LeaderBoardDisplayerValue>();
+    private LeaderBoardDisplayerValue _userDisplay;
+    [SerializeField] Transform _userContainer;
+
+    [SerializeField] Color _bgColor;
+    [SerializeField] Color _textColor;
+    [SerializeField] TMP_SpriteAsset _spriteAsset;
+
+    private async void DisplayBoard()
     {
-        var dataList = await DataBase.GetReference(USER_KEY).OrderByChild("MatchWin").GetValueAsync();
+        var dataList = await DataBase.GetReference(USER_KEY).OrderByChild(dataKey).GetValueAsync();
 
-        foreach (var display in _winDisplayers)
+        foreach (var display in _displayers)
         {
             Destroy(display.gameObject);
         }
-        _winDisplayers.Clear();
+        _displayers.Clear();
 
+        Color bgColor = new Color(0.15f, 0.15f, 0.15f);
+        Color textColor = Color.white;
+
+        int index = -1; 
         int i = 0;
         foreach (var data in dataList.Children.Reverse())
         {
-            if (i >= maxDisplay) break;
             i++;
 
             var d = JsonUtility.FromJson<UserData>(data.GetRawJsonValue());
 
-            var display = Instantiate(_winBoardDisplayPref, _winBoardContainer) as LeaderBoardDisplayerValue;
-            display.Value = d.MatchWin;
-            display.Init(UserManager.i.GetAvatar(d.AvatarID), d.UserName, i);
-            _winDisplayers.Add(display);
-        }
+            var display = Instantiate(_boardDisplayPref, _boardContainer);
 
-        if (!_winDisplayers.Any(x => x.UserName == UserBehaviour.i.UserName))
-        {
-            var display = Instantiate(_winBoardDisplayPref, _winBoardContainer) as LeaderBoardDisplayerValue;
-            display.Value = UserBehaviour.i.CurrentUserData.MatchWin;
-
-            int index = -1;
-            for (int y = 0; y < dataList.Children.Reverse().ToList().Count; y++)
+            switch (type)
             {
-                var t = JsonUtility.FromJson<UserData>(dataList.Children.Reverse().ToList()[y].GetRawJsonValue());
-                if (t.UserName == UserBehaviour.i.UserName)
-                {
-                    index = y + 1;
+                case LeaderBoardType.Banana:
+                    display.Value = d.Bananas;
                     break;
-                }
+
+                case LeaderBoardType.Pari:
+                    display.Value = d.NbBetWin;
+                    break;
+
+                case LeaderBoardType.Combat:
+                    display.Value = d.MatchWin;
+                    break;
             }
 
-            display.Init(UserManager.i.GetAvatar(UserBehaviour.i.AvatarID), UserBehaviour.i.UserName, index);
+            bgColor = new Color(0.15f, 0.15f, 0.15f);
+            textColor = Color.white;
 
-            _winDisplayers.Add(display);
+            if(d.UserName == UserBehaviour.i.UserName)
+            {
+                bgColor = new Color(0.24f, 0.24f, 0.24f);
+                index = i;
+            }
+            else if(i <= 3)
+            {
+                bgColor = _bgColor;
+                textColor = _textColor;
+            }
+            
+            display.Init(UserManager.i.GetAvatar(d.AvatarID), d.UserName, i, textColor, bgColor, _spriteAsset);
+            _displayers.Add(display);
         }
+
+        if(_userDisplay != null)
+        {
+            Destroy(_userDisplay.gameObject);
+        }
+
+        bgColor = new Color(0.24f, 0.24f, 0.24f);
+        textColor = Color.white;
+
+        _userDisplay = Instantiate(_boardDisplayPref, _userContainer);
+        //_userDisplay.transform.SetAsFirstSibling();
+
+        switch (type)
+        {
+            case LeaderBoardType.Banana:
+                _userDisplay.Value = UserBehaviour.i.Bananas;
+                break;
+
+            case LeaderBoardType.Pari:
+                _userDisplay.Value = UserBehaviour.i.NbBetWin;
+                break;
+
+            case LeaderBoardType.Combat:
+                _userDisplay.Value = UserBehaviour.i.MatchWin;
+                break;
+        }
+
+        _userDisplay.Init(UserManager.i.GetAvatar(), UserBehaviour.i.UserName, index, textColor, bgColor, _spriteAsset);
     }
 
     private void FixedUpdate()

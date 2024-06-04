@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 123.8, y: 0.10445}
+  m_AnchoredPosition: {x: 156.9, y: 0.14902}
   m_SizeDelta: {x: 129.8, y: 146.3}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7775458476299597913
@@ -103,9 +103,9 @@ GameObject:
   - component: {fileID: 1978210000996200743}
   - component: {fileID: 8339159311987276719}
   - component: {fileID: 7289974911822520412}
-  - component: {fileID: -6150371051065944031}
+  - component: {fileID: 7838290388133893842}
   m_Layer: 5
-  m_Name: LeaderBoardDisplayBananas
+  m_Name: LeaderBoardDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,15 +155,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  m_Color: {r: 0.24313727, g: 0.24313727, b: 0.24313727, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e89c5959bebb5594b9efffb45f78f357, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 18d0d8bc7692fec49b97b6ba01c1446b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
---- !u!114 &-6150371051065944031
+--- !u!114 &7838290388133893842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,14 +215,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4245377884005859946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af39928d9e400904d91f24b4653f06f4, type: 3}
+  m_Script: {fileID: 11500000, guid: f143801d9af4a4647af140c93ef77216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   avatar: {fileID: 573929429361134505}
   playerName: {fileID: 8563030153483986987}
   rankText: {fileID: 577925252188109630}
-  userColor: {r: 1, g: 0.8862745, b: 0.4, a: 1}
-  bananasText: {fileID: 6653523514338892267}
+  bg: {fileID: 1978210000996200743}
+  valueText: {fileID: 6653523514338892267}
 --- !u!1 &4662049654545432829
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,8 +257,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -56.5, y: 0.149}
-  m_SizeDelta: {x: 679, y: 186.1}
+  m_AnchoredPosition: {x: -40.150024, y: 0.149}
+  m_SizeDelta: {x: 646.3, y: 186.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9191071309591574412
 CanvasRenderer:
@@ -600,8 +600,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -588.1, y: 0.14902}
-  m_SizeDelta: {x: 123.8, y: 186.1}
+  m_AnchoredPosition: {x: -584.27344, y: 0.14902}
+  m_SizeDelta: {x: 121.249, y: 186.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8029447987263034411
 CanvasRenderer:
@@ -631,7 +631,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1.
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e173b9d0eb3080b48abf06a805c96c09, type: 2}
   m_sharedMaterial: {fileID: 7538502647140687356, guid: e173b9d0eb3080b48abf06a805c96c09, type: 2}
@@ -694,7 +694,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 20, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

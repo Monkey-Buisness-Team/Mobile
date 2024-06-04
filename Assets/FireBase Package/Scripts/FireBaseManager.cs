@@ -42,6 +42,7 @@ public class FireBaseManager : MonoBehaviour
                 return;
             }
 
+            Debug.Log("Sucess to init FireBase");
             SetDataBase();
             OnFireBaseInit?.Invoke();
             OnFireBaseInitEvent?.Invoke();

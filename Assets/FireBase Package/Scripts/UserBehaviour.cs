@@ -24,6 +24,7 @@ public class UserBehaviour : MonoBehaviour
     public int Bananas => _userData.Bananas;
     public int AvatarID => _userData.AvatarID;
     public int NbBetWin => _userData.NbBetWin;
+    public int MatchWin => _userData.MatchWin;
     public UserType CurrentUserType => ConvertStringToUserType(_userData.UserType);
 
     public Action OnUserUpdated;

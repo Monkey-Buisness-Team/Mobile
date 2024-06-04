@@ -8,15 +8,12 @@ public class LeaderBoardDisplayerValue : LeaderBoardDisplayer
     [SerializeField] TextMeshProUGUI valueText;
     public int Value { get; set; }
 
-    public override void Init(Sprite a, string name, int rank)
+    public override void Init(Sprite a, string name, int rank, Color textColor, Color bgColor, TMP_SpriteAsset asset)
     {
-        base.Init(a, name, rank);
+        base.Init(a, name, rank, textColor, bgColor, asset);
 
-        if (name == UserBehaviour.i.UserName)
-        {
-            valueText.color = userColor;
-        }
-
-        valueText.text = $"{Value}";
+        valueText.spriteAsset = asset;
+        valueText.color = textColor;
+        valueText.text = $"<sprite=0>{Value}";
     }
 }
