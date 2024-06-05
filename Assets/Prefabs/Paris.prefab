@@ -10467,7 +10467,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.10980393, g: 0.10980393, b: 0.10980393, a: 1}
   sideColor: {r: 0.2392157, g: 0.69803923, b: 0.9294118, a: 1}
   team: 1
-  type: 0
+  type: 1
   selected: 0
 --- !u!1 &5211244784362807845
 GameObject:
@@ -12964,7 +12964,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.10980393, g: 0.10980393, b: 0.10980393, a: 1}
   sideColor: {r: 0.2392157, g: 0.69803923, b: 0.9294118, a: 1}
   team: 1
-  type: 1
+  type: 0
   selected: 0
 --- !u!1 &6851856570955693711
 GameObject:
@@ -13909,7 +13909,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.10980393, g: 0.10980393, b: 0.10980393, a: 1}
   sideColor: {r: 0.9215687, g: 0.30588236, b: 0.29803923, a: 1}
   team: 0
-  type: 0
+  type: 1
   selected: 0
 --- !u!1 &7407260810356980452
 GameObject:
@@ -14470,7 +14470,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.10980393, g: 0.10980393, b: 0.10980393, a: 1}
   sideColor: {r: 0.9215687, g: 0.30588236, b: 0.29803923, a: 1}
   team: 0
-  type: 1
+  type: 0
   selected: 0
 --- !u!1 &7589485428132577399
 GameObject:
