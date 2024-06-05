@@ -602,6 +602,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2065843406}
+    - target: {fileID: 4586723495556123303, guid: 2de76271da5a62649be4ca9cfab4eff7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6421941530845825285, guid: 2de76271da5a62649be4ca9cfab4eff7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 6
@@ -1452,6 +1456,10 @@ PrefabInstance:
     - target: {fileID: 5011443107990579991, guid: 64a14670acc493447bfe621b42df380a, type: 3}
       propertyPath: m_text
       value: "Classement du nombre de paris remport\xE9s"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011443107990579991, guid: 64a14670acc493447bfe621b42df380a, type: 3}
+      propertyPath: m_fontSize
+      value: 45.25
       objectReference: {fileID: 0}
     - target: {fileID: 5011443107990579991, guid: 64a14670acc493447bfe621b42df380a, type: 3}
       propertyPath: m_fontStyle
@@ -3231,10 +3239,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 778992097}
   - {fileID: 240430559}
   - {fileID: 596186262}
   - {fileID: 1323915811}
-  - {fileID: 778992097}
   m_Father: {fileID: 81838293}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4182,19 +4190,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1039058056381202408, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1039058056381202408, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1039058056381202408, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 680.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1039058056381202408, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -157.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1497722129141184104, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4634,19 +4642,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7861670870901784771, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7861670870901784771, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7861670870901784771, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 680.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7861670870901784771, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -546.89
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8687799844636689945, guid: 1d93ea473a71dc441841e21db56607e8, type: 3}
       propertyPath: m_AnchorMax.y
