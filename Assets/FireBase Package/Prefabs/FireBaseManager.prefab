@@ -183,27 +183,30 @@ MonoBehaviour:
   _userBehaviour: {fileID: 6294308224703227164}
   OnUserLoginUE:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   _userAvatars:
   - {fileID: 21300000, guid: 5365a52b9eb497d4e8a84d581945a1aa, type: 3}
   - {fileID: 21300000, guid: 0f425612ab526314eb8e1e32110dfe21, type: 3}
   - {fileID: 21300000, guid: 87a153c6531fe4f4282a0a9adb2047d9, type: 3}
   - {fileID: 21300000, guid: e20901c3ad8aaa44eb57dca87a06cf1d, type: 3}
+  - {fileID: 21300000, guid: a6148ae29e470af42936aec2e0f81d4d, type: 3}
+  - {fileID: 21300000, guid: 230a4a1503262924fa1cc513746cb6b2, type: 3}
+  - {fileID: 21300000, guid: 009b4f916b154ce4d86cdf0fe953959d, type: 3}
+  - {fileID: 21300000, guid: eb5950eb72ad4ad44b033b0f61740634, type: 3}
+  - {fileID: 21300000, guid: 8fb0ce178934b1e47aec9da41cdd2ab6, type: 3}
+  - {fileID: 21300000, guid: 25eb9e3a2d10e884584e9384ff0e4cad, type: 3}
+  - {fileID: 21300000, guid: 832a693ceb77fe5469157d4b5634dae3, type: 3}
+  - {fileID: 21300000, guid: 534a272363bf35e4e9c9522e44be85f2, type: 3}
+  - {fileID: 21300000, guid: 9995e08cc3826814884a415e334bee3e, type: 3}
+  - {fileID: 21300000, guid: a9bc36fa8d5841048b80969435c2d67d, type: 3}
+  - {fileID: 21300000, guid: a1d22cd1599542443825ba0b04e0d09c, type: 3}
+  - {fileID: 21300000, guid: 0cd9cd9841bca3f4292520334d6660fc, type: 3}
+  - {fileID: 21300000, guid: a7e57a6553b523e498b4c4d89da150d3, type: 3}
   _registerPage: {fileID: 0}
   _registerInputField: {fileID: 0}
   _registerButton: {fileID: 0}
+  _registerAvatar: {fileID: 0}
+  _errorText: {fileID: 0}
 --- !u!1 &618513091799846020
 GameObject:
   m_ObjectHideFlags: 0

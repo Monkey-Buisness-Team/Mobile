@@ -33,6 +33,19 @@ public class DisplayAllAvatar : MonoBehaviour
             {
                 Destroy(display.transform.GetChild(1).gameObject);
             }
+
+            i++;
+
+            if (i < UserManager.i.UserAvatars.Length)
+            {
+                var image2 = display.transform.GetChild(2).transform.GetChild(0).GetComponent<Image>();
+                image2.GetComponent<SetAvatar>().displayManager = this;
+                image2.sprite = UserManager.i.UserAvatars[i];
+            }
+            else
+            {
+                Destroy(display.transform.GetChild(2).gameObject);
+            }
         }
     }
 

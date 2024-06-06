@@ -48,7 +48,7 @@ public class QuickInputPad : MonoBehaviour
 
     public void QuickInputButtonAddition(float value)
     {
-        if(GameManager.Instance.bananas < float.Parse(inputField.text) + value) inputField.text = GameManager.Instance.bananas.ToString();
+        if(UserBehaviour.i.Bananas < float.Parse(inputField.text) + value) inputField.text = UserBehaviour.i.Bananas.ToString();
         else inputField.text = (float.Parse(inputField.text) + value).ToString();
     }
 
@@ -56,7 +56,7 @@ public class QuickInputPad : MonoBehaviour
     {
         if(float.Parse(inputField.text) == 0) return;
 
-        if(GameManager.Instance.bananas < float.Parse(inputField.text) * value) inputField.text = GameManager.Instance.bananas.ToString();
+        if(UserBehaviour.i.Bananas < float.Parse(inputField.text) * value) inputField.text = UserBehaviour.i.Bananas.ToString();
         else inputField.text = Mathf.RoundToInt(float.Parse(inputField.text) * value).ToString();
     }
 

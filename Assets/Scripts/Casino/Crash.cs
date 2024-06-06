@@ -251,9 +251,8 @@ public class Crash : MonoBehaviour
     private void Bet()
     {
         wageredBet = inputPad.GetCurrentInputValue();
-        if(wageredBet < 100 || wageredBet > UserBehaviour.i.Bananas) return;
+        if(wageredBet > UserBehaviour.i.Bananas) return;
 
-        //GameManager.Instance.bananas -= wageredBet;
         UserBehaviour.i.AddBanana(-Mathf.RoundToInt(wageredBet));
 
         isWagering = true;
@@ -261,7 +260,6 @@ public class Crash : MonoBehaviour
         betButton.interactable = false;
         betButtonImage.color = betDisabledColor;
         betButtonLabel.text = "Montant misé";
-        GameManager.Instance.bananas -= wageredBet;
         AddPlayerBet(wageredBet);
     }
 

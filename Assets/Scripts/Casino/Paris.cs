@@ -39,7 +39,7 @@ public class Paris : MonoBehaviour
     public async void Bet()
     {
         wageredBet = inputPad.GetCurrentInputValue();
-        if(wageredBet < 100 || wageredBet > UserBehaviour.i.Bananas) return;
+        if(wageredBet > UserBehaviour.i.Bananas) return;
         
         //GameManager.Instance.bananas -= wageredBet;
         //AddPlayerBet(currentBetTeam, wageredBet);
