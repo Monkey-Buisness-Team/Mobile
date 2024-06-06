@@ -28,6 +28,11 @@ public class FirebaseAutorisationManager : MonoBehaviour
     private const string MATCH_BET_OPEN = "MATCH_BET_OPEN";
     private DatabaseReference MatchBetOpenDataBase;
 
+    private const string USERBET_KEY = "USERBET_KEY";
+    private const string MATCH_BET = "MATCH_BET";
+    private const string ROUND_BET = "ROUND_BET";
+    private DatabaseReference UserBetDataBase;
+
     public UnityEvent<bool> RoomIsOpen;
     public UnityEvent<bool> RoundBetIsOpen;
     public UnityEvent<bool> MatchBetIsOpen;
@@ -45,12 +50,15 @@ public class FirebaseAutorisationManager : MonoBehaviour
         ActiveDataBase = BetDataBase.Child(ACTIVE_KEY);
         RoundBetOpenDataBase = BetDataBase.Child(ROUND_BET_OPEN);
         MatchBetOpenDataBase = BetDataBase.Child(MATCH_BET_OPEN);
+        UserBetDataBase = BetDataBase.Child(USERBET_KEY);
+        
         RoomIsOpen.AddListener((value) => 
         {
             if (!value) 
                 UserBehaviour.i.ChangeUserType(UserType.None);
             //Debug.Log(UserBehaviour.i.CurrentUserType);
         });
+
 
         RegisterEvent();
     }
@@ -152,6 +160,12 @@ public class FirebaseAutorisationManager : MonoBehaviour
             return (bool)data.Value;
         }
         return false;
+    }
+
+    public async Task<bool> CheckAlreadyBet(string key)
+    {
+        DataSnapshot data = await UserBetDataBase.Child(key).Child(UserBehaviour.i.UserName).GetValueAsync();
+        return data.Exists;
     }
 
 }

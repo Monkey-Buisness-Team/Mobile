@@ -113,6 +113,14 @@ public class BetManager : MonoBehaviour
         UserBetDataBase.Child(MATCH_BET).ChildRemoved += OnMatchBetRemove;
         UserBetDataBase.Child(ROUND_BET).ChildAdded += OnRoundBetAdd;
         UserBetDataBase.Child(ROUND_BET).ChildRemoved += OnRoundBetRemove;
+
+        OnFighterChange += async (f1, f2) =>
+        {
+            if(UserBehaviour.i.CurrentUserType == UserType.Fighter && f1 != UserBehaviour.i.UserName && f2 != UserBehaviour.i.UserName && await CheckActiveBet())
+            {
+                JoinAsBettor();
+            }
+        };
     }
 
     void UnRegisterEvent()

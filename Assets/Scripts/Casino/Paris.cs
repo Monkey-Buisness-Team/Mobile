@@ -106,11 +106,11 @@ public class Paris : MonoBehaviour
         switch (type)
         {
             case BetType.Round:
-                open = await FirebaseAutorisationManager.i.IsRoundBetOpen();
+                open = await FirebaseAutorisationManager.i.IsRoundBetOpen() && await FirebaseAutorisationManager.i.CheckAlreadyBet("ROUND_BET");
                 break;
 
             case BetType.Match:
-                open = await FirebaseAutorisationManager.i.IsMatchBetOpen();
+                open = await FirebaseAutorisationManager.i.IsMatchBetOpen() && await FirebaseAutorisationManager.i.CheckAlreadyBet("MATCH_BET"); ;
                 break;
         }
 
