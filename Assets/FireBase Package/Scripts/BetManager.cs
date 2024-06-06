@@ -372,6 +372,7 @@ public class BetManager : MonoBehaviour
         userBet.UserName = UserBehaviour.i.UserName;
         userBet.Odd = await GetFighterName(true) == fighterName ? F1MatchOdds : F2MatchOdds;
         userBet.FighterName = fighterName;
+        userBet.AvatarId = UserBehaviour.i.AvatarID;
 
         UserBehaviour.i.AddBanana(-banana);
 
@@ -413,6 +414,7 @@ public class BetManager : MonoBehaviour
         userBet.UserName = UserBehaviour.i.UserName;
         userBet.Odd = await GetFighterName(true) == fighterName ? F1RoundOdds : F2RoundOdds;
         userBet.FighterName = fighterName;
+        userBet.AvatarId = UserBehaviour.i.AvatarID;
 
         UserBehaviour.i.AddBanana(-banana);
 

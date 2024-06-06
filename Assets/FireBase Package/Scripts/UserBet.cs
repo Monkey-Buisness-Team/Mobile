@@ -9,6 +9,7 @@ public struct UserBet
     public string FighterName;
     public int BananaBet;
     public float Odd;
+    public int AvatarId;
 }
 
 [System.Serializable]

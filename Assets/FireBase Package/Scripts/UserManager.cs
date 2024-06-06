@@ -176,8 +176,6 @@ public class UserManager : MonoBehaviour
 
     public async Task RegisterUser(string username, bool remember = false, int avatarID = 0)
     {
-        _errorText.text = string.Empty;
-
         if (!username.All(x => char.IsLetterOrDigit(x)))
         {
             _errorText.text = "Character spéciaux interdit";
@@ -230,6 +228,7 @@ public class UserManager : MonoBehaviour
 
     public async void TryRegister()
     {
+        _errorText.text = string.Empty;
         _registerInputField.interactable = false;
         _registerButton.interactable = false;
         bool remember = true;
@@ -240,6 +239,7 @@ public class UserManager : MonoBehaviour
         {
             _registerInputField.interactable = true;
             _registerButton.interactable = true;
+            _errorText.text = "Nom d'utilisateur déjà utilisé";
             Debug.LogError("User already Exist");
             return;
         }
