@@ -31,7 +31,6 @@ RectTransform:
   m_LocalScale: {x: 1.0013713, y: 1.0013713, z: 1.0013713}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4802133569223743795}
   - {fileID: 625721670170595246}
   m_Father: {fileID: 7851041439467171332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -116,17 +115,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3455414717864902386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.075, y: 1.075, z: 1.075}
+  m_LocalScale: {x: 1.0764742, y: 1.0764742, z: 1.0764742}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3354709023276461416}
+  m_Father: {fileID: 7851041439467171332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000076293945, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -428.11108, y: 0.14904785}
+  m_SizeDelta: {x: -1170.2, y: -39.800003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6503028517538400672
 CanvasRenderer:
@@ -152,7 +151,7 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -200,6 +199,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1757517778053536011}
+  - {fileID: 4802133569223743795}
   - {fileID: 3354709023276461416}
   - {fileID: 8011642086216677256}
   - {fileID: 6693876909041025722}
