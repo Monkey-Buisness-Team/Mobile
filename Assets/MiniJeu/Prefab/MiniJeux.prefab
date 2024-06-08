@@ -127,7 +127,17 @@ MonoBehaviour:
   gameOverText: {fileID: 8070181581006878132}
   restartButton: {fileID: 5440197378869504373}
   randomXPositionRange: 1.5
-  prefFruit: []
+  prefFruit:
+  - Pref: {fileID: 135542223259268451, guid: fc884e35c425f6b498bf69f30b3629dd, type: 3}
+    SpawnRate: 7
+  - Pref: {fileID: 135542223259268451, guid: 104052334c2d21341b34f78cb6d5d07b, type: 3}
+    SpawnRate: 20
+  - Pref: {fileID: 135542223259268451, guid: 5b73110b2ab30654e8c4237f3a29dde7, type: 3}
+    SpawnRate: 40
+  - Pref: {fileID: 6925653450910125525, guid: b8c5f9c50d13e1a42a0bcf2426e33ab1, type: 3}
+    SpawnRate: 65
+  - Pref: {fileID: 2341496407712421614, guid: aac2837c0a901cd4887a1df95cb068f2, type: 3}
+    SpawnRate: 100
   score: 0
   lives: 1057
   initialUpwardForce: 10
