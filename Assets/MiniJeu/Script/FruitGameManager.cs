@@ -44,6 +44,13 @@ public class FruitGameManager : MonoBehaviour
     public float scoreMultiplier = 0.4f; //Multiplicateur ajouter à chaque combo
     public float decreasePercentage = 0.01f;
 
+    // Doit être compris entre 0 et 100
+    private int spawnRateForCoco = 35;
+    private int spawnRateForBanane = 70;
+    private int spawnRateForFraise = 90;
+    private int spawnRateForSaucisse = 100;
+    private Dictionary<int, int> spawnRates;
+
     public Image Heart1;
     public Image Heart2;
     public Image Heart3;
@@ -55,6 +62,13 @@ public class FruitGameManager : MonoBehaviour
 
     void Start()
     {
+        spawnRates = new Dictionary<int, int>() {
+            {spawnRateForBanane, 0},
+            {spawnRateForCoco, 1},
+            {spawnRateForFraise, 2},
+            {spawnRateForSaucisse, 3}
+        };
+
         //InitializeGame();
         UpdateGameOverUI(true);
         //Physics2D.bounceThreshold = 0; // Désactiver la collision continue pour permettre le rebondissement des fruits
@@ -142,28 +156,26 @@ public class FruitGameManager : MonoBehaviour
             return;
 
         // Déterminer la position aléatoire du spawnPoint
-        GameObject fruitPrefab;
+        GameObject fruitPrefab = null;
 
-        // Génère un nombre aléatoire entre 1 et 15
-        int randomNumber = UnityEngine.Random.Range(1, 31);
+        // Génère un nombre aléatoire entre 0 et 100
+        int randomNumber = UnityEngine.Random.Range(0, 100);
         //Debug.Log("Random Number: " + randomNumber);
 
-        if (randomNumber == 1)
-        {
-            // Si le nombre aléatoire est 15, choisissez le fruit "Saucisse"
-            fruitPrefab = fruitPrefabs[3]; // Assurez-vous que l'index 3 correspond à la saucisse
-        }
-        else
-        {
-            // Sinon, choisissez un fruit aléatoire parmi les autres fruits en excluant la saucisse
-            int randomIndex = UnityEngine.Random.Range(0, fruitPrefabs.Length - 1);
-            if (randomIndex >= 3) // Si l'index aléatoire est après la saucisse, on décale d'une position
+        foreach (KeyValuePair<int, int> spawnRate in spawnRates) {
+            if (spawnRate.Key >= randomNumber)
             {
-                randomIndex++;
+                fruitPrefab = fruitPrefabs[spawnRate.Value];
             }
-            fruitPrefab = fruitPrefabs[randomIndex];
         }
 
+        if (fruitPrefab == null)
+        {
+            Debug.Log(
+                "Aucune prefabs trouvé pour le nombre donné. Vérifier que les spawnRates définis sont bon. " +
+                "randomNumber : {randomNumber}, spawnRates : {spawnRates}"
+                );
+        }
 
         GameObject fruitInstance = Instantiate(fruitPrefab, spawnPoint.position, Quaternion.identity);
         spawnedFruit.Add(fruitInstance);
