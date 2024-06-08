@@ -23,6 +23,7 @@ public class FruitGameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     private float bottomScreenY = -10f; // Position Y en bas de l'écran
+    [SerializeField] private float randomXPositionRange = 10;
 
     public List<PrefFruit> prefFruit = new List<PrefFruit>();
 
@@ -173,7 +174,10 @@ public class FruitGameManager : MonoBehaviour
                 );
         }
 
-        GameObject fruitInstance = Instantiate(fruitPrefab, spawnPoint.position, Quaternion.identity);
+        Vector3 fruitSpawnPoint = spawnPoint.position;
+        fruitSpawnPoint.x += UnityEngine.Random.Range(-randomXPositionRange, randomXPositionRange);
+
+        GameObject fruitInstance = Instantiate(fruitPrefab, fruitSpawnPoint, Quaternion.identity);
         spawnedFruit.Add(fruitInstance);
 
         //rotation aléatoire avant de spawn
