@@ -24,7 +24,7 @@ public class FruitGameManager : MonoBehaviour
     public Button restartButton;
     private float bottomScreenY = -10f; // Position Y en bas de l'écran
 
-    public GameObject[] fruitPrefabs;
+    public List<PrefFruit> prefFruit = new List<PrefFruit>();
 
     public float score = 0;
     public int lives = 3;
@@ -45,11 +45,12 @@ public class FruitGameManager : MonoBehaviour
     public float decreasePercentage = 0.01f;
 
     // Doit être compris entre 0 et 100
-    private int spawnRateForCoco = 35;
-    private int spawnRateForBanane = 70;
-    private int spawnRateForFraise = 90;
-    private int spawnRateForSaucisse = 100;
-    private Dictionary<int, int> spawnRates;
+    [System.Serializable]
+    public struct PrefFruit
+    {
+        public GameObject Pref;
+        [Range(0, 100)] public int SpawnRate;
+    }
 
     public Image Heart1;
     public Image Heart2;
@@ -62,13 +63,6 @@ public class FruitGameManager : MonoBehaviour
 
     void Start()
     {
-        spawnRates = new Dictionary<int, int>() {
-            {spawnRateForBanane, 0},
-            {spawnRateForCoco, 1},
-            {spawnRateForFraise, 2},
-            {spawnRateForSaucisse, 3}
-        };
-
         //InitializeGame();
         UpdateGameOverUI(true);
         //Physics2D.bounceThreshold = 0; // Désactiver la collision continue pour permettre le rebondissement des fruits
@@ -162,10 +156,12 @@ public class FruitGameManager : MonoBehaviour
         int randomNumber = UnityEngine.Random.Range(0, 100);
         //Debug.Log("Random Number: " + randomNumber);
 
-        foreach (KeyValuePair<int, int> spawnRate in spawnRates) {
-            if (spawnRate.Key >= randomNumber)
+        foreach (var fruit in prefFruit)
+        {
+            if(fruit.SpawnRate >= randomNumber)
             {
-                fruitPrefab = fruitPrefabs[spawnRate.Value];
+                fruitPrefab = fruit.Pref;
+                break;
             }
         }
 
@@ -288,7 +284,7 @@ public class FruitGameManager : MonoBehaviour
         OnGameEnd?.Invoke();
         gameIsOver = true;
 
-        gameOverText.text = $"Vous avez gagnez {Mathf.RoundToInt(score)} <sprite=0>";
+        gameOverText.text = $"Vous avez gagné {Mathf.RoundToInt(score)} <sprite=0>";
         UserBehaviour.i.AddBanana(Mathf.RoundToInt(score));
         scoreText.text = "Score: 0";
         comboText.text = "x0";
