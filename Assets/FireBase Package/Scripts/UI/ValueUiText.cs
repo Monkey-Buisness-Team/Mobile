@@ -36,7 +36,7 @@ public class ValueUiText : MonoBehaviour
         {
             case Type.Banana:
                 
-                text = UserBehaviour.i.Bananas.ToString();
+                text = GameManager.GetBananas(UserBehaviour.i.Bananas);
                 _text.text = text;
 
                 break;

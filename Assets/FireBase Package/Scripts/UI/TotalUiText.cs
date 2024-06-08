@@ -36,7 +36,7 @@ public class TotalUiText : MonoBehaviour
                 {
                     bananas += _parent.GetChild(i).GetComponent<CurrentPlayerBetUI>().Bananas;
                 }
-                text = $"<size=100%><sprite=0><size=80%>{bananas}";
+                text = $"<size=100%><sprite=0><size=80%>{GameManager.GetBananas(bananas)}";
                 break;
 
             case Type.Paris:

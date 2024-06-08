@@ -35,4 +35,29 @@ public class GameManager : MonoBehaviour
             LayoutRebuilder.ForceRebuildLayoutImmediate(layoutGroup.GetComponent<RectTransform>());
         }
     }
+
+    public static string GetBananas(int bananas)
+    {
+        float b = bananas;
+        string sign = string.Empty;
+
+        if (bananas > 999999999)
+        {
+            b = bananas / 1000000000f;
+            sign = "B";
+        }
+        else if (bananas > 999999)
+        {
+            b = bananas / 1000000f;
+            sign = "M";
+        }
+        else if (bananas > 999)
+        {
+            b = bananas / 1000f;
+            sign = "K";
+        }
+
+        b = Mathf.RoundToInt(b * 100) /100f;
+        return $"{b}{sign}";
+    }
 }

@@ -19,7 +19,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
     /// </summary>
     public void InitializeBet(int bananas)
     {
-        betBananas.text = bananas.ToString();
+        betBananas.text = GameManager.GetBananas(bananas);
         playerName.text = UserBehaviour.i.UserName;
         avatar.sprite = UserManager.i.GetAvatar();
         Bananas = bananas;
@@ -28,7 +28,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
 
     public async void InitializeBet(int bananas, string userName, BetType betType)
     {
-        betBananas.text = bananas.ToString();
+        betBananas.text = GameManager.GetBananas(bananas);
         playerName.text = userName;
         avatar.sprite = await UserManager.i.GetAvatar(userName);
         Bananas = bananas;
