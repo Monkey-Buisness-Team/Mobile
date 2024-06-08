@@ -4,6 +4,8 @@ public class Fruit : MonoBehaviour
 {
     public string fruitType; // "Coco", "Banana", or "Strawberry"
     public ParticleSystem explosionParticle; // Ajout d'une particule d'explosion
+    public int scoreValue; // Valeur score de l'objet
+    public bool makeDamage; //L'objet enlève une vie au toucher ?
 
     private FruitGameManager gameManager => FruitGameManager.i;
 
@@ -20,18 +22,14 @@ public class Fruit : MonoBehaviour
     {
         if (gameManager != null)
         {
+            gameManager.FruitClick(this);
             
-            
-            gameManager.FruitClick(fruitType);
-            
-
             if (explosionParticle != null)
             {
                 // Joue la particule d'explosion
                 Instantiate(explosionParticle, transform.position, Quaternion.identity);
             }
         }
-
         Destroy(gameObject); // Détruit le fruit lorsqu'il est touché.
     }
 

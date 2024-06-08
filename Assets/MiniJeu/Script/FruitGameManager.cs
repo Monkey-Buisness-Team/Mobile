@@ -23,7 +23,7 @@ public class FruitGameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     private float bottomScreenY = -10f; // Position Y en bas de l'écran
-    [SerializeField] private float randomXPositionRange = 10;
+    [SerializeField] private float randomXPositionRange = 1.5f;
 
     public List<PrefFruit> prefFruit = new List<PrefFruit>();
 
@@ -210,50 +210,41 @@ public class FruitGameManager : MonoBehaviour
         }
     }
 
-    public void FruitScoring(string fruitType)
-    {
-        switch (fruitType)
-        {
-            case "Banana":
-                score += 1;
-                IncreaseCombo();
-                break;
-            case "Strawberry":
-                score += 2;
-                IncreaseCombo();
-                break;
-            case "Saucisse":
-                score += 5;
-                IncreaseCombo();
-                break;
-        }
+    //public void FruitScoring(string fruitType)
+    //{
+    //    switch (fruitType)
+    //    {
+    //        case "Banana":
+    //            score += 1;
+    //            IncreaseCombo();
+    //            break;
+    //        case "Strawberry":
+    //            score += 2;
+    //            IncreaseCombo();
+    //            break;
+    //        case "Saucisse":
+    //            score += 5;
+    //            IncreaseCombo();
+    //            break;
+    //    }
 
-        UpdateScore();
-    }
+    //    UpdateScore();
+    //}
 
-    public void FruitClick(string fruitType)
+    public void FruitClick(Fruit fruit)
     {
         if (gameIsOver)
             return;
 
-        switch (fruitType)
+        if (fruit.makeDamage)
         {
-            case "Coco":
-                lives--;
-                ResetCombo(); // Réinitialiser le combo si une vie est perdue
-                break;
-            case "Banana":
-                score += 1 * actualScoreMultiplier; // Multiplier le score par le multiplicateur de combo
-                IncreaseCombo(); // Augmenter le combo
-                break;
-            case "Strawberry":
-                score += 2 * actualScoreMultiplier; // Multiplier le score par le multiplicateur de combo
-                IncreaseCombo(); // Augmenter le combo
-                break;
-            case "Saucisse":
-                score += 50;
-                IncreaseCombo();
-                break;
+            lives--;
+            ResetCombo();
+        }
+        else
+        {
+            score += fruit.scoreValue * actualScoreMultiplier;
+            IncreaseCombo();
         }
 
         UpdateScore();

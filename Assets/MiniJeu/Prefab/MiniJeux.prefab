@@ -126,11 +126,8 @@ MonoBehaviour:
   comboText: {fileID: 7201851377413650729}
   gameOverText: {fileID: 8070181581006878132}
   restartButton: {fileID: 5440197378869504373}
-  fruitPrefabs:
-  - {fileID: 6925653450910125525, guid: b8c5f9c50d13e1a42a0bcf2426e33ab1, type: 3}
-  - {fileID: 2341496407712421614, guid: aac2837c0a901cd4887a1df95cb068f2, type: 3}
-  - {fileID: 135542223259268451, guid: 104052334c2d21341b34f78cb6d5d07b, type: 3}
-  - {fileID: 135542223259268451, guid: fc884e35c425f6b498bf69f30b3629dd, type: 3}
+  randomXPositionRange: 1.5
+  prefFruit: []
   score: 0
   lives: 1057
   initialUpwardForce: 10
@@ -975,7 +972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -659.9999}
+  m_AnchoredPosition: {x: -0.00012207031, y: -659.9999}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5920612335308541497

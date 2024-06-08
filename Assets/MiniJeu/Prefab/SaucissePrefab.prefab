@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitType: Saucisse
   explosionParticle: {fileID: 0}
+  scoreValue: 50
+  makeDamage: 0
 --- !u!50 &7381968097726275090
 Rigidbody2D:
   serializedVersion: 4
