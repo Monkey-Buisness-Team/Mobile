@@ -44,8 +44,6 @@ public class LeaderBoardManager : MonoBehaviour
         if (FireBaseManager.i == null || DataBase == null) return;
 
         DisplayBoard();
-        //DisplayWinBoard();
-        Debug.Log("Update LeaderBoard");
     }
 
     private void UpdateAllBoard(object sender, ValueChangedEventArgs e)
@@ -76,10 +74,12 @@ public class LeaderBoardManager : MonoBehaviour
 
     private async void DisplayBoard()
     {
+        var list = _displayers;
         var dataList = await DataBase.GetReference(USER_KEY).OrderByChild(dataKey).GetValueAsync();
 
         foreach (var display in _displayers)
         {
+            if(display == null) continue;
             Destroy(display.gameObject);
         }
         _displayers.Clear();
@@ -100,15 +100,15 @@ public class LeaderBoardManager : MonoBehaviour
             switch (type)
             {
                 case LeaderBoardType.Banana:
-                    display.Value = d.Bananas;
+                    display.Value = GameManager.GetBananas(d.Bananas);
                     break;
 
                 case LeaderBoardType.Pari:
-                    display.Value = d.NbBetWin;
+                    display.Value = d.NbBetWin.ToString();
                     break;
 
                 case LeaderBoardType.Combat:
-                    display.Value = d.MatchWin;
+                    display.Value = d.MatchWin.ToString();
                     break;
             }
 
@@ -130,7 +130,8 @@ public class LeaderBoardManager : MonoBehaviour
             _displayers.Add(display);
         }
 
-        if(_userDisplay != null)
+        var dis = _userDisplay;
+        if (_userDisplay != null)
         {
             Destroy(_userDisplay.gameObject);
         }
@@ -144,15 +145,15 @@ public class LeaderBoardManager : MonoBehaviour
         switch (type)
         {
             case LeaderBoardType.Banana:
-                _userDisplay.Value = UserBehaviour.i.Bananas;
+                _userDisplay.Value = GameManager.GetBananas(UserBehaviour.i.Bananas);
                 break;
 
             case LeaderBoardType.Pari:
-                _userDisplay.Value = UserBehaviour.i.NbBetWin;
+                _userDisplay.Value = UserBehaviour.i.NbBetWin.ToString();
                 break;
 
             case LeaderBoardType.Combat:
-                _userDisplay.Value = UserBehaviour.i.MatchWin;
+                _userDisplay.Value = UserBehaviour.i.MatchWin.ToString();
                 break;
         }
 

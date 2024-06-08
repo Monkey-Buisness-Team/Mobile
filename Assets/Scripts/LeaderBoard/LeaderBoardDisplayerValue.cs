@@ -6,7 +6,7 @@ using UnityEngine;
 public class LeaderBoardDisplayerValue : LeaderBoardDisplayer
 {
     [SerializeField] TextMeshProUGUI valueText;
-    public int Value { get; set; }
+    public string Value { get; set; }
 
     public override void Init(Sprite a, string name, int rank, Color textColor, Color bgColor, TMP_SpriteAsset asset)
     {
