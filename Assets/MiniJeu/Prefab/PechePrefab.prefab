@@ -138,6 +138,7 @@ MonoBehaviour:
   explosionParticle: {fileID: 0}
   scoreValue: 10
   makeDamage: 0
+  isMultiplied: 1
 --- !u!50 &7381968097726275090
 Rigidbody2D:
   serializedVersion: 4

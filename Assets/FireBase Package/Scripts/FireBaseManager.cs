@@ -21,6 +21,7 @@ public class FireBaseManager : MonoBehaviour
 
     public Action OnFireBaseInit;
     public UnityEvent OnFireBaseInitEvent;
+    public bool IsConnected { get; private set; } = false;
 
     [Header("DataBase")]
     private FirebaseDatabase _database;
@@ -44,6 +45,7 @@ public class FireBaseManager : MonoBehaviour
 
             Debug.Log("Sucess to init FireBase");
             SetDataBase();
+            IsConnected = true;
             OnFireBaseInit?.Invoke();
             OnFireBaseInitEvent?.Invoke();
         });

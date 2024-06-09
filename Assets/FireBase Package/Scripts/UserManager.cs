@@ -37,11 +37,14 @@ public class UserManager : MonoBehaviour
     public Sprite[] UserAvatars => _userAvatars;
     [SerializeField] Sprite[] _userAvatars;
 
+    public bool UserIsLogin { get; private set; } = false;
+
     private void Start()
     {
         _errorText.text = string.Empty;
         _registerInputField.interactable = false;
         _registerButton.interactable = false;
+        _avatarButton.interactable = false;
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
@@ -65,16 +68,19 @@ public class UserManager : MonoBehaviour
                 _errorText.text = "Essaye de se connecter ...";
                 _registerInputField.interactable = false;
                 _registerButton.interactable = false;
+                _avatarButton.interactable = false;
                 Task task = LogInUser(PlayerPrefs.GetString(SAVE_KEY));
                 await task;
                 _registerInputField.interactable = true;
                 _registerButton.interactable = true;
+                _avatarButton.interactable = true;
                 _errorText.text = string.Empty;
                 return;
             }
         }
         _registerInputField.interactable = true;
         _registerButton.interactable = true;
+        _avatarButton.interactable = true;
     }
 
     public void ErasePlayerPref()
@@ -175,6 +181,7 @@ public class UserManager : MonoBehaviour
         OnUserLogin?.Invoke();
         OnUserLoginUE?.Invoke();
         _errorText.text = string.Empty;
+        UserIsLogin = true;
         Debug.Log($"User {data.UserName} is LogIn");
     }
 
@@ -227,6 +234,9 @@ public class UserManager : MonoBehaviour
     [SerializeField]
     Button _registerButton;
 
+    [SerializeField]
+    Button _avatarButton;
+
     [SerializeField] Image _registerAvatar;
     [SerializeField] TextMeshProUGUI _errorText;
 
@@ -235,6 +245,7 @@ public class UserManager : MonoBehaviour
         _errorText.text = string.Empty;
         _registerInputField.interactable = false;
         _registerButton.interactable = false;
+        _avatarButton.interactable = false;
         bool remember = true;
         string username = _registerInputField.text;
 
@@ -243,6 +254,7 @@ public class UserManager : MonoBehaviour
         {
             _registerInputField.interactable = true;
             _registerButton.interactable = true;
+            _avatarButton.interactable = true;
             _errorText.text = "Nom d'utilisateur déjà utilisé";
             Debug.LogError("User already Exist");
             return;
@@ -251,6 +263,7 @@ public class UserManager : MonoBehaviour
         await RegisterUser(username, remember, GetId(_registerAvatar.sprite));
         _registerInputField.interactable = true;
         _registerButton.interactable = true;
+        _avatarButton.interactable = true;
     }
 
     public int GetId(Sprite sprite) => _userAvatars.ToList().IndexOf(sprite);

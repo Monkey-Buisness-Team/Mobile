@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        bananas = 10000;
+        Application.targetFrameRate = 30;
     }
 
     public void UpdateLayouts(LayoutGroup[] layouts)
@@ -60,6 +60,14 @@ public class GameManager : MonoBehaviour
         b = Mathf.RoundToInt(b * 100) /100f;
         if(b <= 0)
             b = 0;
+
+        if (b >= 100)
+            b = Mathf.RoundToInt(b);
+        else if (b >= 10)
+            b = Mathf.RoundToInt(b * 10f) / 10f;
+        else
+            b = Mathf.RoundToInt(b * 100f) / 100f;
+
         return $"{b}{sign}";
     }
 }

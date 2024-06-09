@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Threading.Tasks;
 
 public class Crash : MonoBehaviour
 {
@@ -94,63 +95,68 @@ public class Crash : MonoBehaviour
     }
     
     private void Update()
-    {   
-        if(active) //Crash Multiplier
-        {
-            if(current < currentCrashMultiplier)
-            {
-                time += Time.deltaTime;
-                current = 1 + multiplicationSpeed.Evaluate(time) * crashSpeedMultiplier;
-                currentMultiplierText.text = $"x{current.ToString("0.00").Replace(',', '.')}";
+    {
+        //if (!UserManager.i.UserIsLogin) return;
 
-                if(isWagering)
-                {
-                    betButtonValueText.text = Mathf.RoundToInt(wageredBet * current).ToString("0");
-                }
+        //if(active) //Crash Multiplier
+        //{
+        //    if(current < currentCrashMultiplier)
+        //    {
+        //        time += Time.deltaTime;
+        //        current = 1 + multiplicationSpeed.Evaluate(time) * crashSpeedMultiplier;
+        //        currentMultiplierText.text = $"x{current.ToString("0.00").Replace(',', '.')}";
 
-                //Color fade
-                if(colorChanged == 0 && current >= 1.95f && current < 2.95f) 
-                {
-                    colorChanged = 1;
-                    currentMultiplierText.DOColor(GameManager.Instance.yellowAccent, 0.75f);
-                }
-                else if(colorChanged == 1 && current >= 2.95f) 
-                {
-                    colorChanged = 2;
-                    currentMultiplierText.DOColor(GameManager.Instance.greenAccent, 0.75f);
-                }
-            }
-            else 
-            {
-                active = false;
-                StartCoroutine(CrashGameCoroutine());
-            }
-        }
-        else if(isCountingDown) //Next crash countdown
-        {
-            if(countdown > 0)
-            {
-                countdown -= Time.deltaTime;
-                countdownFillBar.fillAmount = countdown / 10;
-                countdownText.text = countdown.ToString("0.00").Replace(',', '.');
+        //        if(isWagering)
+        //        {
+        //            betButtonValueText.text = Mathf.RoundToInt(wageredBet * current).ToString("0");
+        //        }
 
-                //Colorfade
-                if(countdownColorChanged == 0 && countdown < 6f && countdown > 2.75f)
-                {
-                    countdownColorChanged = 1;
-                    countdownFillBar.DOColor(GameManager.Instance.yellowAccent, 1.2f);
-                }
-                else if(countdownColorChanged == 1 && countdown < 2.75f)
-                {
-                    countdownColorChanged = 2;
-                    countdownFillBar.DOColor(GameManager.Instance.redAccent, 1f);
-                }
-            }
-            else
-            {
-                EndCountdown();
-            }
-        }
+        //        //Color fade
+        //        if(colorChanged == 0 && current >= 1.95f && current < 2.95f) 
+        //        {
+        //            colorChanged = 1;
+        //            currentMultiplierText.DOColor(GameManager.Instance.yellowAccent, 0.75f);
+        //        }
+        //        else if(colorChanged == 1 && current >= 2.95f) 
+        //        {
+        //            colorChanged = 2;
+        //            currentMultiplierText.DOColor(GameManager.Instance.greenAccent, 0.75f);
+        //        }
+        //    }
+        //    else 
+        //    {
+        //        active = false;
+        //        StartCoroutine(CrashGameCoroutine());
+        //    }
+        //}
+        //else if(isCountingDown) //Next crash countdown
+        //{
+        //    if(countdown > 0)
+        //    {
+        //        countdown -= Time.deltaTime;
+        //        countdownFillBar.fillAmount = countdown / 10;
+        //        countdownText.text = countdown.ToString("0.00").Replace(',', '.');
+
+        //        //Colorfade
+        //        if(countdownColorChanged == 0 && countdown < 6f && countdown > 2.75f)
+        //        {
+        //            countdownColorChanged = 1;
+        //            countdownFillBar.DOColor(GameManager.Instance.yellowAccent, 1.2f);
+        //        }
+        //        else if(countdownColorChanged == 1 && countdown < 2.75f)
+        //        {
+        //            countdownColorChanged = 2;
+        //            countdownFillBar.DOColor(GameManager.Instance.redAccent, 1f);
+        //        }
+
+        //        CasinoFirebaseManager.i.SetCrashTimer(countdown);
+        //    }
+        //    else
+        //    {
+        //        CasinoFirebaseManager.i.SetCrashTimer(-1);
+        //        EndCountdown();
+        //    }
+        //}
     }
 
     #region CRASH DISPLAY
@@ -173,6 +179,120 @@ public class Crash : MonoBehaviour
         StartCountdown();
     }
 
+    IEnumerator CountDownTimer()
+    {
+        while (!UserManager.i.UserIsLogin)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+
+        if (CasinoFirebaseManager.i.IsAdmin)
+        {
+            GenerateCrashMultiplier();
+            countdown = 10;
+            while (countdown > 0)
+            {
+                countdown -= 0.03333f;
+                countdownFillBar.fillAmount = countdown / 10;
+                countdownText.text = countdown.ToString("0.00").Replace(',', '.');
+
+                //Colorfade
+                if (countdownColorChanged == 0 && countdown < 6f && countdown > 2.75f)
+                {
+                    countdownColorChanged = 1;
+                    countdownFillBar.DOColor(GameManager.Instance.yellowAccent, 1.2f);
+                }
+                else if (countdownColorChanged == 1 && countdown < 2.75f)
+                {
+                    countdownColorChanged = 2;
+                    countdownFillBar.DOColor(GameManager.Instance.redAccent, 1f);
+                }
+
+                CasinoFirebaseManager.i.SetCrashTimer(countdown);
+                yield return null;
+            }
+
+            CasinoFirebaseManager.i.SetCrashTimer(-1);
+            EndCountdown();
+        }
+        else
+        {
+            while(CasinoFirebaseManager.i.CrashTimer < 0)
+            {
+                countdown = 10;
+                countdownFillBar.fillAmount = countdown / 10;
+                countdownText.text = countdown.ToString("0.00").Replace(',', '.');
+
+                betButton.interactable = false;
+                betButtonImage.color = betDisabledColor;
+                betButtonLabel.text = "En attente du serveur";
+
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            countdown = CasinoFirebaseManager.i.CrashTimer;
+            Debug.Log(countdown);
+
+            while (countdown > 0)
+            {
+                countdown -= 0.03333f;
+                countdownFillBar.fillAmount = countdown / 10;
+                countdownText.text = countdown.ToString("0.00").Replace(',', '.');
+
+                //Colorfade
+                if (countdownColorChanged == 0 && countdown < 6f && countdown > 2.75f)
+                {
+                    countdownColorChanged = 1;
+                    countdownFillBar.DOColor(GameManager.Instance.yellowAccent, 1.2f);
+                }
+                else if (countdownColorChanged == 1 && countdown < 2.75f)
+                {
+                    countdownColorChanged = 2;
+                    countdownFillBar.DOColor(GameManager.Instance.redAccent, 1f);
+                }
+
+                yield return null;
+            }
+
+            GenerateCrashMultiplier();
+            EndCountdown();
+        }
+    }
+
+    IEnumerator CrashActive()
+    {
+        while (current < currentCrashMultiplier)
+        {
+            time += 0.03333f;
+            current = 1 + multiplicationSpeed.Evaluate(time) * crashSpeedMultiplier;
+            currentMultiplierText.text = $"x{current.ToString("0.00").Replace(',', '.')}";
+
+            if (isWagering)
+            {
+                betButtonValueText.text = Mathf.RoundToInt(wageredBet * current).ToString("0");
+            }
+
+            //Color fade
+            if (colorChanged == 0 && current >= 1.95f && current < 2.95f)
+            {
+                colorChanged = 1;
+                currentMultiplierText.DOColor(GameManager.Instance.yellowAccent, 0.75f);
+            }
+            else if (colorChanged == 1 && current >= 2.95f)
+            {
+                colorChanged = 2;
+                currentMultiplierText.DOColor(GameManager.Instance.greenAccent, 0.75f);
+            }
+
+            yield return null;
+        }
+
+        StartCoroutine(CrashGameCoroutine());
+    }
+
     public void StartCrash()
     {
         currentMultiplierText.color = Color.white;
@@ -181,7 +301,6 @@ public class Crash : MonoBehaviour
         time = 0;
         current = 0;
 
-        GenerateCrashMultiplier();
         inputPad.Hide();
         active = true;
 
@@ -196,6 +315,8 @@ public class Crash : MonoBehaviour
         {
             betButton.gameObject.SetActive(false);
         }
+
+        StartCoroutine(CrashActive());
     }
 
     public void AddCrashToPrevious()
@@ -214,7 +335,6 @@ public class Crash : MonoBehaviour
         countdownColorChanged = 0;
         countdownFillBar.DOColor(GameManager.Instance.greenAccent, 0.1f);
         countdownGO.SetActive(true);
-        isCountingDown = true;
         countdown = 10;
         countdownFillBar.fillAmount = 1;
         countdownFillBar.color = GameManager.Instance.greenAccent;
@@ -223,6 +343,8 @@ public class Crash : MonoBehaviour
         ResetBetButton();
         inputPad.UpdateBetButtonValue();
         inputPad.Show();
+
+        StartCoroutine(CountDownTimer());
     }
 
     private void EndCountdown()
@@ -337,13 +459,20 @@ public class Crash : MonoBehaviour
         ulong e = (ulong)Math.Pow(2, 32);
 
         // Generating a random 32-bit unsigned integer
-        ulong h = GetRandomUInt32();
+        ulong h = CasinoFirebaseManager.i.Seed;
 
-        // House edge
-        if (h % 16 == 0) // 16 => ~6% house edge
+        if (CasinoFirebaseManager.i.IsAdmin)
         {
-            currentCrashMultiplier = 1.00f;
-            return;
+            h = GetRandomUInt32();
+            CasinoFirebaseManager.i.SetSeed(h);
+            Debug.Log($"{(float)h} | {h}");
+
+            // House edge
+            if (h % 16 == 0) // 16 => ~6% house edge
+            {
+                currentCrashMultiplier = 1.00f;
+                return;
+            }
         }
 
         float r = (float)(Math.Floor((100.0 * e - h) / (e - h)) / 100.0);
