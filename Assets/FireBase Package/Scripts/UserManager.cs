@@ -37,6 +37,8 @@ public class UserManager : MonoBehaviour
     public Sprite[] UserAvatars => _userAvatars;
     [SerializeField] Sprite[] _userAvatars;
 
+    public bool UserIsLogin { get; private set; } = false;
+
     private void Start()
     {
         _errorText.text = string.Empty;
@@ -179,6 +181,7 @@ public class UserManager : MonoBehaviour
         OnUserLogin?.Invoke();
         OnUserLoginUE?.Invoke();
         _errorText.text = string.Empty;
+        UserIsLogin = true;
         Debug.Log($"User {data.UserName} is LogIn");
     }
 
