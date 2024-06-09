@@ -243,7 +243,11 @@ public class FruitGameManager : MonoBehaviour
         }
         else
         {
-            score += fruit.scoreValue * actualScoreMultiplier;
+            if (fruit.isMultiplied)
+                score += fruit.scoreValue * actualScoreMultiplier;
+            else
+                score += fruit.scoreValue;
+
             IncreaseCombo();
         }
 

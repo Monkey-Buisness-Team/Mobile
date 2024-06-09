@@ -6,6 +6,7 @@ public class Fruit : MonoBehaviour
     public ParticleSystem explosionParticle; // Ajout d'une particule d'explosion
     public int scoreValue; // Valeur score de l'objet
     public bool makeDamage; //L'objet enlève une vie au toucher ?
+    public bool isMultiplied; //L'objet est multiplier par le scoreMultiplier ?
 
     private FruitGameManager gameManager => FruitGameManager.i;
 
