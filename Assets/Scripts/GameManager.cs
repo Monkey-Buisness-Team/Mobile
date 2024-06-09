@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
         }
 
         b = Mathf.RoundToInt(b * 100) /100f;
+        if(b <= 0)
+            b = 0;
         return $"{b}{sign}";
     }
 }

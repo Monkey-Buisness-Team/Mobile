@@ -40,6 +40,7 @@ public class UserManager : MonoBehaviour
     private void Start()
     {
         _errorText.text = string.Empty;
+        _registerInputField.interactable = false;
         _registerButton.interactable = false;
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
@@ -56,20 +57,23 @@ public class UserManager : MonoBehaviour
     {
         OnUserUpdated += HandleUserSaveUpdated;
 
-        if(PlayerPrefs.HasKey(SAVE_KEY))
+        if (PlayerPrefs.HasKey(SAVE_KEY))
         {
             bool exist = await SaveExist(PlayerPrefs.GetString(SAVE_KEY));
             if(exist)
             {
+                _errorText.text = "Essaye de se connecter ...";
                 _registerInputField.interactable = false;
                 _registerButton.interactable = false;
                 Task task = LogInUser(PlayerPrefs.GetString(SAVE_KEY));
                 await task;
                 _registerInputField.interactable = true;
                 _registerButton.interactable = true;
+                _errorText.text = string.Empty;
                 return;
             }
         }
+        _registerInputField.interactable = true;
         _registerButton.interactable = true;
     }
 
