@@ -14,6 +14,7 @@ public class PageManager : MonoBehaviour
         public Page Type;
         public GameObject Page;
         public Sprite HelpImage;
+        public GameObject HelpObject;
         public Transform StartingTransform { get; set; }
     }
 
@@ -91,7 +92,7 @@ public class PageManager : MonoBehaviour
         else if (_casinoPages.Contains(_currentPage))
             _lastCasinoPage = _currentPage;
 
-        _helpButton.SetActive(_pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpImage != null);
+        _helpButton.SetActive(_pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpImage != null || _pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpObject != null);
         _helpImageHolder.gameObject.SetActive(false);
     }
 
@@ -135,6 +136,16 @@ public class PageManager : MonoBehaviour
         {
             _helpImageHolder.sprite = page.HelpImage;
             _helpImageHolder.gameObject.SetActive(true);
+        }
+
+        if(page.HelpObject != null)
+        {
+            if (page.HelpObject.activeSelf)
+            {
+                page.HelpObject.SetActive(false);
+                return;
+            }
+            page.HelpObject.SetActive(true);
         }
     }
 
