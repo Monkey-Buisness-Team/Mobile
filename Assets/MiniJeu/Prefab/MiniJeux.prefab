@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 960675140164931213}
   - component: {fileID: 4076182990941106443}
   - component: {fileID: 5440197378869504373}
+  - component: {fileID: 6415497160272552899}
   m_Layer: 5
   m_Name: 'restartButton '
   m_TagString: Untagged
@@ -765,6 +766,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6415497160272552899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368547354317771245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5939494360931725417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1907,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3072034198132210779, guid: 744597420fff4d2439666ca8744b0501, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3238893369925605836}
+    - targetCorrespondingSourceObject: {fileID: 3072034198132210779, guid: 744597420fff4d2439666ca8744b0501, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6819352047701529837}
   m_SourcePrefab: {fileID: 100100000, guid: 744597420fff4d2439666ca8744b0501, type: 3}
 --- !u!224 &6621768560230412582 stripped
 RectTransform:
@@ -1961,6 +1977,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6819352047701529837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181523580868603752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9060251334712200965 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3798665219132202038, guid: 744597420fff4d2439666ca8744b0501, type: 3}

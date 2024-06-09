@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3776079806101430553}
   - component: {fileID: 4140955755576233339}
   - component: {fileID: 4586723495556123303}
+  - component: {fileID: 5526238509770283208}
   m_Layer: 5
   m_Name: TAB_BUTTON (2)
   m_TagString: Untagged
@@ -158,6 +159,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &5526238509770283208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14013116571012685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &269710963797927145
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,6 +990,7 @@ GameObject:
   - component: {fileID: 4373531706252994502}
   - component: {fileID: 1179944932672240009}
   - component: {fileID: 6421941530845825285}
+  - component: {fileID: 3732042134594105332}
   m_Layer: 5
   m_Name: TAB_BUTTON
   m_TagString: Untagged
@@ -1123,6 +1137,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &3732042134594105332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388368132761617085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8454648647364383364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1161,7 @@ GameObject:
   - component: {fileID: 6747221684281566512}
   - component: {fileID: 1974108499699531967}
   - component: {fileID: 237871045411201992}
+  - component: {fileID: 7360679645787422650}
   m_Layer: 5
   m_Name: TAB_BUTTON (1)
   m_TagString: Untagged
@@ -1281,6 +1308,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &7360679645787422650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8454648647364383364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8553698840182339485
 GameObject:
   m_ObjectHideFlags: 0

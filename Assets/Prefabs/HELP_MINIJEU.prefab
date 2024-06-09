@@ -354,6 +354,8 @@ GameObject:
   - component: {fileID: 1364260945595212309}
   - component: {fileID: 7224216991875606911}
   - component: {fileID: 3798665219132202038}
+  - component: {fileID: 4681611357029333605}
+  - component: {fileID: 8747780240190543396}
   m_Layer: 0
   m_Name: HELP_MINIJEU
   m_TagString: Untagged
@@ -421,6 +423,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 3.31
+--- !u!114 &4681611357029333605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072034198132210779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8747780240190543396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072034198132210779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4157416256616582079
 GameObject:
   m_ObjectHideFlags: 0

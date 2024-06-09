@@ -209,6 +209,8 @@ public class FruitGameManager : MonoBehaviour
 
     public void FruitClick(Fruit fruit)
     {
+        SoundManager.SharedInstance.playSoundWithId("slash");
+
         if (gameIsOver)
             return;
 

@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 7774444664655030630}
   - component: {fileID: 3835657388487216785}
   - component: {fileID: 5786914475326716408}
+  - component: {fileID: 5126871931447020588}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_1/2
   m_TagString: Untagged
@@ -333,6 +334,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5126871931447020588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307778579809493129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1639810458540814216
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +544,7 @@ GameObject:
   - component: {fileID: 8564235038101272550}
   - component: {fileID: 8210730214470895141}
   - component: {fileID: 1213543782932795295}
+  - component: {fileID: 4107562955631652357}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_X10
   m_TagString: Untagged
@@ -652,6 +666,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4107562955631652357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907441818566376306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3072591176741120255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,6 +1169,7 @@ GameObject:
   - component: {fileID: 6891510112742759038}
   - component: {fileID: 6286287949803404166}
   - component: {fileID: 5244021638244661801}
+  - component: {fileID: 3425678678846563293}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_1000
   m_TagString: Untagged
@@ -1264,6 +1291,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3425678678846563293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916650428172301712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4037761302704103469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1513,7 @@ GameObject:
   - component: {fileID: 6632702097352647557}
   - component: {fileID: 7862701010941601855}
   - component: {fileID: 21567583985035613}
+  - component: {fileID: 3747284834794981237}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_MAX
   m_TagString: Untagged
@@ -1595,6 +1635,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3747284834794981237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711239312438762269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4887784006769939358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,6 +1712,7 @@ GameObject:
   - component: {fileID: 1719286867277133356}
   - component: {fileID: 1508541211207136133}
   - component: {fileID: 6426991077533856265}
+  - component: {fileID: 248140126375798511}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_500
   m_TagString: Untagged
@@ -1781,6 +1834,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &248140126375798511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956028751023255202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5617642426656439865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,6 +2090,7 @@ GameObject:
   - component: {fileID: 4434519490787841248}
   - component: {fileID: 1363727838419299394}
   - component: {fileID: 736196272504289449}
+  - component: {fileID: 109077180854362517}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_X2
   m_TagString: Untagged
@@ -2146,6 +2212,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &109077180854362517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6321023085153875644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6931024415895127673
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,6 +2236,7 @@ GameObject:
   - component: {fileID: 3798924902307756082}
   - component: {fileID: 8730395709631526739}
   - component: {fileID: 1914553252847916674}
+  - component: {fileID: 6700916421014373833}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_CLEAR
   m_TagString: Untagged
@@ -2279,6 +2358,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6700916421014373833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6931024415895127673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7063062259907857401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2425,6 +2516,7 @@ GameObject:
   - component: {fileID: 5057008358650736935}
   - component: {fileID: 6565688825481472399}
   - component: {fileID: 8239827206636994453}
+  - component: {fileID: 4618715765858193239}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_100
   m_TagString: Untagged
@@ -2546,6 +2638,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4618715765858193239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7849628950979970739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7909055874257945030
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,6 +2996,7 @@ GameObject:
   - component: {fileID: 5262202190988907622}
   - component: {fileID: 6676839455983759465}
   - component: {fileID: 7856456899230370318}
+  - component: {fileID: 8676283210070591953}
   m_Layer: 5
   m_Name: BTN_QUICK_INPUT_10
   m_TagString: Untagged
@@ -3013,6 +3118,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8676283210070591953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534262039611514264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8573619774673798870
 GameObject:
   m_ObjectHideFlags: 0

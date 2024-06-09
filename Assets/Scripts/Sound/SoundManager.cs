@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static FruitGameManager;
@@ -18,8 +17,9 @@ public class SoundManager : MonoBehaviour
             return _instance;
         }
     }
-    
-    [Serializable] public struct Sound
+
+    [Serializable]
+    public struct Sound
     {
         public string id;
         public AudioClip audioClip;

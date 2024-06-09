@@ -777,6 +777,7 @@ GameObject:
   - component: {fileID: 3628137460278469787}
   - component: {fileID: 4377456885406201183}
   - component: {fileID: 7555136194831012623}
+  - component: {fileID: 2925921343819469760}
   m_Layer: 5
   m_Name: BTN_Continuer
   m_TagString: Untagged
@@ -898,6 +899,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2925921343819469760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4203381328771240293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5566782358361948480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,6 +1383,7 @@ GameObject:
   - component: {fileID: 2483311390487604965}
   - component: {fileID: 8315322378275708545}
   - component: {fileID: 1116072651972861865}
+  - component: {fileID: 5202110501909653809}
   m_Layer: 5
   m_Name: BTN_ChangeAvatar
   m_TagString: Untagged
@@ -1491,6 +1505,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &5202110501909653809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750287923368180007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7922222294317902538
 GameObject:
   m_ObjectHideFlags: 0
