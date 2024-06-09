@@ -6,7 +6,19 @@ using static FruitGameManager;
 
 public class SoundManager : MonoBehaviour
 {
-    public static readonly SoundManager sharedInstance = new SoundManager();
+    private static SoundManager _instance;
+    public static SoundManager SharedInstance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<SoundManager>();
+            }
+            return _instance;
+        }
+    }
+    
     [Serializable] public struct Sound
     {
         public string id;

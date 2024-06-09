@@ -28,22 +28,22 @@ public class FruitGameManager : MonoBehaviour
     public List<PrefFruit> prefFruit = new List<PrefFruit>();
 
     public float score = 0;
-    public int lives = 3;
+    private int lives = 3;
     private bool gameIsOver = false;
 
     public float initialUpwardForce = 5f;
     public Vector2 gravity = new Vector2(0, -9.81f);
     public float randomAngleRange = 60f;
-    //public float speedIncreaseRate = 0.1f;
     private float currentUpwardForce; //Force de l'objet appliquer vers le haut
 
-    public float currentSpawnRate; //Fréquence d'apparition actuel
-    public float maxSpawnRate = 0.2f; //Vitesse max pour le spawn Rate
+    private float currentSpawnRate; //Fréquence d'apparition actuel
+    public float beginSpawnRate = 1.5f; //Vitesse de debut pour le spawn rate
+    public float maxSpawnRate = 0.2f; //Vitesse max pour le spawn rate
+    public float spawnRateDecrease = 0.01f; //Ce qui va etre enleve au spawn rate a chaque spawn de fruit
 
     public float combo = 0; //Nombre de combo
     public float actualScoreMultiplier = 1.0f; // Multiplicateur initial pour le score
     public float scoreMultiplier = 0.4f; //Multiplicateur ajouter à chaque combo
-    public float decreasePercentage = 0.01f;
 
     // Doit être compris entre 0 et 100
     [System.Serializable]
@@ -83,7 +83,7 @@ public class FruitGameManager : MonoBehaviour
         Heart3.enabled = true;
 
         currentUpwardForce = initialUpwardForce;
-        currentSpawnRate = 1.5f;
+        currentSpawnRate = beginSpawnRate;
 
         Physics2D.gravity = gravity;
         StartCoroutine(SpawnFruitsRoutine());
@@ -203,33 +203,9 @@ public class FruitGameManager : MonoBehaviour
         // Augmenter la difficulté au fil du temps
         if (currentSpawnRate >= maxSpawnRate)
         {
-            // Diminuer le multiplicateur de vitesse de 1%
-            
-            float decreaseAmount = currentSpawnRate * decreasePercentage;
-            currentSpawnRate -= decreaseAmount;
+            currentSpawnRate -= spawnRateDecrease;
         }
     }
-
-    //public void FruitScoring(string fruitType)
-    //{
-    //    switch (fruitType)
-    //    {
-    //        case "Banana":
-    //            score += 1;
-    //            IncreaseCombo();
-    //            break;
-    //        case "Strawberry":
-    //            score += 2;
-    //            IncreaseCombo();
-    //            break;
-    //        case "Saucisse":
-    //            score += 5;
-    //            IncreaseCombo();
-    //            break;
-    //    }
-
-    //    UpdateScore();
-    //}
 
     public void FruitClick(Fruit fruit)
     {
