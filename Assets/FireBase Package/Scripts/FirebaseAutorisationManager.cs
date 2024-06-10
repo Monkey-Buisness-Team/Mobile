@@ -54,7 +54,7 @@ public class FirebaseAutorisationManager : MonoBehaviour
         
         RoomIsOpen.AddListener((value) => 
         {
-            if (!value) 
+            if (!value)
                 UserBehaviour.i.ChangeUserType(UserType.None);
             //Debug.Log(UserBehaviour.i.CurrentUserType);
         });

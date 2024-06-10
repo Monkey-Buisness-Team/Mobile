@@ -61,6 +61,7 @@ public class BetManager : MonoBehaviour
     public UnityEvent OnJoinAction;
     public UnityEvent OnJoinAsBettor;
     public UnityEvent OnJoinAsFighter;
+    public UnityEvent OnResetRoom;
 
     public Action<string, string> OnFighterChange;
     public Action<Team, float, string, BetType> OnBetReceive;
@@ -121,6 +122,14 @@ public class BetManager : MonoBehaviour
                 JoinAsBettor();
             }
         };
+
+        FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
+        {
+            if (!value)
+            {
+                OnResetRoom?.Invoke();
+            }
+        });
     }
 
     void UnRegisterEvent()
