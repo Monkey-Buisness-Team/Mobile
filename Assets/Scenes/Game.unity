@@ -2297,7 +2297,7 @@ MonoBehaviour:
   audioSource: {fileID: 916196983}
   soundList:
   - id: click
-    audioClip: {fileID: 8300000, guid: 3427eeb8447382443a2c56a12de0c0cf, type: 3}
+    audioClip: {fileID: 8300000, guid: 7646f443ef37e644f9ff9441b42394e9, type: 3}
   - id: congue
     audioClip: {fileID: 8300000, guid: d1d52d260c566454ab1bfc8fc5349f48, type: 3}
   - id: loose
@@ -2311,7 +2311,7 @@ MonoBehaviour:
   - id: slash
     audioClip: {fileID: 8300000, guid: f8527e30c8686ab4fbf8fdd85a046c0c, type: 3}
   - id: timer
-    audioClip: {fileID: 8300000, guid: 068abb1ee021f0340950bdc05771a440, type: 3}
+    audioClip: {fileID: 8300000, guid: 3c1951a8fe653754ba69fa1edf632487, type: 3}
 --- !u!4 &916196985
 Transform:
   m_ObjectHideFlags: 0
@@ -5251,7 +5251,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 821174dfc023939458b77ae63e530ce5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6ba206e5403a07c45881e134278b3c7d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
