@@ -170,6 +170,8 @@ public class Crash : MonoBehaviour
             betButton.gameObject.SetActive(false);
             inputPad.SetButtonsActive(true);
         }
+
+        SoundManager.SharedInstance.playSoundWithId("boom");
         
         currentMultiplierText.text = "BOOM";
         currentMultiplierText.DOColor(boomColor, 0.1f);
@@ -402,6 +404,8 @@ public class Crash : MonoBehaviour
 
     private void Cashout()
     {
+        SoundManager.SharedInstance.playSoundWithId("cash");
+
         isWagering = false;
         inputPad.SetButtonsActive(true);
         betButton.interactable = false;

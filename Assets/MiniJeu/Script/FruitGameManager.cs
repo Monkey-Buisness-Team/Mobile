@@ -209,10 +209,10 @@ public class FruitGameManager : MonoBehaviour
 
     public void FruitClick(Fruit fruit)
     {
-        SoundManager.SharedInstance.playSoundWithId("slash");
-
         if (gameIsOver)
             return;
+
+        SoundManager.SharedInstance.playSoundWithId("slash");
 
         if (fruit.makeDamage)
         {
@@ -258,6 +258,8 @@ public class FruitGameManager : MonoBehaviour
     
     void GameOver()
     {
+        SoundManager.SharedInstance.playSoundWithId("loose");
+
         OnGameEnd?.Invoke();
         gameIsOver = true;
 

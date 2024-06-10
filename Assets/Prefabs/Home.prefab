@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 3150877915074980964}
   - component: {fileID: 7370131287432206636}
   - component: {fileID: 6400258643115643762}
+  - component: {fileID: 8205600910654078260}
   m_Layer: 5
   m_Name: Paris_BUTTON
   m_TagString: Untagged
@@ -357,6 +358,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8205600910654078260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848297732939220129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec378372b4c3694187cecca4749539e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSelected: 2
 --- !u!1 &1165884903446127998
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +536,7 @@ GameObject:
   - component: {fileID: 3517307873943865575}
   - component: {fileID: 5401051357151873026}
   - component: {fileID: 1736453675836376150}
+  - component: {fileID: 5632682978981058915}
   m_Layer: 5
   m_Name: Casino_BUTTON
   m_TagString: Untagged
@@ -666,6 +681,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8864f54081b17894d84aebae942ad672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5632682978981058915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023893831416122061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec378372b4c3694187cecca4749539e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSelected: 1
 --- !u!1 &2054587323486648528
 GameObject:
   m_ObjectHideFlags: 0

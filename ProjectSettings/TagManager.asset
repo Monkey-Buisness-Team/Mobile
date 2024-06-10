@@ -8,6 +8,7 @@ TagManager:
   - Coco
   - Saucisse
   - Wall
+  - MainMusicAudioSource
   layers:
   - Default
   - TransparentFX
