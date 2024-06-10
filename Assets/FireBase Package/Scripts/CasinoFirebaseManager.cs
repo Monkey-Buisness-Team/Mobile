@@ -2,6 +2,7 @@ using Firebase.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using UnityEngine;
 using static OnValueBool;
@@ -62,13 +63,16 @@ public class CasinoFirebaseManager : MonoBehaviour
     void RegisterEvent()
     {
         SeedDataBase.ValueChanged += SeedChange;
+
         CrashDataBase.Child("Timer").ValueChanged += CrashTimerChange;
+        CrashDataBase.Child("Bet").ChildAdded += OnCrashBetAdd;
     }
 
     void UnRegisterEvent()
     {
         SeedDataBase.ValueChanged -= SeedChange;
         CrashDataBase.Child("Timer").ValueChanged -= CrashTimerChange;
+        CrashDataBase.Child("Bet").ChildAdded -= OnCrashBetAdd;
 
         if (IsAdmin)
         {
@@ -88,7 +92,7 @@ public class CasinoFirebaseManager : MonoBehaviour
             Int64 i = (Int64)value.Snapshot.Value;
             Seed = (ulong)(float)i;
         }
-        Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + Seed);
+        //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + Seed);
     }
 
     async void StartAdminWork()
@@ -116,10 +120,19 @@ public class CasinoFirebaseManager : MonoBehaviour
         var data = await SeedDataBase.GetValueAsync();
         if(data.Value is double)
         {
-            Debug.Log($"{(ulong)(float)data.Value}");
+            //Debug.Log($"{(ulong)(float)data.Value}");
             return (ulong)((float)data.Value);
         }
         return 1;
+    }
+
+    #region Crash
+
+    public CrashBet? _playerCrashBet = null;
+    public enum CrashState
+    {
+        Miser,
+        Encaisser
     }
 
     public async void SetCrashTimer(float timer) => await CrashDataBase.Child("Timer").SetValueAsync(timer);
@@ -146,4 +159,88 @@ public class CasinoFirebaseManager : MonoBehaviour
         }
         //Debug.Log(value.Snapshot.Value.GetType().ToString() + " : " + value.Snapshot.Value.ToString() + " | " + CrashTimer);
     }
+
+    public async void AddBetCrash(int banana)
+    {
+        CrashBet bet = new CrashBet();
+        bet.UserName = UserBehaviour.i.UserName;
+        bet.AvatarId = UserBehaviour.i.AvatarID;
+        bet.State = CrashState.Miser.ToString();
+        bet.BananaBet = banana;
+        bet.Odd = 0;
+
+        await CrashDataBase.Child("Bet").Child(UserBehaviour.i.UserName).SetRawJsonValueAsync(JsonUtility.ToJson(bet));
+        _playerCrashBet = bet;
+    }
+
+    private void OnCrashBetAdd(object sender, ChildChangedEventArgs e)
+    {
+        var data = e.Snapshot;
+        var json = data.GetRawJsonValue();
+        var bet = JsonUtility.FromJson<CrashBet>(json);
+
+        if (bet.UserName.Equals("Default")) return;
+
+        Crash.Instance.AddPlayerBet(bet.BananaBet, bet.UserName);
+        if(bet.State == CrashState.Miser.ToString())
+        {
+            CrashDataBase.Child("Bet").Child(bet.UserName).ValueChanged += HandleCrashBetChange;
+            CrashDataBase.Child("Bet").ChildRemoved += (o, e) =>
+            {
+                var d = e.Snapshot;
+                var j = d.GetRawJsonValue();
+                var b = JsonUtility.FromJson<CrashBet>(j);
+
+                if(b.UserName == bet.UserName)
+                {
+                    CrashDataBase.Child("Bet").Child(b.UserName).ValueChanged -= HandleCrashBetChange;
+                }
+            };
+            Application.quitting += () => CrashDataBase.Child("Bet").Child(bet.UserName).ValueChanged -= HandleCrashBetChange;
+        }
+        else if(bet.State == CrashState.Encaisser.ToString())
+        {
+            Crash.Instance.MovePlayerBetToCashout(bet.UserName, bet.Odd, bet.BananaBet);
+        }
+    }
+
+    public async void MoveCrashBet(float odd)
+    {
+        await CrashDataBase.Child("Bet").Child(UserBehaviour.i.UserName).Child("Odd").SetValueAsync(odd);
+        await CrashDataBase.Child("Bet").Child(UserBehaviour.i.UserName).Child("State").SetValueAsync(CrashState.Encaisser.ToString());
+    }
+
+    private void HandleCrashBetChange(object sender, ValueChangedEventArgs value)
+    {
+        var data = value.Snapshot;
+        var json = data.GetRawJsonValue();
+
+        if (json == string.Empty || json == null) return;
+
+        var bet = JsonUtility.FromJson<CrashBet>(json);
+
+        if(bet.State == CrashState.Encaisser.ToString())
+        {
+            Crash.Instance.MovePlayerBetToCashout(bet.UserName, bet.Odd, bet.BananaBet);
+        }
+    }
+
+    public async Task RemoveAllCrashBet()
+    {
+        var dataList = await CrashDataBase.Child("Bet").GetValueAsync();
+
+        //foreach(var data in dataList.Children)
+        //{
+        //    Debug.Log(data.Key);
+        //    await CrashDataBase.Child("Bet").Child(data.Key).RemoveValueAsync();
+        //}
+    }
+
+    public async Task RemoveCrashBet()
+    {
+        await CrashDataBase.Child("Bet").Child(_playerCrashBet.Value.UserName).RemoveValueAsync();
+        _playerCrashBet = null;
+    }
+
+    #endregion
 }

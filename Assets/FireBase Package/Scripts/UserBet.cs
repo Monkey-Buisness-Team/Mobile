@@ -17,3 +17,13 @@ public struct UserFighter
 {
     public string UserName;
 }
+
+[System.Serializable]
+public struct CrashBet
+{
+    public string UserName;
+    public int AvatarId;
+    public int BananaBet;
+    public string State;
+    public float Odd;
+}

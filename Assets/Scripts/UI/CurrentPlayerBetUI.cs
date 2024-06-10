@@ -11,6 +11,7 @@ public class CurrentPlayerBetUI : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI betBananas;
     [SerializeField] private TextMeshProUGUI betTypeText;
 
+    public string UserName { get; private set; }
     public int Bananas { get; protected set; }
     public BetType Type { get; protected set; }
     
@@ -19,7 +20,8 @@ public class CurrentPlayerBetUI : MonoBehaviour
     /// </summary>
     public void InitializeBet(int bananas)
     {
-        betBananas.text = GameManager.GetBananas(bananas);
+        UserName = UserBehaviour.i.UserName;
+        betBananas.text = $"<sprite=0>{GameManager.GetBananas(bananas)}";
         playerName.text = UserBehaviour.i.UserName;
         avatar.sprite = UserManager.i.GetAvatar();
         Bananas = bananas;
@@ -28,11 +30,22 @@ public class CurrentPlayerBetUI : MonoBehaviour
 
     public async void InitializeBet(int bananas, string userName, BetType betType)
     {
-        betBananas.text = GameManager.GetBananas(bananas);
+        UserName = userName;
+        betBananas.text = $"<sprite=0>{GameManager.GetBananas(bananas)}";
         playerName.text = userName;
         avatar.sprite = await UserManager.i.GetAvatar(userName);
         Bananas = bananas;
         Type = betType;
         betTypeText.text = betType.ToString();
+    }
+
+    public async void InitializeCrashBet(int bananas, string userName)
+    {
+        UserName = userName;
+        betBananas.text = $"<sprite=0>{GameManager.GetBananas(bananas)}";
+        playerName.text = userName;
+        avatar.sprite = await UserManager.i.GetAvatar(userName);
+        Bananas = bananas;
+        betTypeText.text = string.Empty;
     }
 }

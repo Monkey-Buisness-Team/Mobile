@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 using System.Threading.Tasks;
+using System.Data;
 
 public class Crash : MonoBehaviour
 {
@@ -47,6 +48,7 @@ public class Crash : MonoBehaviour
 
     private int crashHistoryMultipliersAmount = 5;
     Queue<CrashPreviousMultiplier> crashesHistory = new Queue<CrashPreviousMultiplier>();
+    private List<CurrentPlayerBetUI> bets = new List<CurrentPlayerBetUI>();
 
     [Header("Crash Modifiers")]
 
@@ -393,7 +395,9 @@ public class Crash : MonoBehaviour
         betButton.interactable = false;
         betButtonImage.color = betDisabledColor;
         betButtonLabel.text = "Montant misé";
-        AddPlayerBet(wageredBet);
+
+        CasinoFirebaseManager.i.AddBetCrash(Mathf.RoundToInt(wageredBet));
+        //AddPlayerBet(wageredBet);
     }
 
     private void Cashout()
@@ -403,8 +407,9 @@ public class Crash : MonoBehaviour
         betButton.interactable = false;
         betButton.gameObject.SetActive(false);
         UserBehaviour.i.AddBanana(Mathf.RoundToInt(wageredBet * current));
-        //GameManager.Instance.bananas += Mathf.RoundToInt(wageredBet * current);
-        MovePlayerBetToCashout();
+
+        CasinoFirebaseManager.i.MoveCrashBet(current);
+
         wageredBet = 0;
     }
 
@@ -424,38 +429,55 @@ public class Crash : MonoBehaviour
     /// <summary>
     /// TODO netcode : Takes the player data in parameter and adds it the current bets
     /// </summary>
-    public void AddPlayerBet(float bananas)
+    public void AddPlayerBet(float bananas, string userName)
     {
         CurrentPlayerBetUI bet = Instantiate(playerBetUIPrefab, currentBetsContainer);
-        bet.InitializeBet(Mathf.RoundToInt(bananas));
+        bet.InitializeCrashBet(Mathf.RoundToInt(bananas), userName);
         totalBananasBet.text = bananas.ToString();
         currentBets.SetActive(true);
+        bets.Add(bet);
         GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
     }
 
     /// <summary>
     /// TODO netcode : Moves player's bet to the cashed bets
     /// </summary>
-    public void MovePlayerBetToCashout()
+    public void MovePlayerBetToCashout(string username, float odd, int bananas)
     {
-        Destroy(currentBetsContainer.GetChild(0).gameObject);
-        CurrentPlayerCashedBetUI bet = Instantiate(playerCashedBetUIPrefab, cashedBetsContainer);
-        bet.InitializeCashedBet(Mathf.RoundToInt(wageredBet * current), $"x{current.ToString("0.00").Replace(',', '.')}", UserBehaviour.i.UserName);
-        currentBets.SetActive(false);
-        cashedBets.SetActive(true);
-        GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
+        var b = bets.Find(x => x.UserName == username);
+        if(b != null)
+        {
+            bets.Remove(b);
+            if(bets.Count <= 0)
+                currentBets.SetActive(false);
+            Destroy(b.gameObject);
+            CurrentPlayerCashedBetUI bet = Instantiate(playerCashedBetUIPrefab, cashedBetsContainer);
+            bet.InitializeCashedBet(Mathf.RoundToInt(bananas * odd), $"x{odd.ToString("0.00").Replace(',', '.')}", username);
+
+            cashedBets.SetActive(true);
+            GameManager.Instance.UpdateLayouts(GetComponentsInChildren<LayoutGroup>());
+        }
     }
 
     /// <summary>
     /// Clears all bets UI
     /// </summary>
-    public void ClearAllBets()
+    public async void ClearAllBets()
     {
         foreach(Transform t in currentBetsContainer)
             Destroy(t.gameObject);
         foreach(Transform t in cashedBetsContainer)
             Destroy(t.gameObject);
 
+        if (CasinoFirebaseManager.i.IsAdmin)
+        {
+            await CasinoFirebaseManager.i.RemoveAllCrashBet();
+        }
+
+        if (CasinoFirebaseManager.i._playerCrashBet != null)
+            await CasinoFirebaseManager.i.RemoveCrashBet();
+
+        bets.Clear();
         currentBets.SetActive(false);
         cashedBets.SetActive(false);
     }

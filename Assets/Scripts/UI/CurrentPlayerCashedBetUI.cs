@@ -13,7 +13,7 @@ public class CurrentPlayerCashedBetUI : CurrentPlayerBetUI
     /// </summary>
     public async void InitializeCashedBet(int bananas, string multiplier, string userName)
     {
-        betBananas.text = GameManager.GetBananas(bananas);
+        betBananas.text = $"<sprite=0>{GameManager.GetBananas(bananas)}";
         cashedMultiplier.text = multiplier;
         playerName.text = userName;
         avatar.sprite = await UserManager.i.GetAvatar(userName);

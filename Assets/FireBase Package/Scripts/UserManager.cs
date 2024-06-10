@@ -201,6 +201,13 @@ public class UserManager : MonoBehaviour
             return;
         }
 
+        if ((username.ToCharArray().Length <= 0))
+        {
+            _errorText.text = "1 character min";
+            Debug.LogError("String Empty");
+            return;
+        }
+
         bool exist = await SaveExist(username);
 
         if (exist)
