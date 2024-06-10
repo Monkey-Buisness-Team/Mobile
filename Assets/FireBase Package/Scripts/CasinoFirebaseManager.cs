@@ -39,7 +39,7 @@ public class CasinoFirebaseManager : MonoBehaviour
         UserManager.i.OnUserLogin += StartAdminWork;
     }
 
-    private async void Init()
+    private void Init()
     {
         CasinoDataBase = FireBaseManager.i.DataBase.GetReference(CASINO_KEY);
         SeedDataBase = CasinoDataBase.Child(SEED_KEY);

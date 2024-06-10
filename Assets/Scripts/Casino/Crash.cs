@@ -193,6 +193,7 @@ public class Crash : MonoBehaviour
         {
             GenerateCrashMultiplier();
             countdown = 10;
+            int i = 0;
             while (countdown > 0)
             {
                 countdown -= 0.03333f;
@@ -211,7 +212,13 @@ public class Crash : MonoBehaviour
                     countdownFillBar.DOColor(GameManager.Instance.redAccent, 1f);
                 }
 
-                CasinoFirebaseManager.i.SetCrashTimer(countdown);
+
+                i++;
+                if(i >= 10)
+                {
+                    i = 0;
+                    CasinoFirebaseManager.i.SetCrashTimer(countdown);
+                }
                 yield return null;
             }
 
@@ -233,6 +240,10 @@ public class Crash : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
 
+            betButton.gameObject.SetActive(true);
+            betButton.interactable = true;
+            betButtonImage.color = betColor;
+            betButtonLabel.text = "Miser";
             countdown = CasinoFirebaseManager.i.CrashTimer;
             Debug.Log(countdown);
 
