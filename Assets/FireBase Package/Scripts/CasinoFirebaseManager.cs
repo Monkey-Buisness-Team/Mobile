@@ -184,7 +184,7 @@ public class CasinoFirebaseManager : MonoBehaviour
         Crash.Instance.AddPlayerBet(bet.BananaBet, bet.UserName);
         if(bet.State == CrashState.Miser.ToString())
         {
-            CrashDataBase.Child("Bet").Child(bet.UserName).ValueChanged += HandleCrashBetChange;
+            CrashDataBase.Child("Bet").Child(bet.UserName).ValueChanged += (o, e) => HandleCrashBetChange(o, e);
             CrashDataBase.Child("Bet").ChildRemoved += (o, e) =>
             {
                 var d = e.Snapshot;

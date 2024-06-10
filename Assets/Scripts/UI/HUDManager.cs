@@ -24,14 +24,14 @@ public class HUDManager : MonoBehaviour
         StartingMessage();
 
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) => ChangeText(
-            value ? COMBAT_OPEN : COMBAT_CLOSE,
+            value ? COMBAT_OPEN.ToUpper() : COMBAT_CLOSE.ToUpper(),
             value ? _activeColor : _deactiveColor
             ));
 
         for (int i = 0; i < _texts.Count; i++)
         {
             StartCoroutine(MoveText(_texts[i]));
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
         }
     }
 
@@ -39,7 +39,7 @@ public class HUDManager : MonoBehaviour
     {
         bool open = await FirebaseAutorisationManager.i.IsRoomOpen();
         ChangeText(
-            open ? COMBAT_OPEN : COMBAT_CLOSE,
+            open ? COMBAT_OPEN.ToUpper() : COMBAT_CLOSE.ToUpper(),
             open ? _activeColor : _deactiveColor
             );
     }
@@ -64,7 +64,7 @@ public class HUDManager : MonoBehaviour
             if (rectTransform.localPosition.x >= -1440f)
                 rectTransform.localPosition = new Vector3(1440f, rectTransform.localPosition.y);
             //Debug.Log($"{Screen.width} | {rectTransform.localPosition}");
-            yield return rectTransform.transform.DOLocalMoveX(-1440f, 4f).SetEase(Ease.Linear).WaitForCompletion();
+            yield return rectTransform.transform.DOLocalMoveX(-1440f, 6f).SetEase(Ease.Linear).WaitForCompletion();
         }
     }
 }

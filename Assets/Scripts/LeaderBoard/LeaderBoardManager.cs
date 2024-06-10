@@ -29,6 +29,13 @@ public class LeaderBoardManager : MonoBehaviour
         FireBaseManager.i.OnFireBaseInit -= Init;
         UserBehaviour.i.OnUserUpdated -= UpdateAllBoard;
         DataBase.GetReference(USER_KEY).ValueChanged -= UpdateAllBoard;
+
+        for (int g = 0; g < _boardContainer.childCount; g++)
+        {
+            if (_boardContainer.GetChild(g) == null) continue;
+            Destroy(_boardContainer.GetChild(g).gameObject);
+        }
+        _displayers.Clear();
     }
 
     private void OnApplicationQuit()
@@ -37,6 +44,13 @@ public class LeaderBoardManager : MonoBehaviour
         FireBaseManager.i.OnFireBaseInit -= Init;
         UserBehaviour.i.OnUserUpdated -= UpdateAllBoard;
         DataBase.GetReference(USER_KEY).ValueChanged -= UpdateAllBoard;
+
+        for (int g = 0; g < _boardContainer.childCount; g++)
+        {
+            if (_boardContainer.GetChild(g) == null) continue;
+            Destroy(_boardContainer.GetChild(g).gameObject);
+        }
+        _displayers.Clear();
     }
 
     private void UpdateAllBoard()
@@ -77,10 +91,10 @@ public class LeaderBoardManager : MonoBehaviour
         var list = _displayers;
         var dataList = await DataBase.GetReference(USER_KEY).OrderByChild(dataKey).GetValueAsync();
 
-        foreach (var display in _displayers)
+        for (int g = 0; g < _boardContainer.childCount; g++)
         {
-            if(display == null) continue;
-            Destroy(display.gameObject);
+            if (_boardContainer.GetChild(g) == null) continue;
+            Destroy(_boardContainer.GetChild(g).gameObject);
         }
         _displayers.Clear();
 
