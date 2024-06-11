@@ -15,8 +15,8 @@ public class HUDManager : MonoBehaviour
     [SerializeField] Color _activeColor;
     [SerializeField] Color _deactiveColor;
 
-    const string COMBAT_OPEN = "Combat en cours !!!";
-    const string COMBAT_CLOSE = "Pas de Combat pour le moment ...";
+    const string COMBAT_OPEN = "Un combat est en cours !!!";
+    const string COMBAT_CLOSE = "Pas de Combat pour le moment...";
 
     public IEnumerator Start()
     {
