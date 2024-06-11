@@ -21,7 +21,7 @@ public class MainMusicSwitch : MonoBehaviour
 
     private void Awake()
     {
-        musicSource = GameObject.FindWithTag("MainMusicSource").GetComponent<AudioSource>();
+        musicSource = GameObject.FindWithTag("MainMusicAudioSource").GetComponent<AudioSource>();
 
         menuMusicClip = MainMusicManager.SharedInstance.menuMusicClip;
         casinoMusicClip = MainMusicManager.SharedInstance.casinoMusicClip;

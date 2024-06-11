@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundNewMatch : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener(TriggerNewMatchSound);
     }
