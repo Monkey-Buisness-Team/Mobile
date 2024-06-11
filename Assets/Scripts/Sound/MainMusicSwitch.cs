@@ -32,7 +32,7 @@ public class MainMusicSwitch : MonoBehaviour
     {
         AudioClip clipToPlay = GetClipFromEnum(musicSelected);
 
-        if (musicSource.clip != clipToPlay)
+        if (musicSource.clip != clipToPlay && this.gameObject.activeSelf)
         {
             StartCoroutine(FadeMusic(clipToPlay));
         }
