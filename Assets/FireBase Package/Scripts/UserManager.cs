@@ -132,19 +132,30 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private async void OnDestroy()
     {
         if(_userDataBaseRef != null)
             _userDataBaseRef.ValueChanged -= HandleValueChange;
         _userDataBaseRef = null;
+
         if (UserBehaviour.i.CurrentUserType == UserType.Bettor)
+        {
             UserBehaviour.i.ChangeUserType(UserType.None);
+            await SaveUserData(UserBehaviour.i.CurrentUserData);
+        }
     }
 
-    private void OnApplicationQuit()
+    private async void OnApplicationQuit()
     {
+        if (_userDataBaseRef != null)
+            _userDataBaseRef.ValueChanged -= HandleValueChange;
+        _userDataBaseRef = null;
+
         if (UserBehaviour.i.CurrentUserType == UserType.Bettor)
+        {
             UserBehaviour.i.ChangeUserType(UserType.None);
+            await SaveUserData(UserBehaviour.i.CurrentUserData);
+        }
     }
 
     public async Task LogInUser(string username, bool remember = false)
