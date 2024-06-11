@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ public class MainMusicSwitch : MonoBehaviour
     private AudioSource musicSource;
     private float transitionTime = 1.5f;  // Duration of the fade in seconds
 
+    private IEnumerator _coroutine;
+
     private void Awake()
     {
         musicSource = GameObject.FindWithTag("MainMusicAudioSource").GetComponent<AudioSource>();
@@ -34,7 +37,13 @@ public class MainMusicSwitch : MonoBehaviour
 
         if (musicSource.clip != clipToPlay && this.gameObject.activeSelf)
         {
-            StartCoroutine(FadeMusic(clipToPlay));
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+            _coroutine = FadeMusic(clipToPlay);
+            StartCoroutine(_coroutine);
         }
     }
 
@@ -55,20 +64,14 @@ public class MainMusicSwitch : MonoBehaviour
 
     private IEnumerator FadeMusic(AudioClip newClip)
     {
-        while (musicSource.volume > 0)
-        {
-            musicSource.volume -= Time.deltaTime / transitionTime;
-            yield return null;
-        }
+        yield return musicSource.DOFade(0, 0.05f).WaitForCompletion();
 
         musicSource.clip = newClip;
         musicSource.Play();
         musicSource.loop = true;
 
-        while (musicSource.volume < 1)
-        {
-            musicSource.volume += Time.deltaTime / transitionTime;
-            yield return null;
-        }
+        yield return musicSource.DOFade(0.1f, 0.05f).WaitForCompletion();
+
+        _coroutine = null;
     }
 }
