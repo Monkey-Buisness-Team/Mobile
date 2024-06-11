@@ -47,6 +47,13 @@ public class UserManager : MonoBehaviour
         _avatarButton.interactable = false;
         FireBaseManager.i.OnFireBaseInit += Init;
         OnUserLogin += () => _registerPage.SetActive(false);
+        OnUserLogin += () =>
+        {
+            if(UserBehaviour.i.CurrentUserType == UserType.Bettor)
+            {
+                UserBehaviour.i.ChangeUserType(UserType.None);
+            }
+        };
         FirebaseAutorisationManager.i.RoomIsOpen.AddListener((value) =>
         {
             if (!value)

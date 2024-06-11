@@ -130,6 +130,21 @@ public class BetManager : MonoBehaviour
                 OnResetRoom?.Invoke();
             }
         });
+
+        OnResetRoom.AddListener(() =>
+        {
+            F1MatchOdds = 0;
+            F1RoundOdds = 0;
+
+            F2MatchOdds = 0;
+            F2RoundOdds = 0;
+
+            F1Name = string.Empty;
+            F2Name = string.Empty;
+
+            F1Score = 0;
+            F2Score = 0;
+        });
     }
 
     void UnRegisterEvent()
