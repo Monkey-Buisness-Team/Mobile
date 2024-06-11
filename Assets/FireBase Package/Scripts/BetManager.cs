@@ -271,6 +271,17 @@ public class BetManager : MonoBehaviour
         string key = await CheckIfFighterNull(FIGHTER_ONE) ? FIGHTER_TWO : FIGHTER_ONE;
         await FighterDataBase.Child(key).SetValueAsync(UserBehaviour.i.UserName);
 
+        if(!await CheckIfFighterEqualUser(FIGHTER_ONE))
+        {
+            if(!await CheckIfFighterEqualUser(FIGHTER_TWO))
+            {
+                JoinAsBettor();
+                return;
+            }
+            await JoinAsFighter();
+            return;
+        }
+
         UserBehaviour.i.ChangeUserType(UserType.Fighter);
         OnJoinAction?.Invoke();
         OnJoinAsFighter?.Invoke();
