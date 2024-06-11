@@ -94,6 +94,8 @@ public class PageManager : MonoBehaviour
 
         _helpButton.SetActive(_pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpImage != null || _pages.Find(x => x.Type.ToString().Equals(_currentPage.ToString())).HelpObject != null);
         _helpImageHolder.gameObject.SetActive(false);
+
+        MainMusicManager.SharedInstance.ChangeMusic(page);
     }
 
     public void GoToPage(string page)
